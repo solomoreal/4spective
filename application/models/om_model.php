@@ -5,6 +5,13 @@ class Om_model extends CI_Model {
 	// OBJECT //
 	/////////////
 
+	/**
+	 * [Count OM Object]
+	 * @param  array  $type  [description]
+	 * @param  string $begin [yyyy-mm-dd]
+	 * @param  string $end   [yyyy-mm-dd]
+	 * @return [type]        [description]
+	 */
 	public function count_obj($type=array(),$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -18,7 +25,11 @@ class Om_model extends CI_Model {
 		$this->db->select('COUNT(*) AS val');
 		$this->db->from('om_obj o');
 
-		$this->db->where_in('o.obj_type', $type);
+		if (is_array($type)) {
+			$this->db->where_in('o.obj_type', $type);
+		} else {
+			$this->db->where('o.obj_type', $type);
+		}
 		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
 					(o.end >= '$begin' AND o.end <= '$end') OR 
 					(o.begin >= '$begin' AND o.begin <='$end' ) OR
@@ -26,6 +37,13 @@ class Om_model extends CI_Model {
 		return $this->db->get()->row()->val;
 	}
 
+	/**
+	 * [Count OM Object's attribute ]
+	 * @param  integer $obj_id [description]
+	 * @param  string  $begin  [yyyy-mm-dd]
+	 * @param  string  $end    [yyyy-mm-dd]
+	 * @return [type]          [description]
+	 */
 	public function count_obj_atr($obj_id=0,$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -46,6 +64,15 @@ class Om_model extends CI_Model {
 		return $this->db->get()->row()->val;
 	}
 
+	/**
+	 * [Count OM Object's relation ] 
+	 * @param  integer $obj_id    [description]
+	 * @param  string  $direction [A/B/all]
+	 * @param  array   $rel_type  [in String]
+	 * @param  string  $begin     [description]
+	 * @param  string  $end       [description]
+	 * @return [type]             [description]
+	 */
 	public function count_obj_rel($obj_id=0,$direction='all',$rel_type=array(),$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -78,6 +105,13 @@ class Om_model extends CI_Model {
 		return $this->db->get()->row()->val;
 	}
 
+	/**
+	 * [Obtain OM Object records ]
+	 * @param  array  $type  [description]
+	 * @param  string $begin [description]
+	 * @param  string $end   [description]
+	 * @return [type]        [description]
+	 */
 	public function get_obj_list($type=array(),$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -98,6 +132,13 @@ class Om_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 
+	/**
+	 * [Obtain OM Object's Attribute records]
+	 * @param  integer $obj_id [description]
+	 * @param  string  $begin  [description]
+	 * @param  string  $end    [description]
+	 * @return [type]          [description]
+	 */
 	public function get_obj_attr_list($obj_id=0,$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -117,6 +158,15 @@ class Om_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 
+	/**
+	 * [Obtain OM Object's Relation records]
+	 * @param  integer $obj_id    [description]
+	 * @param  string  $direction [description]
+	 * @param  array   $rel_type  [description]
+	 * @param  string  $begin     [description]
+	 * @param  string  $end       [description]
+	 * @return [type]             [description]
+	 */
 	public function get_obj_rel_list($obj_id=0,$direction='all',$rel_type=array(),$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -147,6 +197,11 @@ class Om_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 
+	/**
+	 * [Obtain a record OM Object]
+	 * @param  integer $obj_id [description]
+	 * @return [type]          [description]
+	 */
 	public function get_obj_row($obj_id=0)
 	{
 		$this->db->from('om_obj o');
@@ -154,6 +209,13 @@ class Om_model extends CI_Model {
 		return $this->db->get()->row();
 	}
 
+	/**
+	 * [Obtain the lastest record of OM Object]
+	 * @param  array  $type  [description]
+	 * @param  string $begin [description]
+	 * @param  string $end   [description]
+	 * @return [type]        [description]
+	 */
 	public function get_obj_last($type=array(),$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -177,6 +239,13 @@ class Om_model extends CI_Model {
 		return $this->db->get()->row();
 	}
 
+	/**
+	 * [Obtain  the lastest record of OM Object's Attribute]
+	 * @param  integer $obj_id [description]
+	 * @param  string  $begin  [description]
+	 * @param  string  $end    [description]
+	 * @return [type]          [description]
+	 */
 	public function get_obj_attr_last($obj_id=0,$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -198,6 +267,15 @@ class Om_model extends CI_Model {
 		return $this->db->get()->row();
 	}
 
+	/**
+	 * [Obtain  the lastest record of OM Object's Relation]
+	 * @param  integer $obj_id    [description]
+	 * @param  string  $direction [description]
+	 * @param  array   $rel_type  [description]
+	 * @param  string  $begin     [description]
+	 * @param  string  $end       [description]
+	 * @return [type]             [description]
+	 */
 	public function get_obj_rel_last($obj_id=0,$direction='all',$rel_type=array(),$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -231,6 +309,12 @@ class Om_model extends CI_Model {
 		return $this->db->get()->row();
 	}
 
+	/**
+	 * [Adding OM Object record]
+	 * @param string $obj_type [description]
+	 * @param string $begin    [description]
+	 * @param string $end      [description]
+	 */
 	public function add_obj($obj_type='',$begin='2008-01-01',$end='9999-12-31')
 	{
 		$object = array(
@@ -242,6 +326,13 @@ class Om_model extends CI_Model {
 		return $this->get_obj_last(array($obj_type),$begin,$end)->obj_id;
 	}
 
+	/**
+	 * [Editing OM Object record]
+	 * @param  integer $obj_id [description]
+	 * @param  string  $begin  [description]
+	 * @param  string  $end    [description]
+	 * @return [type]          [description]
+	 */
 	public function edit_obj($obj_id=0,$begin='2008-01-01',$end='9999-12-31')
 	{
 		$object = array(
@@ -252,10 +343,68 @@ class Om_model extends CI_Model {
 		$this->db->update('om_obj', $object);
 	}
 
+	/**
+	 * [Removing OM Object record]
+	 * @param  integer $obj_id [description]
+	 * @return [type]          [description]
+	 */
 	public function remove_obj($obj_id=0)
 	{
 		$this->db->where('obj_id', $obj_id);
 		$this->db->delete('om_obj');
+	}
+
+	/**
+	 * [Adding OM Object's Attribut record]
+	 * @param integer $obj_id     [description]
+	 * @param string  $short_name [description]
+	 * @param string  $long_name  [description]
+	 * @param string  $begin      [description]
+	 * @param string  $end        [description]
+	 */
+	public function add_obj_attr($obj_id=0,$short_name='',$long_name='',$begin='2008-01-01',$end='9999-12-31')
+	{
+		$object = array(
+			'obj_id'     => $obj_id,
+			'short_name' => $short_name,
+			'long_name'  => $long_name,
+			'begin'      => $begin,
+			'end'        => $end
+		);
+		$this->db->insert('om_obj_attr', $object);
+		return $this->get_obj_attr_last($obj_id,$begin,$end)->attr_id;
+	}
+
+	/**
+	 * [Editing OM Object's Attribute record]
+	 * @param  integer $attr_id    [description]
+	 * @param  string  $short_name [description]
+	 * @param  string  $long_name  [description]
+	 * @param  string  $begin      [description]
+	 * @param  string  $end        [description]
+	 * @return [type]              [description]
+	 */
+	public function edit_obj_attr($attr_id=0,$short_name='',$long_name='',$begin='2008-01-01',$end='9999-12-31')
+	{
+		$object = array(
+			'short_name' => $short_name,
+			'long_name'  => $long_name,
+			'begin'      => $begin,
+			'end'        => $end
+		);
+		$this->db->where('attr_id', $attr_id);
+		$this->db->update('om_obj_attr', $object);
+	}
+
+	/**
+	 * [Removing OM Object's Attribute record]
+	 * @param  integer $attr_id [description]
+	 * @return [type]           [description]
+	 */
+	public function remove_obj_attr($attr_id=0)
+	{
+		$this->db->where('attr_id', $attr_id);
+		$this->db->delete('om_obj_attr');
 	}
 
 	///////////////////
@@ -351,7 +500,6 @@ class Om_model extends CI_Model {
 		}
 
 		return $this->db->get()->result();
-
 	}
 
 	public function get_org_row($org_id=1,$begin='',$end='')
