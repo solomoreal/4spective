@@ -25,9 +25,9 @@ class Org_post extends CI_Controller {
 		$begin = str_replace('/', '-', $begin);
 		$end   = str_replace('/', '-', $end);
 
-		$org_row = $this->om_model->get_org_row(1,$begin,$end);
+		$org_ls = $this->om_model->get_org_list(1,$begin,$end);
 
-		$data['org_row'] = $org_row;
+		$data['org_ls'] = $org_ls;
 		echo $this->load->view('admin/org/list_view', $data, TRUE);
 
 	}

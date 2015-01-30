@@ -15,24 +15,8 @@
 								<?php echo anchor('', '<i class="fa fa-plus"></i> ', 'class="btn btn-primary"');?>
 							</div><!-- /. tools -->
 						</div>
-						<div class="box-body">
-							<table class="table">
-								<thead>
-									<tr>
-										<th></th>
-										<th>ID</th>
-										<th>Code</th>
-										<th>Name</th>
-										<th width="100">Type</th>
-										<th width="200">Begin</th>
-										<th width="200">End</th>
-										<th width="100">Action</th>
-									</tr>
-								</thead>
-								<tbody id="org-list">
-
-								</tbody>
-							</table>
+						<div id="org-list" class="box-body">
+							
 						</div>
 					</div>
 				</div><!-- /.col -->
@@ -84,41 +68,4 @@
 		 	
 		}		 
 	});
-</script>
-
-<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		$('.toggle-child').toggle(function() {
-			$(this).attr('class', 'fa fa-folder-open btn btn-link toggle-child');
-		}, function() {
-			$(this).attr('class', 'fa fa-folder btn btn-link toggle-child');
-		});
-		
-	});
-
-</script>
-<script type="text/javascript">
-// jQuery(document).ready(function($) {
-// 	$('.org-child').hide();
-// 	$('.toggle-child').on('click', function() {
-// 		var parent_class = $(this).attr('class');
-// 		var parent_id = $(this).data('org');
-
-// 		var el = $('tr[data-org-tr="'+parent_id+'"]');
-// 		console.log(el);
-// 		if (parent_class=='fa fa-folder btn btn-link toggle-child') {
-// 			$(this).attr('class', 'fa fa-folder-open btn btn-link toggle-child');
-// 			el.show()
-
-// 			console.log('open');
-
-// 		} else {
-// 			$(this).attr('class', 'fa fa-folder btn btn-link toggle-child');
-// 			el.hide()
-// 				console.log('close');
-
-
-// 		}
-// 	});	
-// });
 </script>
