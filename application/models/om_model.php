@@ -343,6 +343,15 @@ class Om_model extends CI_Model {
 		$this->db->update('om_obj', $object);
 	}
 
+	public function delimit_obj($obj_id=0,$end='9999-12-31')
+	{
+		$object = array(
+			'end'      => $end
+		);
+		$this->db->where('obj_id', $obj_id);
+		$this->db->update('om_obj', $object);
+	}
+
 	/**
 	 * [Removing OM Object record]
 	 * @param  integer $obj_id [description]
@@ -396,6 +405,15 @@ class Om_model extends CI_Model {
 		$this->db->update('om_obj_attr', $object);
 	}
 
+	public function delimit_obj_attr($attr_id=0,$end='9999-12-31')
+	{
+		$object = array(
+			'end'        => $end
+		);
+		$this->db->where('attr_id', $attr_id);
+		$this->db->update('om_obj_attr', $object);
+	}
+
 	/**
 	 * [Removing OM Object's Attribute record]
 	 * @param  integer $attr_id [description]
@@ -405,6 +423,53 @@ class Om_model extends CI_Model {
 	{
 		$this->db->where('attr_id', $attr_id);
 		$this->db->delete('om_obj_attr');
+	}
+
+	public function add_obj_rel($direction='',$rel_type='',$obj_from=0,$obj_to=0,$begin='2008-01-01',$end='9999-12-31',$value=NULL)
+	{
+		$object = array(
+			'direction' => $direction,
+			'rel_type'  => $rel_type,
+			'obj_from'  => $obj_from,
+			'obj_to'    => $obj_to,
+			'begin'     => $begin,
+			'end'       => $end
+		);
+
+		if (!is_null($value)) {
+			$object['value'] = $value;
+		}
+
+		$this->db->insert('om_obj_rel', $object);
+	}
+
+	public function edit_obj_rel($rel_id=0,$begin='2008-01-01',$end='9999-12-31',$value=NULL)
+	{
+		$object = array(
+			'begin'     => $begin,
+			'end'       => $end
+		);
+
+		if (!is_null($value)) {
+			$object['value'] = $value;
+		}
+		$this->db->where('rel_id', $rel_id);
+		$this->db->update('om_obj_rel', $object);
+	}
+
+	public function delimit_obj_rel($rel_id=0,$end='9999-12-31')
+	{
+		$object = array(
+			'end'       => $end
+		);
+		$this->db->where('rel_id', $rel_id);
+		$this->db->update('om_obj_rel', $object);
+	}
+
+	public function remove_obj_rel($rel_id=0)
+	{
+		$this->db->where('rel_id', $rel_id);
+		$this->db->delete('om_obj_rel', $object);
 	}
 
 	///////////////////
@@ -452,6 +517,13 @@ class Om_model extends CI_Model {
 		return $this->db->get()->row()->val;
 	}
 
+	/**
+	 * [Obtain Organization Records]
+	 * @param  integer $parent [description]
+	 * @param  string  $begin  [description]
+	 * @param  string  $end    [description]
+	 * @return [type]          [description]
+	 */
 	public function get_org_list($parent=0,$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -502,6 +574,13 @@ class Om_model extends CI_Model {
 		return $this->db->get()->result();
 	}
 
+	/**
+	 * [Obtain Organization record]
+	 * @param  integer $org_id [description]
+	 * @param  string  $begin  [description]
+	 * @param  string  $end    [description]
+	 * @return [type]          [description]
+	 */
 	public function get_org_row($org_id=1,$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -540,8 +619,67 @@ class Om_model extends CI_Model {
 		$this->db->order_by('a.begin', 'desc');
 		$this->db->order_by('o.begin', 'desc');
 		return $this->db->get()->row();
-
 	}
+
+	/**
+	 * [Adding Organization ]
+	 * @param string  $org_code   [description]
+	 * @param string  $org_name   [description]
+	 * @param integer $org_parent [description]
+	 * @param string  $begin      [description]
+	 * @param string  $end        [description]
+	 */
+	public function add_org($org_code='',$org_name='',$org_parent=0,$begin='2008-01-01',$end='9999-12-31')
+	{
+		$obj_id = $this->add_obj('O',$begin,$end);
+		$this->add_obj_attr($obj_i,$org_code,$org_name,$begin,$end);
+
+		if ($org_parent>0) {
+			$this->add_obj_rel('A','002',$obj_id,$obj_parent,$begin,$end);
+			$this->add_obj_rel('B','002',$obj_parent,$ob_id,$begin,$end);
+		}
+
+		return $obj_id;
+	}
+
+	/**
+	 * [Editing the lastest Organization Attribute]
+	 * @param  integer $org_id   [description]
+	 * @param  string  $org_code [description]
+	 * @param  string  $org_name [description]
+	 * @param  string  $begin    [description]
+	 * @param  string  $end      [description]
+	 * @return [type]            [description]
+	 */
+	public function correct_org($org_id=0,$org_code='',$org_name='',$begin='',$end='9999-12-31')
+	{
+		$attr = $this->get_obj_attr_last($org_id,'2008-01-01','9999-12-31');
+		$this->edit_obj_attr($attr->attr_id,$org_code,$org_name,$begin,$end);
+	}
+
+	/**
+	 * [Delimit the lastest Organization Attribute and create new one ]
+	 * @param  integer $org_id   [description]
+	 * @param  string  $org_code [description]
+	 * @param  string  $org_name [description]
+	 * @param  string  $begin    [description]
+	 * @param  string  $end      [description]
+	 * @return [type]            [description]
+	 */
+	public function update_org($org_id=0,$org_code='',$org_name='',$begin='',$end='9999-12-31')
+	{
+		$attr = $this->get_obj_attr_last($org_id,'2008-01-01','9999-12-31');
+		$prev_date = date('Y-m-d', strtotime($begin .' -1 day'));
+		$this->delimit_obj_attr($attr->attr_id,$prev_date);
+
+		$this->add_obj_attr($org_id,$org_code,$org_name,$begin,$end);
+	}
+
+	public function delimit_org($value='')
+	{
+		# code...
+	}
+
 
 }
 
