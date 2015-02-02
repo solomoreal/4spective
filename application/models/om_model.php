@@ -290,7 +290,12 @@ class Om_model extends CI_Model {
 					(r.end >= '$begin' AND r.end <= '$end') OR 
 					(r.begin >= '$begin' AND r.begin <='$end' ) OR
 					(r.begin <= '$begin' AND r.end >= '$end'))");
-		$this->db->where_in('rel_type', $rel_type);
+		if (is_array($rel_type)) {
+			$this->db->where_in('rel_type', $rel_type);
+			
+		} else if ($rel_type !='') {
+			$this->db->where('rel_type', $rel_type);
+		}
 
 		switch ($direction) {
 			case 'A':
@@ -675,9 +680,27 @@ class Om_model extends CI_Model {
 		$this->add_obj_attr($org_id,$org_code,$org_name,$begin,$end);
 	}
 
-	public function delimit_org($value='')
+	/**
+	 * [Edit End date of Organization, their Atrribute and also Relation]
+	 * @param  integer $org_id [description]
+	 * @param  string  $end    [description]
+	 * @return [type]          [description]
+	 */
+	public function delimit_org($org_id=0,$end='')
 	{
-		# code...
+		$this->delimit_obj($org_id,$end);
+		$attr = $this->get_obj_attr_last($org_id,'2008-01-01','9999-12-31');
+		$this->delimit_obj_attr($attr->attr_id,$end);
+
+		$rel_types = array('002','003','011','012');
+		foreach ($rel_types as $key => $rel_type) {
+			
+			$rel_A = $this->get_obj_rel_last($org_id,'A',$rel_type,'2008-01-01','9999-12-31');
+			$this->delimit_obj_rel($rel_A->rel_id,$end);
+
+			$rel_B = $this->get_obj_rel_last($org_id,'B',$rel_type,'2008-01-01','9999-12-31');
+			$this->delimit_obj_rel($rel_B->rel_id,$end);
+		}
 	}
 
 
