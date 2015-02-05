@@ -634,12 +634,12 @@ class Om_model extends CI_Model {
 	 * @param string  $begin      [description]
 	 * @param string  $end        [description]
 	 */
-	public function add_org($post_code='',$post_name='',$post_parent=0,$begin='2008-01-01',$end='9999-12-31')
+	public function add_org($org_code='',$org_name='',$org_parent=0,$begin='2008-01-01',$end='9999-12-31')
 	{
 		$obj_id = $this->add_obj('O',$begin,$end);
-		$this->add_obj_attr($obj_i,$post_code,$post_name,$begin,$end);
+		$this->add_obj_attr($obj_i,$org_code,$org_name,$begin,$end);
 
-		if ($post_parent>0) {
+		if ($org_parent>0) {
 			$this->add_obj_rel('A','002',$obj_id,$obj_parent,$begin,$end);
 			$this->add_obj_rel('B','002',$obj_parent,$ob_id,$begin,$end);
 		}
@@ -649,56 +649,56 @@ class Om_model extends CI_Model {
 
 	/**
 	 * [Editing the lastest Organization Attribute]
-	 * @param  integer $post_id   [description]
-	 * @param  string  $post_code [description]
-	 * @param  string  $post_name [description]
+	 * @param  integer $org_id   [description]
+	 * @param  string  $org_code [description]
+	 * @param  string  $org_name [description]
 	 * @param  string  $begin    [description]
 	 * @param  string  $end      [description]
 	 * @return [type]            [description]
 	 */
-	public function correct_org($post_id=0,$post_code='',$post_name='',$begin='',$end='9999-12-31')
+	public function correct_org($org_id=0,$org_code='',$org_name='',$begin='',$end='9999-12-31')
 	{
-		$attr = $this->get_obj_attr_last($post_id,'2008-01-01','9999-12-31');
-		$this->edit_obj_attr($attr->attr_id,$post_code,$post_name,$begin,$end);
+		$attr = $this->get_obj_attr_last($org_id,'2008-01-01','9999-12-31');
+		$this->edit_obj_attr($attr->attr_id,$org_code,$org_name,$begin,$end);
 	}
 
 	/**
 	 * [Delimit the lastest Organization Attribute and create new one ]
-	 * @param  integer $post_id   [description]
-	 * @param  string  $post_code [description]
-	 * @param  string  $post_name [description]
+	 * @param  integer $org_id   [description]
+	 * @param  string  $org_code [description]
+	 * @param  string  $org_name [description]
 	 * @param  string  $begin    [description]
 	 * @param  string  $end      [description]
 	 * @return [type]            [description]
 	 */
-	public function update_org($post_id=0,$post_code='',$post_name='',$begin='',$end='9999-12-31')
+	public function update_org($org_id=0,$org_code='',$org_name='',$begin='',$end='9999-12-31')
 	{
-		$attr = $this->get_obj_attr_last($post_id,'2008-01-01','9999-12-31');
+		$attr = $this->get_obj_attr_last($org_id,'2008-01-01','9999-12-31');
 		$prev_date = date('Y-m-d', strtotime($begin .' -1 day'));
 		$this->delimit_obj_attr($attr->attr_id,$prev_date);
 
-		$this->add_obj_attr($post_id,$post_code,$post_name,$begin,$end);
+		$this->add_obj_attr($org_id,$org_code,$org_name,$begin,$end);
 	}
 
 	/**
 	 * [Edit End date of Organization, their Atrribute and also Relation]
-	 * @param  integer $post_id [description]
+	 * @param  integer $org_id [description]
 	 * @param  string  $end    [description]
 	 * @return [type]          [description]
 	 */
-	public function delimit_org($post_id=0,$end='')
+	public function delimit_org($org_id=0,$end='')
 	{
-		$this->delimit_obj($post_id,$end);
-		$attr = $this->get_obj_attr_last($post_id,'2008-01-01','9999-12-31');
+		$this->delimit_obj($org_id,$end);
+		$attr = $this->get_obj_attr_last($org_id,'2008-01-01','9999-12-31');
 		$this->delimit_obj_attr($attr->attr_id,$end);
 
 		$rel_types = array('002','003','011','012');
 		foreach ($rel_types as $key => $rel_type) {
 			
-			$rel_A = $this->get_obj_rel_last($post_id,'A',$rel_type,'2008-01-01','9999-12-31');
+			$rel_A = $this->get_obj_rel_last($org_id,'A',$rel_type,'2008-01-01','9999-12-31');
 			$this->delimit_obj_rel($rel_A->rel_id,$end);
 
-			$rel_B = $this->get_obj_rel_last($post_id,'B',$rel_type,'2008-01-01','9999-12-31');
+			$rel_B = $this->get_obj_rel_last($org_id,'B',$rel_type,'2008-01-01','9999-12-31');
 			$this->delimit_obj_rel($rel_B->rel_id,$end);
 		}
 	}
@@ -706,8 +706,40 @@ class Om_model extends CI_Model {
 	///////////////
 	// POSITION //
 	///////////////
+	
+	public function count_post($org_id=0,$begin='',$end='')
+	{
+		if ($begin == '') {
+			$begin = date('Y-m-d');
+		}
 
-	public function get_post_list($post_id=0,$begin='',$end='')
+		if ($end == '') {
+			$end = date('Y-m-d');
+		}
+		$this->db->select('COUNT(*) AS val');
+		$this->db->from('om_obj o');
+		$this->db->where('o.obj_type', 'S');
+		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
+					(o.end >= '$begin' AND o.end <= '$end') OR 
+					(o.begin >= '$begin' AND o.begin <='$end' ) OR
+					(o.begin <= '$begin' AND o.end >= '$end'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
+					(r.end >= '$begin' AND r.end <= '$end') OR 
+					(r.begin >= '$begin' AND r.begin <='$end' ) OR
+					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
+		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
+					(a.end >= '$begin' AND a.end <= '$end') OR 
+					(a.begin >= '$begin' AND a.begin <='$end' ) OR
+					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
+		$this->db->where('r.obj_to', $org_id);
+		$this->db->where('r.direction', 'A');
+		$this->db->where('r.rel_type', '003');
+		return $this->db->get()->row()->val;
+	}
+
+	public function get_post_list($org_id=0,$begin='',$end='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -743,7 +775,7 @@ class Om_model extends CI_Model {
 					(a.begin >= '$begin' AND a.begin <='$end' ) OR
 					(a.begin <= '$begin' AND a.end >= '$end'))");
 		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
-		$this->db->where('r.obj_to', $post_id);
+		$this->db->where('r.obj_to', $org_id);
 		$this->db->where('r.direction', 'A');
 		$this->db->where('r.rel_type', '003');
 		return $this->db->get()->result();
@@ -842,7 +874,7 @@ class Om_model extends CI_Model {
 	 * @param string  $end       [description]
 	 * @param integer $report_to [description]
 	 */
-	public function add_post($org_id=0,$post_code='',$post_name='',$is_chief=0,$begin='',$end='',$report_to=0)
+	public function add_post($org_id=0,$post_code='',$post_name='',$is_chief=0,$begin='',$end='9999-12-31',$report_to=0)
 	{
 		$post_id = $this->add_obj('S',$begin,$end);
 		$this->add_obj_attr($post_id,$post_code,$post_name,$begin,$end);
@@ -872,6 +904,38 @@ class Om_model extends CI_Model {
 		// Relation Report to
 		$this->add_obj_rel('A','002',$post_id,$report_to,$begin,$end);
 		$this->add_obj_rel('B','002',$report_to,$post_id,$begin,$end);
+	}
+
+	public function correct_post($post_id=0,$post_code='',$post_name='',$begin='',$end='9999-12-31')
+	{
+		$attr = $this->get_obj_attr_last($post_id,'2008-01-01','9999-12-31');
+		$this->edit_obj_attr($attr->attr_id,$post_code,$post_name,$begin,$end);
+	}
+
+	public function update_post($post_id=0,$post_code='',$post_name='',$begin='',$end='9999-12-31')
+	{
+		$attr = $this->get_obj_attr_last($org_id,'2008-01-01','9999-12-31');
+		$prev_date = date('Y-m-d', strtotime($begin .' -1 day'));
+		$this->delimit_obj_attr($attr->attr_id,$prev_date);
+
+		$this->add_obj_attr($post_id,$post_code,$post_name,$begin,$end);
+	}
+
+	public function delimit_post($post_id=0,$end='')
+	{
+		$this->delimit_obj($post_id,$end);
+		$attr = $this->get_obj_attr_last($post_id,'2008-01-01','9999-12-31');
+		$this->delimit_obj_attr($attr->attr_id,$end);
+
+		$rel_types = array('002','003','011','012');
+		foreach ($rel_types as $key => $rel_type) {
+			
+			$rel_A = $this->get_obj_rel_last($post_id,'A',$rel_type,'2008-01-01','9999-12-31');
+			$this->delimit_obj_rel($rel_A->rel_id,$end);
+
+			$rel_B = $this->get_obj_rel_last($post_id,'B',$rel_type,'2008-01-01','9999-12-31');
+			$this->delimit_obj_rel($rel_B->rel_id,$end);
+		}
 	}
 }
 
