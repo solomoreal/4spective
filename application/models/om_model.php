@@ -906,12 +906,30 @@ class Om_model extends CI_Model {
 		$this->add_obj_rel('B','002',$report_to,$post_id,$begin,$end);
 	}
 
+	/**
+	 * [correct_post description]
+	 * @param  integer $post_id   [description]
+	 * @param  string  $post_code [description]
+	 * @param  string  $post_name [description]
+	 * @param  string  $begin     [description]
+	 * @param  string  $end       [description]
+	 * @return [type]             [description]
+	 */
 	public function correct_post($post_id=0,$post_code='',$post_name='',$begin='',$end='9999-12-31')
 	{
 		$attr = $this->get_obj_attr_last($post_id,'2008-01-01','9999-12-31');
 		$this->edit_obj_attr($attr->attr_id,$post_code,$post_name,$begin,$end);
 	}
 
+	/**
+	 * [update_post description]
+	 * @param  integer $post_id   [description]
+	 * @param  string  $post_code [description]
+	 * @param  string  $post_name [description]
+	 * @param  string  $begin     [description]
+	 * @param  string  $end       [description]
+	 * @return [type]             [description]
+	 */
 	public function update_post($post_id=0,$post_code='',$post_name='',$begin='',$end='9999-12-31')
 	{
 		$attr = $this->get_obj_attr_last($org_id,'2008-01-01','9999-12-31');
@@ -921,6 +939,12 @@ class Om_model extends CI_Model {
 		$this->add_obj_attr($post_id,$post_code,$post_name,$begin,$end);
 	}
 
+	/**
+	 * [delimit_post description]
+	 * @param  integer $post_id [description]
+	 * @param  string  $end     [description]
+	 * @return [type]           [description]
+	 */
 	public function delimit_post($post_id=0,$end='')
 	{
 		$this->delimit_obj($post_id,$end);
@@ -936,6 +960,79 @@ class Om_model extends CI_Model {
 			$rel_B = $this->get_obj_rel_last($post_id,'B',$rel_type,'2008-01-01','9999-12-31');
 			$this->delimit_obj_rel($rel_B->rel_id,$end);
 		}
+	}
+
+	/////////////
+	// HOLDER //
+	/////////////
+	
+	public function get_holder_list($post_id=0,$begin='',$end='')
+	{
+		$this->db->select('e.firstname');
+		$this->db->select('e.middlename');
+		$this->db->select('e.lastname');
+		$this->db->select('e.nickname');
+		$this->db->select('e.emp_id');
+		$this->db->select('r.begin AS hold_begin');
+		$this->db->select('r.end AS hold_end');
+		$this->db->select('r.value');
+		$this->db->from('pa_employee e');
+		$this->db->join('om_obj_rel r', 'r.obj_to = e.emp_id', 'inner');
+		$this->db->where('r.direction', 'B');
+		$this->db->where('r.rel_type', '008');
+		$this->db->where('r.obj_from', $post_id);
+		$this->db->where("((e.begin >= '$begin' AND e.end <='$end') OR 
+					(e.end >= '$begin' AND e.end <= '$end') OR 
+					(e.begin >= '$begin' AND e.begin <='$end' ) OR
+					(e.begin <= '$begin' AND e.end >= '$end'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
+					(r.end >= '$begin' AND r.end <= '$end') OR 
+					(r.begin >= '$begin' AND r.begin <='$end' ) OR
+					(r.begin <= '$begin' AND r.end >= '$end'))");
+		return $this->db->get()->result();
+	}
+
+	public function get_holding_list($emp_id=0,$begin='',$end='')
+	{
+		if ($begin == '') {
+			$begin = date('Y-m-d');
+		}
+
+		if ($end == '') {
+			$end = date('Y-m-d');
+		}
+
+		$this->db->select('o.obj_id AS post_id');
+		$this->db->select('o.obj_type as type');
+		$this->db->select('a.attr_id');
+		$this->db->select('a.short_name AS post_code');
+		$this->db->select('a.long_name AS post_name');
+		$this->db->select('a.begin AS attr_begin');
+		$this->db->select('a.end AS attr_end');
+		$this->db->select('o.begin AS post_begin');
+		$this->db->select('o.end AS post_end');
+		$this->db->select('.begin AS hold_begin');
+		$this->db->select('.end AS hold_end');
+		$this->db->from('om_obj o');
+		$this->db->where('o.obj_type', 'S');
+		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
+					(o.end >= '$begin' AND o.end <= '$end') OR 
+					(o.begin >= '$begin' AND o.begin <='$end' ) OR
+					(o.begin <= '$begin' AND o.end >= '$end'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
+					(r.end >= '$begin' AND r.end <= '$end') OR 
+					(r.begin >= '$begin' AND r.begin <='$end' ) OR
+					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
+		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
+					(a.end >= '$begin' AND a.end <= '$end') OR 
+					(a.begin >= '$begin' AND a.begin <='$end' ) OR
+					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
+		$this->db->where('r.obj_to', $emp_id);
+		$this->db->where('r.direction', 'A');
+		$this->db->where('r.rel_type', '008');
+		return $this->db->get()->result();
 	}
 }
 
