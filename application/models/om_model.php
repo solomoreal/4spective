@@ -112,7 +112,7 @@ class Om_model extends CI_Model {
 	 * @param  string $end   [description]
 	 * @return [type]        [description]
 	 */
-	public function get_obj_list($type=array(),$begin='',$end='')
+	public function get_obj_list($type=array(),$begin='',$end='',$limit=0,$offset=0,$search='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -121,6 +121,8 @@ class Om_model extends CI_Model {
 		if ($end == '') {
 			$end = date('Y-m-d');
 		}
+
+		$columns = array('o.obj_id','o.begin','o.end');
 		
 		$this->db->from('om_obj o');
 
@@ -129,6 +131,14 @@ class Om_model extends CI_Model {
 					(o.end >= '$begin' AND o.end <= '$end') OR 
 					(o.begin >= '$begin' AND o.begin <='$end' ) OR
 					(o.begin <= '$begin' AND o.end >= '$end'))");
+		
+		if ($limit>0) {
+			$this->db->limit($limit,$offset);
+		}
+
+		if ($search!='') {
+			$this->db->or_like($columns,$search);
+		}
 		return $this->db->get()->result();
 	}
 
@@ -139,7 +149,7 @@ class Om_model extends CI_Model {
 	 * @param  string  $end    [description]
 	 * @return [type]          [description]
 	 */
-	public function get_obj_attr_list($obj_id=0,$begin='',$end='')
+	public function get_obj_attr_list($obj_id=0,$begin='',$end='',$limit=0,$offset=0,$search='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -149,12 +159,22 @@ class Om_model extends CI_Model {
 			$end = date('Y-m-d');
 		}
 
+		$columns = array('a.attr_id','a.obj_id','a.short_name','a.long_name','a.begin','a.end');
+
 		$this->db->from('om_obj a');
 		$this->db->where_in('a.obj_id', $obj_id);
 		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
 					(a.end >= '$begin' AND a.end <= '$end') OR 
 					(a.begin >= '$begin' AND a.begin <='$end' ) OR
 					(a.begin <= '$begin' AND a.end >= '$end'))");
+
+		if ($limit>0) {
+			$this->db->limit($limit,$offset);
+		}
+
+		if ($search!='') {
+			$this->db->or_like($columns,$search);
+		}
 		return $this->db->get()->result();
 	}
 
@@ -167,7 +187,7 @@ class Om_model extends CI_Model {
 	 * @param  string  $end       [description]
 	 * @return [type]             [description]
 	 */
-	public function get_obj_rel_list($obj_id=0,$direction='all',$rel_type=array(),$begin='',$end='')
+	public function get_obj_rel_list($obj_id=0,$direction='all',$rel_type=array(),$begin='',$end='',$limit=0,$offset=0,$search='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -176,6 +196,8 @@ class Om_model extends CI_Model {
 		if ($end == '') {
 			$end = date('Y-m-d');
 		}
+
+		$columns = array('r.rel_id','r.direction','r.rel_type','r.obj_from','r.obj_to','r.value','r.begin','r.end');
 		$this->db->from('om_obj_rel r');
 		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
 					(r.end >= '$begin' AND r.end <= '$end') OR 
@@ -193,6 +215,14 @@ class Om_model extends CI_Model {
 			default:
 				$this->db->where("(r.obj_to = $obj_id OR r.obj_from = $obj_id)");
 				break;
+		}
+
+		if ($limit>0) {
+			$this->db->limit($limit,$offset);
+		}
+
+		if ($search!='') {
+			$this->db->or_like($columns,$search);
 		}
 		return $this->db->get()->result();
 	}
@@ -529,7 +559,7 @@ class Om_model extends CI_Model {
 	 * @param  string  $end    [description]
 	 * @return [type]          [description]
 	 */
-	public function get_org_list($parent=0,$begin='',$end='')
+	public function get_org_list($parent=0,$begin='',$end='',$limit=0,$offset=0,$search='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -538,6 +568,7 @@ class Om_model extends CI_Model {
 		if ($end == '') {
 			$end = date('Y-m-d');
 		}
+		$columns = array('o.obj_id','o.obj_type','a.attr_id','a.short_name','a.long_name','a.begin','a.end','o.begin','o.end');
 
 		$this->db->select('o.obj_id AS org_id');
 		$this->db->select('o.obj_type as type');
@@ -576,6 +607,13 @@ class Om_model extends CI_Model {
 			$this->db->where('r.rel_type', '002');
 		}
 
+		if ($limit>0) {
+			$this->db->limit($limit,$offset);
+		}
+
+		if ($search!='') {
+			$this->db->or_like($columns,$search);
+		}
 		return $this->db->get()->result();
 	}
 
@@ -739,7 +777,7 @@ class Om_model extends CI_Model {
 		return $this->db->get()->row()->val;
 	}
 
-	public function get_post_list($org_id=0,$begin='',$end='')
+	public function get_post_list($org_id=0,$begin='',$end='',$limit=0,$offset=0,$search='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -748,7 +786,7 @@ class Om_model extends CI_Model {
 		if ($end == '') {
 			$end = date('Y-m-d');
 		}
-
+		$columns = array('o.obj_id','o.obj_type','a.attr_id','a.short_name','a.long_name','a.begin','a.end','o.begin','o.end');		
 		$this->db->select('o.obj_id AS post_id');
 		$this->db->select('o.obj_type as type');
 		$this->db->select('a.attr_id');
@@ -778,6 +816,12 @@ class Om_model extends CI_Model {
 		$this->db->where('r.obj_to', $org_id);
 		$this->db->where('r.direction', 'A');
 		$this->db->where('r.rel_type', '003');
+		if ($limit>0) {
+			$this->db->limit($limit,$offset);
+		}
+		if ($search!='') {
+			$this->db->or_like($columns,$search);
+		}
 		return $this->db->get()->result();
 	}
 
@@ -854,9 +898,10 @@ class Om_model extends CI_Model {
 	 * @param  string  $end     [description]
 	 * @return [type]           [description]
 	 */
-	public function get_subordinate_list($post_id=0,$begin='',$end='')
+	public function get_subordinate_list($post_id=0,$begin='',$end='',$limit=0,$offset=0,$search='')
 	{
-		$rel_ls = $this->get_obj_rel_list($post_id,'A','002',$begin,$end);
+
+		$rel_ls = $this->get_obj_rel_list($post_id,'A','002',$begin,$end,$limit,$offset,$search);
 		$result = array();
 		foreach ($rel_ls as $row) {
 			$result[] = $this->get_post_row($row->obj_from,$begin,$end);
@@ -966,8 +1011,9 @@ class Om_model extends CI_Model {
 	// HOLDER //
 	/////////////
 	
-	public function get_holder_list($post_id=0,$begin='',$end='')
+	public function get_holder_list($post_id=0,$begin='',$end='',$limit=0,$offset=0,$search='')
 	{
+		$columns = array('e.firstname','e.middlename','e.lastname','e.nickname','e.emp_id','r.begin','r.end','r.value');
 		$this->db->select('e.firstname');
 		$this->db->select('e.middlename');
 		$this->db->select('e.lastname');
@@ -989,10 +1035,16 @@ class Om_model extends CI_Model {
 					(r.end >= '$begin' AND r.end <= '$end') OR 
 					(r.begin >= '$begin' AND r.begin <='$end' ) OR
 					(r.begin <= '$begin' AND r.end >= '$end'))");
+		if ($limit>0) {
+			$this->db->limit($limit,$offset);
+		}
+		if ($search!='') {
+			$this->db->or_like($columns,$search);
+		}
 		return $this->db->get()->result();
 	}
 
-	public function get_holding_list($emp_id=0,$begin='',$end='')
+	public function get_holding_list($emp_id=0,$begin='',$end='',$limit=0,$offset=0,$search='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -1002,6 +1054,7 @@ class Om_model extends CI_Model {
 			$end = date('Y-m-d');
 		}
 
+		$columns = array('o.obj_id','o.obj_type','a.attr_id','a.short_name','a.long_name','a.begin','a.end','o.begin','o.end','r.begin','r.end');		
 		$this->db->select('o.obj_id AS post_id');
 		$this->db->select('o.obj_type as type');
 		$this->db->select('a.attr_id');
@@ -1011,8 +1064,8 @@ class Om_model extends CI_Model {
 		$this->db->select('a.end AS attr_end');
 		$this->db->select('o.begin AS post_begin');
 		$this->db->select('o.end AS post_end');
-		$this->db->select('.begin AS hold_begin');
-		$this->db->select('.end AS hold_end');
+		$this->db->select('r.begin AS hold_begin');
+		$this->db->select('r.end AS hold_end');
 		$this->db->from('om_obj o');
 		$this->db->where('o.obj_type', 'S');
 		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
@@ -1032,6 +1085,13 @@ class Om_model extends CI_Model {
 		$this->db->where('r.obj_to', $emp_id);
 		$this->db->where('r.direction', 'A');
 		$this->db->where('r.rel_type', '008');
+
+		if ($limit>0) {
+			$this->db->limit($limit,$offset);
+		}
+		if ($search!='') {
+			$this->db->or_like($columns,$search);
+		}
 		return $this->db->get()->result();
 	}
 }
