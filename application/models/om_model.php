@@ -602,8 +602,9 @@ class Om_model extends CI_Model {
 			$this->db->where('r.rel_type', '002');
 		} else {
 			$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
-			$this->db->where('r.obj_to', $parent);
-			$this->db->where('r.direction', 'A');
+			// $this->db->where('r.obj_to', 1);
+			$this->db->where('r.direction', 'B');
+			$this->db->where('r.direction <>', 'A');
 			$this->db->where('r.rel_type', '002');
 		}
 

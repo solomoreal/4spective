@@ -21,6 +21,7 @@
 		<!-- Multi Level Push Menu -->
 		<script src="<?php echo base_url()?>assets/mlpm/jquery.multilevelpushmenu.js" type="text/javascript"></script>
 		<script src="<?php echo base_url()?>assets/AdminLTE/js/AdminLTE/app.js" type="text/javascript"></script>
+		<script src="<?php echo base_url()?>assets/js/toggle_click.js" type="text/javascript"></script>
 		<?php
 		if(isset($js_list)){
 			foreach ($js_list as $key => $value) {

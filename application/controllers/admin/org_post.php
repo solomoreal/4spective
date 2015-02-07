@@ -25,10 +25,10 @@ class Org_post extends CI_Controller {
 		$begin = str_replace('/', '-', $begin);
 		$end   = str_replace('/', '-', $end);
 
-		$org_ls = $this->om_model->get_org_list(1,$begin,$end);
+		$org_row = $this->om_model->get_org_row(1,$begin,$end);
 
-		$data['org_ls'] = $org_ls;
-		echo $this->load->view('admin/org/list_view', $data, TRUE);
+		$data['org_row'] = $org_row;
+		echo $this->load->view('admin/org/root_view', $data, TRUE);
 
 	}
 
@@ -38,17 +38,15 @@ class Org_post extends CI_Controller {
 		$parent     = $this->input->post('parent');
 		list($begin,$end) = explode(' - ', $date_range);
 
-		$begin = str_replace('/', '-', $begin);
-		$end   = str_replace('/', '-', $end);
-
+		$begin   = str_replace('/', '-', $begin);
+		$end     = str_replace('/', '-', $end);
 		$org_ls  = $this->om_model->get_org_list($parent,$begin,$end);
-		// $post_ls = $this->om_model->get_post_list($parent,$begin,$end);
-		if (count($org_ls)) {
-			foreach ($org_ls as $org_row) {
-				$data['org_row'] = $org_row;
-				echo $this->load->view('admin/org/list_view', $data, TRUE);
-			}
-		}
+		$post_ls = $this->om_model->get_post_list($parent,$begin,$end);
+				
+		$data['org_ls']  = $org_ls;
+		$data['post_ls'] = $post_ls;
+		echo $this->load->view('admin/org/list_view', $data, TRUE);
+			
 	}
 
 

@@ -56,16 +56,12 @@
 		 		},
 		 	})
 		 	.done(function(html) {
-		 		console.log("success");
+
 				$('#org-list').html(html);
 		 	})
 		 	.fail(function() {
-		 		console.log("error");
-		 	})
-		 	.always(function() {
-		 		console.log("complete");
-		 	});
-		 	
+		 		console.log("root error");
+		 	})		 	
 		}		 
 	});
 </script>
