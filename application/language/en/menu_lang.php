@@ -17,9 +17,10 @@
 	$lang['menu_logout'] 			= 'Logout';
 
 	/* Organization */
-	$lang['menu_om']       = 'Organization Management';
-	$lang['menu_org_post'] = 'Organization & Position';
-	$lang['menu_job']      = 'Jobs';
+	$lang['menu_om']           = 'Organization Management';
+	$lang['menu_org_struc']    = 'Organizational Structure';
+	$lang['menu_report_struc'] = 'Reproting Structure';
+	$lang['menu_job']          = 'Jobs';
 
 			
 	

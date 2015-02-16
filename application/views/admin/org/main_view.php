@@ -5,11 +5,23 @@
 		<!-- Main content -->
 		<section class="content">
 			<?php $this->load->view('_template/daterange_filter'); ?>
+			<?php echo form_hidden('hdn_org', 1); ?>
 			<!-- top row -->
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="box box-solid">
+					<div id="box-breadcrumb" class="box-body">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box box-solid">
 						<div class="box-header">
+						<h3 class="box-title" id="org-title"></h3>
 						<!-- tools box -->
 							<div class="pull-right box-tools">
 								<?php echo anchor('', '<i class="fa fa-plus"></i> ', 'class="btn btn-primary"');?>
@@ -22,6 +34,8 @@
 				</div><!-- /.col -->
 			</div>
 			<!-- /.row -->
+
+
 
 		</section><!-- /.content -->
 	</aside><!-- /.right-side -->
@@ -38,7 +52,7 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
-		var base_url = '<?php echo base_url()."index.php"?>';
+
 		refresh();
 
 		$('#btn_filter').click(function(event) {
@@ -46,22 +60,70 @@
 		});
 
 		function refresh () {
+			var base_url = '<?php echo base_url()."index.php"?>';
 		 	var date_range = $('#dt_range_filter').val();
+		 	var org_id = $('#hdn_org').val();
+
+		 	// DO Fetch Breadcrumb of Organization
 		 	$.ajax({
-		 		url: base_url+'/admin/org_post/show_root',
+		 		url:  base_url+'/admin/org_struc/show_breadcrumb',
 		 		type: 'POST',
 		 		data: {
 		 			date_range: date_range,
-		 			parent: 0,
+		 			org_id: org_id,
 		 		},
 		 	})
 		 	.done(function(html) {
+		 		$('#box-breadcrumb').html(html);
 
+
+		 	})
+		 	.fail(function() {
+		 		console.log("error breadcrumb");
+		 	})
+		 	.always(function() {
+
+		 	});
+		 	
+
+
+		 	// DO Fetch Position and Organization under Parent Organization
+		 	$.ajax({
+		 		url: base_url+'/admin/org_struc/show_child',
+		 		type: 'POST',
+		 		data: {
+		 			date_range: date_range,
+		 			parent: org_id,
+		 		},
+		 	})
+		 	.done(function(html) {
 				$('#org-list').html(html);
 		 	})
 		 	.fail(function() {
-		 		console.log("root error");
-		 	})		 	
+		 		console.log("error list");
+		 	})
+		 	.always(function() {
+
+			});
+
+			// DO Fetch Organization Name
+		 	$.ajax({
+		 		url: base_url+'/admin/org_struc/show_current',
+		 		type: 'POST',
+		 		data: {
+		 			date_range: date_range,
+		 			parent: org_id,
+		 		},
+		 	})
+		 	.done(function(html) {
+				$('#org-title').html(html);
+		 	})
+		 	.fail(function() {
+		 		console.log("error title");
+		 	})
+		 	.always(function() {
+		 		
+			});			 	
 		}		 
 	});
 </script>
