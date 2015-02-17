@@ -31,6 +31,8 @@
 		<?php echo link_tag('assets/AdminLTE/css/AdminLTE.css'); ?>
 		<!-- Multi Level Push Menu -->
 		<?php echo link_tag('assets/mlpm/jquery.multilevelpushmenu.css'); ?>
+		<?php echo link_tag('assets/css/fix.css'); ?>
+
 		<?php
 		if(isset($css_list)){
 			foreach ($css_list as $key => $value) {

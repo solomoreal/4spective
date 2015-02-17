@@ -656,7 +656,7 @@ class Om_model extends CI_Model {
 					(a.end >= '$begin' AND a.end <= '$end') OR 
 					(a.begin >= '$begin' AND a.begin <='$end' ) OR
 					(a.begin <= '$begin' AND a.end >= '$end'))");
-		$this->db->where('o.obj_type', 'O');
+		$this->db->where('o.obj_type2', 'O');
 		$this->db->where('o.obj_id', $org_id);
 		$this->db->order_by('a.end', 'desc');
 		$this->db->order_by('o.end', 'desc');
@@ -778,7 +778,7 @@ class Om_model extends CI_Model {
 		return $this->db->get()->row()->val;
 	}
 
-	public function get_post_list($org_id=0,$begin='',$end='',$limit=0,$offset=0,$search='')
+	public function get_post_list($org_id=0,$begin='',$end='',$chief=2,$limit=0,$offset=0,$search='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -787,6 +787,18 @@ class Om_model extends CI_Model {
 		if ($end == '') {
 			$end = date('Y-m-d');
 		}
+
+		switch ($chief) {
+			case 1:
+				$rel = $this->get_obj_rel_last($org_id,'B','012',$begin,$end);
+				return $this->get_post_row($rel->obj_to,$begin,$end);
+				break;
+			case 0:
+				$rel      = $this->get_obj_rel_last($org_id,'B','012',$begin,$end);
+				$chief_id = $this->get_obj_row($rel->obj_to,$begin,$end)->obj_id;
+				break;
+		}
+
 		$columns = array('o.obj_id','o.obj_type','a.attr_id','a.short_name','a.long_name','a.begin','a.end','o.begin','o.end');		
 		$this->db->select('o.obj_id AS post_id');
 		$this->db->select('o.obj_type as type');
@@ -817,6 +829,9 @@ class Om_model extends CI_Model {
 		$this->db->where('r.obj_to', $org_id);
 		$this->db->where('r.direction', 'A');
 		$this->db->where('r.rel_type', '003');
+		if ($chief==0) {
+			$this->db->where('o.obj_id !=', $chief_id);
+		}
 		if ($limit>0) {
 			$this->db->limit($limit,$offset);
 		}

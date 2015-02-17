@@ -22,8 +22,8 @@
 						<h3 class="box-title" id="org-title"></h3>
 						<!-- tools box -->
 							<div class="pull-right box-tools btn-group">
-								<?php echo anchor('', '<i class="fa fa-plus"> </i><i class="fa fa-sitemap"></i> ', 'class="btn btn-primary" title="Add Organization"');?>
-								<?php echo anchor('', '<i class="fa fa-plus"> </i><i class="fa fa-user"></i> ', 'class="btn btn-primary" title="Add Position"');?>
+								<?php echo anchor('', '<i class="fa fa-plus"> </i><i class="fa fa-sitemap"></i> ', 'class="btn" title="Add Organization"');?>
+								<?php echo anchor('', '<i class="fa fa-plus"> </i><i class="fa fa-user"></i> ', 'class="btn" title="Add Position"');?>
 							</div><!-- /. tools -->
 						</div>
 						<div id="org-list" class="box-body">

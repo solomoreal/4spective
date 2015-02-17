@@ -75,11 +75,14 @@ class Org_struc extends CI_Controller {
 
 		$begin   = str_replace('/', '-', $begin);
 		$end     = str_replace('/', '-', $end);
+
 		$org_ls  = $this->om_model->get_org_list($parent,$begin,$end);
-		$post_ls = $this->om_model->get_post_list($parent,$begin,$end);
+		$post_ls = $this->om_model->get_post_list($parent,$begin,$end,0);
+		$chief   = $this->om_model->get_chief_row($parent,$begin,$end);
 				
 		$data['org_ls']  = $org_ls;
 		$data['post_ls'] = $post_ls;
+		$data['chief']   = $chief;
 		echo $this->load->view('admin/org/list_view', $data, TRUE);
 			
 	}

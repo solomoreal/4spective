@@ -11,6 +11,27 @@
 		</tr>
 	</thead>
 	<tbody >
+	<?php 
+		if (count($chief)) {
+			echo '<tr>';
+			echo '<td><i class="fa fa-user text-primary" title="Position"></i></td>';
+			echo '<td>'.$chief->post_id .'</td>';
+			echo '<td>'.$chief->post_code .'</td>';
+			echo '<td>'.$chief->post_name .'</td>';
+			echo '<td>'.$chief->post_begin .'</td>';
+			echo '<td>'.$chief->post_end .'</td>';
+			echo '<td>';
+			// Untuk Action Btn
+			echo '<div class="btn-group">';
+			
+			echo anchor('', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="Edit Position"');
+			echo anchor('', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="Delete Position"');
+			echo '</div>';
+
+			echo '</td>';
+			echo '</tr>';	
+		}
+	?>
 	<?php
 		foreach ($post_ls as $post_row) {
 			echo '<tr>';
@@ -30,7 +51,6 @@
 
 			echo '</td>';
 			echo '</tr>';	
-			echo '</tr>';
 
 		}
 

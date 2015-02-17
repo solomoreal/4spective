@@ -1,0 +1,11 @@
+a.btn{
+	background-color: rgb(221, 221, 221);
+	color: black;
+}
+a.btn:hover{
+	background-color: lightgray;
+}
+button:hover{
+	background-color: lightgray;
+
+}
