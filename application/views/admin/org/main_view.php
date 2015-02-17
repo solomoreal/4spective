@@ -9,10 +9,8 @@
 			<!-- top row -->
 			<div class="row">
 				<div class="col-xs-12">
-					<div class="box box-solid">
 					<div id="box-breadcrumb" class="box-body">
 							
-						</div>
 					</div>
 				</div>
 			</div>
@@ -23,8 +21,9 @@
 						<div class="box-header">
 						<h3 class="box-title" id="org-title"></h3>
 						<!-- tools box -->
-							<div class="pull-right box-tools">
-								<?php echo anchor('', '<i class="fa fa-plus"></i> ', 'class="btn btn-primary"');?>
+							<div class="pull-right box-tools btn-group">
+								<?php echo anchor('', '<i class="fa fa-plus"> </i><i class="fa fa-sitemap"></i> ', 'class="btn btn-primary" title="Add Organization"');?>
+								<?php echo anchor('', '<i class="fa fa-plus"> </i><i class="fa fa-user"></i> ', 'class="btn btn-primary" title="Add Position"');?>
 							</div><!-- /. tools -->
 						</div>
 						<div id="org-list" class="box-body">
@@ -82,11 +81,13 @@
 		 		console.log("error breadcrumb");
 		 	})
 		 	.always(function() {
-
+		 		$('.link-org').click(function() {
+		 			var org_to = $(this).data('org');
+		 			$('#hdn_org').val(org_to);
+		 			refresh();
+		 		});
 		 	});
 		 	
-
-
 		 	// DO Fetch Position and Organization under Parent Organization
 		 	$.ajax({
 		 		url: base_url+'/admin/org_struc/show_child',
@@ -103,7 +104,12 @@
 		 		console.log("error list");
 		 	})
 		 	.always(function() {
-
+		 		$('.btn-org').click(function() {
+		 			var org_to = $(this).data('org');
+		 			$('#hdn_org').val(org_to);
+		 			refresh();
+		 		});
+		 		
 			});
 
 			// DO Fetch Organization Name
@@ -112,7 +118,7 @@
 		 		type: 'POST',
 		 		data: {
 		 			date_range: date_range,
-		 			parent: org_id,
+		 			org_id: org_id,
 		 		},
 		 	})
 		 	.done(function(html) {

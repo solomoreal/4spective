@@ -26,7 +26,7 @@ class Org_struc extends CI_Controller {
 		$end   = str_replace('/', '-', $end);
 
 		$org_row = $this->om_model->get_org_row($org_id,$begin,$end);
-		// echo $org_row->org_name;
+		echo $org_row->org_code .' - '.$org_row->org_name;
 
 	}
 
@@ -52,7 +52,9 @@ class Org_struc extends CI_Controller {
 
 		for ($i=$max; $i>=0; $i--) { 
 			$row = $temp[$i];
-			$result .= '<li>'.anchor('#',$row->org_name ).'</li>';
+			$result .= '<li >';
+			$result .= '<a href="#" class="link-org" data-org="'.$row->org_id.'">'.$row->org_name.'</a>';
+			$result .= '</li>';
 		}
 		$result .= '<li class="active">'.$cur_org->org_name.'</li>';
 		$result .= '</ol>';
