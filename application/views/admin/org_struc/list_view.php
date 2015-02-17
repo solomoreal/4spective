@@ -12,9 +12,10 @@
 	</thead>
 	<tbody >
 	<?php 
+
 		if (isset($chief)) {
 			echo '<tr>';
-			echo '<td><i class="fa fa-user text-primary" title="Position"></i></td>';
+			echo '<td><i class="fa fa-user text-primary" title="'. lang('om_chief_post').'"></i></td>';
 			echo '<td>'.$chief->post_id .'</td>';
 			echo '<td>'.$chief->post_code .'</td>';
 			echo '<td>'.$chief->post_name .'</td>';
@@ -24,8 +25,8 @@
 			// Untuk Action Btn
 			echo '<div class="btn-group">';
 			
-			echo anchor('', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="Edit Position"');
-			echo anchor('', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="Delete Position"');
+			echo anchor('', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="Edit '. lang('om_post').'"');
+			echo anchor('', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="Delete '. lang('om_post').'"');
 			echo '</div>';
 
 			echo '</td>';
@@ -35,7 +36,7 @@
 	<?php
 		foreach ($post_ls as $post_row) {
 			echo '<tr>';
-			echo '<td><i class="fa fa-user" title="Position"></i></td>';
+			echo '<td><i class="fa fa-user" title="'. lang('om_post').'"></i></td>';
 			echo '<td>'.$post_row->post_id .'</td>';
 			echo '<td>'.$post_row->post_code .'</td>';
 			echo '<td>'.$post_row->post_name .'</td>';
@@ -45,8 +46,8 @@
 			// Untuk Action Btn
 			echo '<div class="btn-group">';
 			
-			echo anchor('', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="Edit Position"');
-			echo anchor('', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="Delete Position"');
+			echo anchor('', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="Edit '. lang('om_post').'"');
+			echo anchor('', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="Delete '. lang('om_post').'"');
 			echo '</div>';
 
 			echo '</td>';
@@ -65,7 +66,7 @@
 			echo '<td>';
 			// Untuk Action Btn
 			echo '<div class="btn-group">';
-			echo form_button('btn_org_'.$org_row->org_id,'<i class="fa fa-arrow-right"></i>','title="Go to" class="btn btn-org" data-org="'.$org_row->org_id.'"');
+			echo form_button('btn_org_'.$org_row->org_id,'<i class="fa fa-arrow-right"></i>','title="Go to" class="btn btn-org-in" data-org="'.$org_row->org_id.'"');
 			echo anchor('', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="Edit Organization"');
 			echo anchor('', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="Delete Organization"');
 

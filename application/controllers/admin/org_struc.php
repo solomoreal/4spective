@@ -10,9 +10,9 @@ class Org_struc extends CI_Controller {
 
 	public function index()
 	{
-		$data['page_title']  = 'Organization';
+		$data['page_title']  = lang('menu_org_struc');
 		$data['filter_date'] = date('Y').'/01/01 - '.date('Y').'/12/31';
-		$this->load->view('admin/org/main_view',$data);
+		$this->load->view('admin/org_struc/main_view',$data);
 	}
 
 	public function show_current()
@@ -65,13 +65,15 @@ class Org_struc extends CI_Controller {
 
 	public function show_child()
 	{
+
 		$date_range = $this->input->post('date_range');
 		$parent     = $this->input->post('parent');
+
 		if (!is_numeric($parent) OR $parent < 1 ) {
 			$parent = 1;
 		}
-		list($begin,$end) = explode(' - ', $date_range);
 
+		list($begin,$end) = explode(' - ', $date_range);
 
 		$begin   = str_replace('/', '-', $begin);
 		$end     = str_replace('/', '-', $end);
@@ -85,11 +87,9 @@ class Org_struc extends CI_Controller {
 		if ($chief) {
 			$data['chief']   = $chief;
 		}
-		echo $this->load->view('admin/org/list_view', $data, TRUE);
+		echo $this->load->view('admin/org_struc/list_view', $data, TRUE);
 			
 	}
-
-
 
 }
 

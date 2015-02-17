@@ -19,7 +19,7 @@
 	/* Organization */
 	$lang['menu_om']           = 'Organization Management';
 	$lang['menu_org_struc']    = 'Organizational Structure';
-	$lang['menu_report_struc'] = 'Reproting Structure';
+	$lang['menu_report_struc'] = 'Reporting Structure';
 	$lang['menu_job']          = 'Jobs';
 
 			
