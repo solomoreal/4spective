@@ -82,7 +82,9 @@ class Org_struc extends CI_Controller {
 				
 		$data['org_ls']  = $org_ls;
 		$data['post_ls'] = $post_ls;
-		$data['chief']   = $chief;
+		if ($chief) {
+			$data['chief']   = $chief;
+		}
 		echo $this->load->view('admin/org/list_view', $data, TRUE);
 			
 	}

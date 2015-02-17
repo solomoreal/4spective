@@ -656,7 +656,7 @@ class Om_model extends CI_Model {
 					(a.end >= '$begin' AND a.end <= '$end') OR 
 					(a.begin >= '$begin' AND a.begin <='$end' ) OR
 					(a.begin <= '$begin' AND a.end >= '$end'))");
-		$this->db->where('o.obj_type2', 'O');
+		$this->db->where('o.obj_type', 'O');
 		$this->db->where('o.obj_id', $org_id);
 		$this->db->order_by('a.end', 'desc');
 		$this->db->order_by('o.end', 'desc');
@@ -795,7 +795,12 @@ class Om_model extends CI_Model {
 				break;
 			case 0:
 				$rel      = $this->get_obj_rel_last($org_id,'B','012',$begin,$end);
-				$chief_id = $this->get_obj_row($rel->obj_to,$begin,$end)->obj_id;
+				if (count($rel)){
+					$chief_id = $this->get_obj_row($rel->obj_to,$begin,$end)->obj_id;
+					
+				} else {
+					$chief_id = 0;
+				}
 				break;
 		}
 
@@ -891,7 +896,12 @@ class Om_model extends CI_Model {
 	public function get_chief_row($org_id=0,$begin='',$end='')
 	{
 		$rel = $this->get_obj_rel_last($org_id,'B','012',$begin,$end);
-		return $this->get_post_row($rel->obj_to,$begin,$end);
+		if (count($rel)) {
+			return $this->get_post_row($rel->obj_to,$begin,$end);
+			# code...
+		} else {
+			return false;
+		}
 	}
 
 	/**

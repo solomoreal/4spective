@@ -12,7 +12,7 @@
 	</thead>
 	<tbody >
 	<?php 
-		if (count($chief)) {
+		if (isset($chief)) {
 			echo '<tr>';
 			echo '<td><i class="fa fa-user text-primary" title="Position"></i></td>';
 			echo '<td>'.$chief->post_id .'</td>';
