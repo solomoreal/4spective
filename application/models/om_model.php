@@ -616,6 +616,53 @@ class Om_model extends CI_Model {
 			$this->db->or_like($columns,$search);
 		}
 		return $this->db->get()->result();
+
+
+	}
+
+	public function get_org_parent_row($org_id=0,$begin='',$end='')
+	{
+		if ($begin == '') {
+			$begin = date('Y-m-d');
+		}
+
+		if ($end == '') {
+			$end = date('Y-m-d');
+		}
+
+		$this->db->select('o.obj_id AS org_id');
+		$this->db->select('o.obj_type as type');
+		$this->db->select('a.attr_id');
+		$this->db->select('a.short_name AS org_code');
+		$this->db->select('a.long_name AS org_name');
+		$this->db->select('a.begin AS attr_begin');
+		$this->db->select('a.end AS attr_end');
+		$this->db->select('o.begin AS org_begin');
+		$this->db->select('o.end AS org_end');
+
+		$this->db->from('om_obj o');
+		$this->db->where('o.obj_type', 'O');
+		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
+					(o.end >= '$begin' AND o.end <= '$end') OR 
+					(o.begin >= '$begin' AND o.begin <='$end' ) OR
+					(o.begin <= '$begin' AND o.end >= '$end'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
+					(r.end >= '$begin' AND r.end <= '$end') OR 
+					(r.begin >= '$begin' AND r.begin <='$end' ) OR
+					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
+		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
+					(a.end >= '$begin' AND a.end <= '$end') OR 
+					(a.begin >= '$begin' AND a.begin <='$end' ) OR
+					(a.begin <= '$begin' AND a.end >= '$end'))");
+		
+		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
+		$this->db->where('r.obj_to', $org_id);
+		$this->db->where('r.direction', 'B');
+		$this->db->where('r.rel_type', '002');
+		
+
+		return $this->db->get()->row();
 	}
 
 	/**

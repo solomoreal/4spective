@@ -63,38 +63,38 @@
 
 		refresh();
 
-		$('.btn-act').click(function(event) {
-			var base_url = '<?php echo base_url()."index.php/admin/"?>';
-			var action   = $(this).data('action');
-			var obj_type = $(this).data('obj-type');
-			var org_id   = $(this).data('org');
-		 	var parent   = $('#hdn_org').val();
+		// $('.btn-act').click(function(event) {
+		// 	var base_url = '<?php echo base_url()."index.php/admin/"?>';
+		// 	var action   = $(this).data('action');
+		// 	var obj_type = $(this).data('obj-type');
+		// 	var org_id   = $(this).data('org');
+		//  	var parent   = $('#hdn_org').val();
 
-			$.ajax({
-				url: base_url+obj_type+'/'+action,
-				type: 'POST',
-				data: {
-					org_id: org_id,
-					parent: parent},
-			})
-			.done(function(html) {
-				console.log("success");
-			})
-			.fail(function() {
-				console.log("error");
-			})
-			.always(function() {
-				console.log("complete");
-			});
+		// 	$.ajax({
+		// 		url: base_url+obj_type+'/'+action,
+		// 		type: 'POST',
+		// 		data: {
+		// 			org_id: org_id,
+		// 			parent: parent},
+		// 	})
+		// 	.done(function(html) {
+		// 		console.log("success");
+		// 	})
+		// 	.fail(function() {
+		// 		console.log("error");
+		// 	})
+		// 	.always(function() {
+		// 		console.log("complete");
+		// 	});
 			
 
-			$('#sec-main').animate({
-				opacity:0},
-				'slow', function() {
-				$('#sec-main').hide();
-			});
+		// 	$('#sec-main').animate({
+		// 		opacity:0},
+		// 		'slow', function() {
+		// 		$('#sec-main').hide();
+		// 	});
 			
-		});
+		// });
 
 		$('#btn_filter').click(function(event) {
 			refresh();

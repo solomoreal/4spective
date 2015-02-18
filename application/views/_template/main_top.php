@@ -17,10 +17,10 @@ $this->load->view('_template/basic_top');
 				<div class="navbar-right">
 					<ul class="nav navbar-nav">
 						<li>
-							<?php echo anchor('home', 'Employee'); ?>
+							<?php echo anchor('home', 'Emp'); ?>
 						</li>
 						<li>
-							<?php echo anchor('home', 'Manager'.' <span class="label label-danger">99</span>'); ?>
+							<?php echo anchor('home', 'Man'.' <span class="label label-danger">99</span>'); ?>
 							
 						</li>
 						<li>
