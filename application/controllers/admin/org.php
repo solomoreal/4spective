@@ -16,15 +16,11 @@ class Org extends CI_Controller {
 	public function add()
 	{
 		$this->load->library('form_builder');
-		// $parent_id  = $this->input->post('parent');
-		// $date_range = $this->input->post('date_range');
-		// list($begin,$end) = explode(' - ', $date_range);
-		// $begin     = str_replace('/', '-', $begin);
-		// $end       = str_replace('/', '-', $end);
-		$parent_id = 1;
-		$begin = '2014-01-01';
-		$end   = '9999-12-31';
-		$data['process'] = '';
+		$parent_id  = $this->input->post('parent');
+		$date_range = $this->input->post('date_range');
+		list($begin,$end) = explode(' - ', $date_range);
+		$begin     = str_replace('/', '-', $begin);
+		$end       = str_replace('/', '-', $end);
 		
 		$parent    = $this->om_model->get_org_row($parent_id,$begin,$end);
 		$org_code  = '';

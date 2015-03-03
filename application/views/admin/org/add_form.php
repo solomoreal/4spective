@@ -1,6 +1,6 @@
 <?php  
 $this->load->view('_template/basic_top');
-echo '<h2>Organization</h2>';
+echo '<h2>'.lang('om_org').'</h2>';
 echo $this->form_builder->open_form(array('action' => ''));
 echo $this->form_builder->build_form_horizontal(
       array(
@@ -13,27 +13,27 @@ echo $this->form_builder->build_form_horizontal(
 			      'id' => 'txt_code',
 			      'label' => lang('om_org_code'),
 			      'placeholder' => lang('om_org_code'),
-			      'value' => html_entity_decode('')
+			      'value' => html_entity_decode($org_code)
 			  ),
 			  array(
 			      'id' => 'txt_name',
 			      'label' => lang('om_org_name'),
 			      'placeholder' => lang('om_org_name'),
-			      'value' => html_entity_decode('')
+			      'value' => html_entity_decode($org_name)
 			  ),
 			  array(
 			      'id' => 'dt_start',
 			      'label' => 'Begin Date',
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
-			      'value' => html_entity_decode(date('Y-m-d'))
+			      'value' => html_entity_decode($org_begin)
 			  ),
 			  array(
 			      'id' => 'dt_end',
 			      'label' => 'End Date',
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
-			      'value' => html_entity_decode('9999-12-31')
+			      'value' => html_entity_decode($org_end)
 			  ),
 			  array(
 			      'id' => 'submit',

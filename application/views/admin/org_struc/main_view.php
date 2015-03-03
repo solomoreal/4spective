@@ -24,11 +24,11 @@
 						<h3 class="box-title" id="org-title"></h3>
 						<!-- tools box -->
 							<div class="pull-right box-tools btn-group">
-								<?php echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="iframe"');?>
-								<?php echo anchor($link_add_org, '<i class="fa fa-plus"></i><i class="fa fa-sitemap"></i> ', 'title="Add '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="iframe"');?>
-								<?php echo anchor($link_add_post, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title="Add '. lang('om_post') .'" class="btn btn-act" " data-fancybox-type="iframe"');?>
-
-
+								<?php 
+									echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="ajax"');
+									echo anchor($link_add_org, '<i class="fa fa-plus"></i><i class="fa fa-sitemap"></i> ', 'title="Add '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="ajax"');
+									echo anchor($link_add_post, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title="Add '. lang('om_post') .'" class="btn btn-act" " data-fancybox-type="ajax"');
+								?>
 							</div><!-- /. tools -->
 						</div>
 						<div id="org-list" class="box-body">
@@ -137,6 +137,37 @@
 </script>
 	<script type="text/javascript">
 	jQuery(document).ready(function($) {
-		$('.btn-act').fancybox();
+		$('.btn-act').click(function(e) {
+			var date_range = $('#dt_range_filter').val();
+		 	var parent = $('#hdn_org').val();
+		 	// var org_id = $('#hdn_org').val();
+			e.preventDefault();
+			$.ajax({
+				url: this.href,
+				type: 'POST',
+				data: {
+					parent: parent,
+					date_range: date_range},
+			})
+			.done(function(data) {
+				 $.fancybox(data, {
+          // fancybox API options
+          fitToView: true,
+          width: 905,
+          height: 505,
+          autoSize: false,
+          closeClick: false,
+          openEffect: 'none',
+          closeEffect: 'none'
+        }); // fancybox
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+			});
+			
+		});
 	});
 	</script>
