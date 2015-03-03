@@ -25,7 +25,7 @@ class Org extends CI_Controller {
 		$begin = '2014-01-01';
 		$end   = '9999-12-31';
 		$data['process'] = '';
-
+		
 		$parent    = $this->om_model->get_org_row($parent_id,$begin,$end);
 		$org_code  = '';
 		$org_name  = '';

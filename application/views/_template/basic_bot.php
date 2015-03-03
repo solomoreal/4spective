@@ -22,6 +22,7 @@
 		<script src="<?php echo base_url()?>assets/mlpm/jquery.multilevelpushmenu.js" type="text/javascript"></script>
 		<script src="<?php echo base_url()?>assets/AdminLTE/js/AdminLTE/app.js" type="text/javascript"></script>
 		<script src="<?php echo base_url()?>assets/js/toggle_click.js" type="text/javascript"></script>
+		<script src="<?php echo base_url()?>assets/fancybox/jquery.fancybox.js" type="text/javascript"></script>
 		<?php
 		if(isset($js_list)){
 			foreach ($js_list as $key => $value) {
@@ -70,5 +71,10 @@
     	});
 		});
 	</script> 
+	<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$('.fancybox').fancybox();
+	});
+	</script>
 	</body>
 </html>

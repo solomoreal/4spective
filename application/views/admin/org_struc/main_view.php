@@ -24,17 +24,10 @@
 						<h3 class="box-title" id="org-title"></h3>
 						<!-- tools box -->
 							<div class="pull-right box-tools btn-group">
-								<a href="#" title="Edit <?php echo lang('om_org'); ?>" class="btn btn-act" data-action="edit" data-obj-type="org">
-									<i class="fa fa-pencil"></i>
-								</a>
-								<a href="#" class="btn btn-act btn-add" title="Add <?php echo lang('om_org') ?>" id="btn_add_org" data-action="add" data-obj-type="org">
-									<i class="fa fa-plus"></i>
-									<i class="fa fa-sitemap"></i> 
-								</a>
-								<a href="#" class="btn btn-act btn-add" title="Add <?php echo lang('om_post') ?>" id="btn-add-post" data-action="add" data-obj-type="post">
-									<i class="fa fa-plus"></i>
-									<i class="fa fa-user"></i>
-								</a>
+								<?php echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="iframe"');?>
+								<?php echo anchor($link_add_org, '<i class="fa fa-plus"></i><i class="fa fa-sitemap"></i> ', 'title="Add '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="iframe"');?>
+								<?php echo anchor($link_add_post, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title="Add '. lang('om_post') .'" class="btn btn-act" " data-fancybox-type="iframe"');?>
+
 
 							</div><!-- /. tools -->
 						</div>
@@ -62,41 +55,6 @@
 	jQuery(document).ready(function($) {
 
 		refresh();
-
-		$('.btn-act').click(function(event) {
-			var base_url = '<?php echo base_url()."index.php/admin/"?>';
-			var action   = $(this).data('action');
-			var obj_type = $(this).data('obj-type');
-			var org_id   = $(this).data('org');
-		 	var parent   = $('#hdn_org').val();
-		 	var date_range = $('#dt_range_filter').val();
-
-			$.ajax({
-				url: base_url+obj_type+'/'+action,
-				type: 'POST',
-				data: {
-					org_id: org_id,
-					date_range: date_range,
-					parent: parent},
-			})
-			.done(function(html) {
-				console.log("success");
-			})
-			.fail(function() {
-				console.log("error");
-			})
-			.always(function() {
-				console.log("complete");
-			});
-			
-
-			$('#sec-main').animate({
-				opacity:0},
-				'slow', function() {
-				$('#sec-main').hide();
-			});
-			
-		});
 
 		$('#btn_filter').click(function(event) {
 			refresh();
@@ -177,3 +135,8 @@
 		}		 
 	});
 </script>
+	<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$('.btn-act').fancybox();
+	});
+	</script>

@@ -1,8 +1,7 @@
 <?php  
 $this->load->view('_template/basic_top');
+echo '<h2>Organization</h2>';
 echo $this->form_builder->open_form(array('action' => ''));
-
-
 echo $this->form_builder->build_form_horizontal(
       array(
 			  array(
