@@ -12,3 +12,6 @@
 	$lang['om_company']    = 'Company';
 	$lang['om_co_addr']    = 'Company Address';
 	$lang['om_org_ass']    = 'Organizational Assignment';
+
+	$lang['om_org_code']   = 'Organization Code';
+	$lang['om_org_name']   = 'Organization Name';

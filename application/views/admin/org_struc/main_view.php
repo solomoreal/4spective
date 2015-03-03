@@ -27,11 +27,11 @@
 								<a href="#" title="Edit <?php echo lang('om_org'); ?>" class="btn btn-act" data-action="edit" data-obj-type="org">
 									<i class="fa fa-pencil"></i>
 								</a>
-								<a href="#" class="btn btn-act btn-add" title="Add '.lang('om_org').'" id="btn_add_org" data-action="add" data-obj-type="org">
+								<a href="#" class="btn btn-act btn-add" title="Add <?php echo lang('om_org') ?>" id="btn_add_org" data-action="add" data-obj-type="org">
 									<i class="fa fa-plus"></i>
 									<i class="fa fa-sitemap"></i> 
 								</a>
-								<a href="#" class="btn btn-act btn-add" title="Add '.lang('om_post').'" id="btn-add-post" data-action="add" data-obj-type="post">
+								<a href="#" class="btn btn-act btn-add" title="Add <?php echo lang('om_post') ?>" id="btn-add-post" data-action="add" data-obj-type="post">
 									<i class="fa fa-plus"></i>
 									<i class="fa fa-user"></i>
 								</a>
@@ -63,38 +63,40 @@
 
 		refresh();
 
-		// $('.btn-act').click(function(event) {
-		// 	var base_url = '<?php echo base_url()."index.php/admin/"?>';
-		// 	var action   = $(this).data('action');
-		// 	var obj_type = $(this).data('obj-type');
-		// 	var org_id   = $(this).data('org');
-		//  	var parent   = $('#hdn_org').val();
+		$('.btn-act').click(function(event) {
+			var base_url = '<?php echo base_url()."index.php/admin/"?>';
+			var action   = $(this).data('action');
+			var obj_type = $(this).data('obj-type');
+			var org_id   = $(this).data('org');
+		 	var parent   = $('#hdn_org').val();
+		 	var date_range = $('#dt_range_filter').val();
 
-		// 	$.ajax({
-		// 		url: base_url+obj_type+'/'+action,
-		// 		type: 'POST',
-		// 		data: {
-		// 			org_id: org_id,
-		// 			parent: parent},
-		// 	})
-		// 	.done(function(html) {
-		// 		console.log("success");
-		// 	})
-		// 	.fail(function() {
-		// 		console.log("error");
-		// 	})
-		// 	.always(function() {
-		// 		console.log("complete");
-		// 	});
+			$.ajax({
+				url: base_url+obj_type+'/'+action,
+				type: 'POST',
+				data: {
+					org_id: org_id,
+					date_range: date_range,
+					parent: parent},
+			})
+			.done(function(html) {
+				console.log("success");
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+			});
 			
 
-		// 	$('#sec-main').animate({
-		// 		opacity:0},
-		// 		'slow', function() {
-		// 		$('#sec-main').hide();
-		// 	});
+			$('#sec-main').animate({
+				opacity:0},
+				'slow', function() {
+				$('#sec-main').hide();
+			});
 			
-		// });
+		});
 
 		$('#btn_filter').click(function(event) {
 			refresh();

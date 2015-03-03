@@ -22,7 +22,7 @@
 		<!-- fullCalendar -->
 		<?php echo link_tag('assets/AdminLTE/css/fullcalendar/fullcalendar.css'); ?>
 		<!-- Datepicker -->
-		<?php echo link_tag('assets/datepicker/css/datepicker.css'); ?>
+		<?php echo link_tag('assets/AdminLTE/css/datepicker/datepicker3.css'); ?>
 		<!-- Daterange picker -->
 		<?php echo link_tag('assets/AdminLTE/css/daterangepicker/daterangepicker-bs3.css'); ?>
 		<!-- bootstrap wysihtml5 - text editor -->

@@ -15,25 +15,31 @@ class Org extends CI_Controller {
 
 	public function add()
 	{
-		$parent_id  = $this->input->post('parent');
-		$date_range = $this->input->post('date_range');
-		list($begin,$end) = explode(' - ', $date_range);
-		$begin     = str_replace('/', '-', $begin);
-		$end       = str_replace('/', '-', $end);
+		$this->load->library('form_builder');
+		// $parent_id  = $this->input->post('parent');
+		// $date_range = $this->input->post('date_range');
+		// list($begin,$end) = explode(' - ', $date_range);
+		// $begin     = str_replace('/', '-', $begin);
+		// $end       = str_replace('/', '-', $end);
+		$parent_id = 1;
+		$begin = '2014-01-01';
+		$end   = '9999-12-31';
+		$data['process'] = '';
+
 		$parent    = $this->om_model->get_org_row($parent_id,$begin,$end);
 		$org_code  = '';
 		$org_name  = '';
 		$org_begin = $begin;
 		$org_end   = '9999-12-31';
 
-		$hidden    = array(
-			'parent_id' => $parent->org_id);
+		// $hidden    = array(
+		// 	'parent_id' => $parent->org_id);
 		$data['parent']    = $parent;
 		$data['org_code']  = $org_code;
 		$data['org_name']  = $org_name;
 		$data['org_begin'] = $org_begin;
 		$data['org_end']   = $org_end;
-		$data['hidden']    = $hidden;
+		$data['parent_id'] = $parent->org_id;
 
 		$this->load->view('admin/org/add_form', $data, FALSE);
 	}
@@ -53,7 +59,7 @@ class Org extends CI_Controller {
 
 	public function edit_attr()
 	{
-		$org_id = $this->input->post('org_id');
+		$org_id     = $this->input->post('org_id');
 		$date_range = $this->input->post('date_range');
 		list($begin,$end) = explode(' - ', $date_range);
 		$begin  = str_replace('/', '-', $begin);

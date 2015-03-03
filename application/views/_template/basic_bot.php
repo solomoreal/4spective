@@ -8,7 +8,7 @@
 		<!-- fullCalendar -->
 		<script src="<?php echo base_url()?>assets/AdminLTE/js/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
 		<!-- datepicker -->
-		<script src="<?php echo base_url()?>assets/datepicker/js/bootstrap-datepicker.js"></script> 
+		<script src="<?php echo base_url()?>assets/AdminLTE/js/plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
 		<!-- daterangepicker -->
 		<script src="<?php echo base_url()?>assets/AdminLTE/js/plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
 		<!-- Bootstrap WYSIHTML5 -->
@@ -47,6 +47,7 @@
 			});
 			$('.datepicker').datepicker({
 				format: 'yyyy-mm-dd',
+				autoclose: true,
 			});
 			$('.daterange').daterangepicker({
 				format: 'YYYY-MM-DD',

@@ -94,3 +94,5 @@ if ( ! function_exists('form_button'))
 		return "<button "._parse_form_attributes($data, $defaults).$extra.">".$content."</button>";
 	}
 }
+
+// ------------------------------------------------------------------------
