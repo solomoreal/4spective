@@ -50,7 +50,6 @@ class Org extends CI_Controller {
 
 	public function add_process()
 	{
-
 		$this->form_validation->set_rules('txt_code', lang('om_org_code'), 'trim|required|min_length[3]|max_length[255]|xss_clean');
 		$this->form_validation->set_rules('txt_name', lang('om_org_name'), 'trim|required|min_length[5]|max_length[255]|xss_clean');
 		$this->form_validation->set_rules('dt_begin', 'Begin Date', 'trim|required|xss_clean');
