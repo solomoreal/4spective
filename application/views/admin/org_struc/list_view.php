@@ -49,7 +49,7 @@
 			
 			echo anchor('admin/post/detail/', '</i><i class="fa fa-list"></i> ', 'class="btn" title="'.lang('act_view_detail').' '. lang('om_post').'"');
 			echo anchor('admin/post/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="'.lang('act_delete').' '. lang('om_post').'"');
-			echo anchor('admin/post/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="'.lang('act_delete').' '. lang('om_post').'"');
+			echo anchor('admin/post/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-del" title="'.lang('act_delete').' '. lang('om_post').'"');
 			echo '</div>';
 
 			echo '</td>';

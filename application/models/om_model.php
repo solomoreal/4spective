@@ -785,11 +785,31 @@ class Om_model extends CI_Model {
 		foreach ($rel_types as $key => $rel_type) {
 			
 			$rel_A = $this->get_obj_rel_last($org_id,'A',$rel_type,'2008-01-01','9999-12-31');
-			$this->delimit_obj_rel($rel_A->rel_id,$end);
+			if (count($rel_A)) {
+				$this->delimit_obj_rel($rel_A->rel_id,$end);
+			}
 
 			$rel_B = $this->get_obj_rel_last($org_id,'B',$rel_type,'2008-01-01','9999-12-31');
-			$this->delimit_obj_rel($rel_B->rel_id,$end);
+			if (count($rel_B)) {
+				$this->delimit_obj_rel($rel_B->rel_id,$end);
+			}
 		}
+	}
+
+	public function remove_org($org_id=0)
+	{
+		// DO remove all relation
+		$this->db->where('obj_to', $org_id);
+		$this->db->or_where('obj_from', $org_id);
+		$this->db->delete('om_obj_rel');
+
+		// DO remove all Attrribute
+		
+		$this->db->where('obj_id', $org_id);
+		$this->db->delete('om_obj_attr');
+
+		// DO remove object
+		$this->remove_obj($org_id);
 	}
 
 	///////////////

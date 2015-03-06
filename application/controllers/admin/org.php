@@ -50,32 +50,27 @@ class Org extends CI_Controller {
 
 	public function add_process()
 	{
-		try {
-			$this->form_validation->set_rules('txt_code', lang('om_org_code'), 'trim|required|min_length[3]|max_length[255]|xss_clean');
-			$this->form_validation->set_rules('txt_name', lang('om_org_name'), 'trim|required|min_length[5]|max_length[255]|xss_clean');
-			$this->form_validation->set_rules('dt_begin', 'Begin Date', 'trim|required|xss_clean');
-			$this->form_validation->set_rules('dt_end', 'End Date', 'trim|required|xss_clean');
-			if ($this->form_validation->run()) {
-				$parent_id = $this->input->post('parent_id');
-				$code 		 = $this->input->post('txt_code');
-				$name 		 = $this->input->post('txt_name');
-				$begin 		 = $this->input->post('dt_begin');
-				$end  		 = $this->input->post('dt_end');
-				$this->om_model->add_org($code,$name,$parent_id,$begin,$end);
-				$this->load->view('_notif/success');
 
-			} else {
-				$data['e'] = validation_errors();
+		$this->form_validation->set_rules('txt_code', lang('om_org_code'), 'trim|required|min_length[3]|max_length[255]|xss_clean');
+		$this->form_validation->set_rules('txt_name', lang('om_org_name'), 'trim|required|min_length[5]|max_length[255]|xss_clean');
+		$this->form_validation->set_rules('dt_begin', 'Begin Date', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('dt_end', 'End Date', 'trim|required|xss_clean');
+		if ($this->form_validation->run()) {
+			$parent_id = $this->input->post('parent_id');
+			$code 		 = $this->input->post('txt_code');
+			$name 		 = $this->input->post('txt_name');
+			$begin 		 = $this->input->post('dt_begin');
+			$end  		 = $this->input->post('dt_end');
+			$this->om_model->add_org($code,$name,$parent_id,$begin,$end);
+			$this->load->view('_notif/success');
 
-				$this->load->view('_notif/error', $data);
+		} else {
+			$data['e'] = validation_errors();
 
-			}
-			
-		} catch (Exception $e) {
-			$data['e'] = $e;
 			$this->load->view('_notif/error', $data);
 
-		}	
+		}
+			
 	}
 
 	public function edit_attr()
@@ -88,20 +83,13 @@ class Org extends CI_Controller {
 		$org    = 		$this->om_model->get_org_row($org_id,$begin,$end);
 		$parent = $this->om_model->get_org_parent_row($org_id,$begin,$end);
 
-		$org_code   = $org->org_code;
-		$org_name   = $org->org_name;
-		$attr_begin = $org->attr_begin;
-		$attr_end   = $org->attr_end;
-		$hidden     = array(
-			'parent_id' => $parent->org_id,
-			'org_id'    => $org->org_id);
-
 		$data['parent']     = $parent;
-		$data['org_code']   = $org_code;
-		$data['org_name']   = $org_name;
-		$data['attr_begin'] = $org_begin;
-		$data['attr_end']   = $org_end;
-		$data['hidden']     = $hidden;
+		$data['org_id']   = $org->org_id;
+		$data['org_code']   = $org->org_code;
+		$data['org_name']   = $org->org_name;
+		$data['attr_begin'] = $org->attr_begin;
+		$data['attr_end']   = $org->attr_end;
+		$data['process']		= 'admin/org/edit_attr_process';
 
 		$this->load->view('admin/org/attr_form', $data, FALSE);
 	}
@@ -113,18 +101,31 @@ class Org extends CI_Controller {
 		$name       = $this->input->post('txt_name');
 		$attr_begin = $this->input->post('dt_begin');
 		$attr_end   = $this->input->post('dt_end');
-		$mode       = $this->input->post('rd_mode');
+		$mode       = $this->input->post('slc_mode');
 
-		switch ($mode) {
-			case 'update':
-				
-				break;
-			case 'corection':
-				
-				break;
+		$this->form_validation->set_rules('txt_code', lang('om_org_code'), 'trim|required|min_length[3]|max_length[255]|xss_clean');
+		$this->form_validation->set_rules('txt_name', lang('om_org_name'), 'trim|required|min_length[5]|max_length[255]|xss_clean');
+		$this->form_validation->set_rules('dt_begin', 'Begin Date', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('dt_end', 'End Date', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('slc_mode', 'Mode', 'trim|required|xss_clean');
+
+		if ($this->form_validation->run()) {
+			switch ($mode) {
+				case 'update':
+					$this->om_model->update_org($org_id,$org_code,$org_name,$attr_begin,$attr_end);
+					break;
+				case 'corect':
+					$this->om_model->correct_org($org_id,$org_code,$org_name,$attr_begin,$attr_end);
+					break;
+			}
+			$this->load->view('_notif/success');
+
+			
+		} else {
+			$data['e'] = validation_errors();
+			$this->load->view('_notif/error', $data);
 		}
 
-		$this->load->view('_template/notif_view', $data, FALSE);
 	}
 
 	public function delete()
@@ -147,13 +148,33 @@ class Org extends CI_Controller {
 		$end  = $this->input->post('dt_end');
 		$mode = $this->input->post('slc_mode');
 
-		switch ($mode) {
-			case 'delimit':
-				
-				break;
-			case 'remove':
-				
-				break;
+		try {
+			switch ($mode) {
+				case 'delimit':
+					$this->form_validation->set_rules('dt_end', lang('basic_end'), 'trim|required|xss_clean');
+					if ($this->form_validation->run()) {
+						// DO delimit org
+						$this->om_model->delimit_org($org_id,$end);
+						$this->load->view('_notif/success'); 
+					} else {
+						// DO Notif Error
+						$data['e'] = validation_errors();
+						$this->load->view('_notif/error', $data);
+					}
+					
+					break;
+				case 'remove':
+					// DO remove org
+					$this->om_model->remove_org($org_id,$end);
+					
+					$this->load->view('_notif/success');
+					break;
+			}
+			
+		} catch (Exception $e) {
+			// DO Notif Error
+			$data['e'] = $e->getMessage();
+			$this->load->view('_notif/error', $data);
 		}
 	}
 

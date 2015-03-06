@@ -35,6 +35,7 @@
 	$lang['menu_perspective'] = 'Perspective';
 	$lang['menu_ref']         = 'Reference';
 	$lang['menu_ytd']         = 'Year to Date';
+	$lang['menu_other']       = 'Other';
 
 	/* User */
 	$lang['menu_user_man'] 	= 'User Management';

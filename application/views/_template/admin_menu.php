@@ -8,7 +8,6 @@
 				<ul>
 					<li> <?php echo anchor('admin/org_struc', lang('menu_org_struc')); ?> </li>
 					<li> <?php echo anchor('admin/report_struc', lang('menu_report_struc')); ?> </li>
-					<!-- <li> <?php echo anchor('#', lang('menu_job')); ?> </li> -->
 				</ul>
 			</li>
 			<li>
@@ -35,7 +34,7 @@
 					<li> <?php echo anchor('admin/period', '<i class="fa fa-calendar-o"></i> '.lang('menu_period')); ?> </li>
 					<li> <?php echo anchor('admin/gen_kpi', '<i class="fa fa-list-alt"></i> '.lang('menu_gen_kpi')); ?> </li>
 					<li> <?php echo anchor('admin/perspective', '<i class="fa fa-eye"></i> '.lang('menu_perspective')); ?> </li>
-					<!-- <li> <?php echo anchor('#', lang('menu_job')); ?> </li> -->
+					<li> <?php echo anchor('admin/other', '<i class="fa fa-cog"></i> '.lang('menu_other')); ?> </li> 
 				</ul>
 			</li>
 			<li>
