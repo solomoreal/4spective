@@ -34,6 +34,7 @@ class Org extends CI_Controller {
 		$data['org_begin'] = $org_begin;
 		$data['org_end']   = $org_end;
 		$data['hidden']    = $hidden;
+		$data['process']   = 'admin/org/add_process';
 
 		$this->load->view('admin/org/add_form', $data, FALSE);
 	}
