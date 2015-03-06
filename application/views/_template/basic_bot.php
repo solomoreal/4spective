@@ -48,22 +48,22 @@
 				format: 'YYYY-MM-DD',
 			});
 
-			$("input[type='submit']").click(function () {
-        var $this = $(this);
-        $this.prop('disabled', true);
-        $('form').submit()
-        setTimeout(function() {
-          $this.prop('disabled', false);
-        },2000);
-    	});
-    	$("button[type='submit']").click(function () {
-        var $this = $(this);
-        $this.prop('disabled', true);
-        $('form').submit()
-        setTimeout(function() {
-          $this.prop('disabled', false);
-        },2000);
-    	});
+			// $("input[type='submit']").click(function () {
+   //      var $this = $(this);
+   //      $this.prop('disabled', true);
+   //      $('form').submit()
+   //      setTimeout(function() {
+   //        $this.prop('disabled', false);
+   //      },2000);
+   //  	});
+    	// $("button[type='submit']").click(function () {
+     //    var $this = $(this);
+     //    $this.prop('disabled', true);
+     //    $('form').submit()
+     //    setTimeout(function() {
+     //      $this.prop('disabled', false);
+     //    },2000);
+    	// });
 		});
 	</script> 
 

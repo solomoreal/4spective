@@ -60,6 +60,8 @@
 			refresh();
 		});
 
+		
+
 		function refresh () {
 			var base_url = '<?php echo base_url()."index.php"?>';
 		 	var date_range = $('#dt_range_filter').val();
@@ -77,6 +79,38 @@
 		 	.done(function(html) {
 		 		$('#box-breadcrumb').html(html);
 
+		 		$('.btn-act').click(function(e) {
+					var date_range = $('#dt_range_filter').val();
+				 	var parent = $('#hdn_org').val();
+				 	// var org_id = $('#hdn_org').val();
+					e.preventDefault();
+					$.ajax({
+						url: this.href,
+						type: 'POST',
+						data: {
+							parent: parent,
+							date_range: date_range},
+					})
+					.done(function(data) {
+						 $.fancybox(data, {
+		          // fancybox API options
+		          fitToView: true,
+		          width: 905,
+		          height: 505,
+		          autoSize: false,
+		          closeClick: false,
+		          openEffect: 'none',
+		          closeEffect: 'none',
+		          afterClose: function(){refresh()}
+		        }); // fancybox
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
+					});
+				});
 
 		 	})
 		 	.fail(function() {
@@ -101,6 +135,38 @@
 		 	})
 		 	.done(function(html) {
 				$('#org-list').html(html);
+
+				$('.btn-del').click(function(e) {
+					var date_range = $('#dt_range_filter').val();
+				 	var obj_id = $(this).data('obj');
+					e.preventDefault();
+					$.ajax({
+						url: this.href,
+						type: 'POST',
+						data: {
+							obj_id: obj_id,
+							date_range: date_range},
+					})
+					.done(function(data) {
+						 $.fancybox(data, {
+		          // fancybox API options
+		          fitToView: true,
+		          width: 905,
+		          height: 505,
+		          autoSize: false,
+		          closeClick: false,
+		          openEffect: 'none',
+		          closeEffect: 'none',
+		          afterClose: function(){refresh()}
+		        }); // fancybox
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
+					});
+				});
 		 	})
 		 	.fail(function() {
 		 		console.log("error list");
@@ -135,39 +201,3 @@
 		}		 
 	});
 </script>
-	<script type="text/javascript">
-	jQuery(document).ready(function($) {
-		$('.btn-act').click(function(e) {
-			var date_range = $('#dt_range_filter').val();
-		 	var parent = $('#hdn_org').val();
-		 	// var org_id = $('#hdn_org').val();
-			e.preventDefault();
-			$.ajax({
-				url: this.href,
-				type: 'POST',
-				data: {
-					parent: parent,
-					date_range: date_range},
-			})
-			.done(function(data) {
-				 $.fancybox(data, {
-          // fancybox API options
-          fitToView: true,
-          width: 905,
-          height: 505,
-          autoSize: false,
-          closeClick: false,
-          openEffect: 'none',
-          closeEffect: 'none'
-        }); // fancybox
-			})
-			.fail(function() {
-				console.log("error");
-			})
-			.always(function() {
-				console.log("complete");
-			});
-			
-		});
-	});
-	</script>

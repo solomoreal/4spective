@@ -12,9 +12,9 @@ class Org_struc extends CI_Controller {
 	{
 		$data['page_title']    = lang('menu_org_struc');
 		$data['filter_date']   = date('Y').'/01/01 - '.date('Y').'/12/31';
-		$data['link_edit_org'] = 'admin/org/edit';
-		$data['link_add_org']  = 'admin/org/add';
-		$data['link_add_post'] = 'admin/post/add';
+		$data['link_edit_org'] = 'admin/org/edit_attr/';
+		$data['link_add_org']  = 'admin/org/add/';
+		$data['link_add_post'] = 'admin/post/add/';
 		$this->load->view('admin/org_struc/main_view',$data);
 	}
 

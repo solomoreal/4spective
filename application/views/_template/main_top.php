@@ -20,15 +20,15 @@ $this->load->view('_template/basic_top');
 							<?php echo anchor('home', 'Emp'); ?>
 						</li>
 						<li>
-							<?php echo anchor('home', 'Man'.' <span class="label label-danger">99</span>'); ?>
+							<?php echo anchor('home/man', 'Man'.' <span class="label label-danger">99</span>'); ?>
 							
 						</li>
 						<li>
-							<?php echo anchor('', 'HR'.' <span class="label label-danger">99</span>'); ?>
+							<?php echo anchor('home/hr', 'HR'.' <span class="label label-danger">99</span>'); ?>
 							
 						</li>
 						<li>
-							<?php echo anchor('', 'Admin'.' <span class="label label-danger">99</span>'); ?>
+							<?php echo anchor('home/admin', 'Admin'.' <span class="label label-danger">99</span>'); ?>
 							
 						</li>
 						
@@ -97,6 +97,6 @@ $this->load->view('_template/basic_top');
 	if(isset($sidemenu)){
 		$this->load->view('_template/'.$sidemenu);	
 	} else {
-		$this->load->view('_template/basic_menu');	
+		$this->load->view('_template/admin_menu');	
 	}
 ?>

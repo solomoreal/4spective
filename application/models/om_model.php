@@ -203,7 +203,9 @@ class Om_model extends CI_Model {
 					(r.end >= '$begin' AND r.end <= '$end') OR 
 					(r.begin >= '$begin' AND r.begin <='$end' ) OR
 					(r.begin <= '$begin' AND r.end >= '$end'))");
-		$this->db->where_in('rel_type', $rel_type);
+		if (is_array($rel_type)) {
+			$this->db->where_in('rel_type', $rel_type);
+		}
 
 		switch ($direction) {
 			case 'A':
@@ -265,6 +267,7 @@ class Om_model extends CI_Model {
 					(o.begin <= '$begin' AND o.end >= '$end'))");
 		$this->db->order_by('o.end', 'desc');
 		$this->db->order_by('o.begin', 'desc');
+		$this->db->order_by('o.obj_id', 'desc');
 		$this->db->limit(1);
 		return $this->db->get()->row();
 	}
@@ -285,7 +288,7 @@ class Om_model extends CI_Model {
 		if ($end == '') {
 			$end = date('Y-m-d');
 		}
-		$this->db->from('om_obj a');
+		$this->db->from('om_obj_attr a');
 		$this->db->where_in('a.obj_id', $obj_id);
 		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
 					(a.end >= '$begin' AND a.end <= '$end') OR 
@@ -723,11 +726,11 @@ class Om_model extends CI_Model {
 	public function add_org($org_code='',$org_name='',$org_parent=0,$begin='2008-01-01',$end='9999-12-31')
 	{
 		$obj_id = $this->add_obj('O',$begin,$end);
-		$this->add_obj_attr($obj_i,$org_code,$org_name,$begin,$end);
+		$this->add_obj_attr($obj_id,$org_code,$org_name,$begin,$end);
 
 		if ($org_parent>0) {
-			$this->add_obj_rel('A','002',$obj_id,$obj_parent,$begin,$end);
-			$this->add_obj_rel('B','002',$obj_parent,$ob_id,$begin,$end);
+			$this->add_obj_rel('A','002',$obj_id,$org_parent,$begin,$end);
+			$this->add_obj_rel('B','002',$org_parent,$obj_id,$begin,$end);
 		}
 
 		return $obj_id;
