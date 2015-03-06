@@ -2,12 +2,12 @@
 	<thead>
 		<tr>
 			<th width="50">Type</th>
-			<th>ID</th>
-			<th>Code</th>
-			<th>Name</th>
-			<th width="100" class="hidden-xs">Begin</th>
-			<th width="100" class="hidden-xs">End</th>
-			<th width="50">Action</th>
+			<th><?php echo lang('basic_id'); ?></th>
+			<th><?php echo lang('basic_code'); ?></th>
+			<th><?php echo lang('basic_name'); ?></th>
+			<th width="100" class="hidden-xs"><?php echo lang('basic_begin'); ?></th>
+			<th width="100" class="hidden-xs"><?php echo lang('basic_end'); ?></th>
+			<th width="50"><?php echo lang('basic_action'); ?></th>
 		</tr>
 	</thead>
 	<tbody >
@@ -25,10 +25,9 @@
 			// Untuk Action Btn
 			echo '<div class=" btn-group-vertical">';
 			
-			echo anchor('admin/post/detail/', '</i><i class="fa fa-list"></i> ', 'class="btn" title="Detail '. lang('om_post').'"');
-			echo anchor('admin/post/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="Edit '. lang('om_post').'"');
-
-			echo anchor('admin/post/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="Delete '. lang('om_post').'"');
+			echo anchor('admin/post/detail/', '</i><i class="fa fa-list"></i> ', 'class="btn" title="'.lang('act_view_detail').' '. lang('om_post').'"');
+			echo anchor('admin/post/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="'.lang('act_delete').' '. lang('om_post').'"');
+			echo anchor('admin/post/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="'.lang('act_delete').' '. lang('om_post').'"');
 			echo '</div>';
 
 			echo '</td>';
@@ -48,10 +47,9 @@
 			// Untuk Action Btn
 			echo '<div class="btn-group-vertical">';
 			
-			echo anchor('admin/post/detail/', '</i><i class="fa fa-list"></i> ', 'class="btn" title="Detail '. lang('om_post').'"');
-			echo anchor('admin/post/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="Edit '. lang('om_post').'"');
-
-			echo anchor('admin/post/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="Delete '. lang('om_post').'"');
+			echo anchor('admin/post/detail/', '</i><i class="fa fa-list"></i> ', 'class="btn" title="'.lang('act_view_detail').' '. lang('om_post').'"');
+			echo anchor('admin/post/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="'.lang('act_delete').' '. lang('om_post').'"');
+			echo anchor('admin/post/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-del" title="'.lang('act_delete').' '. lang('om_post').'"');
 			echo '</div>';
 
 			echo '</td>';
@@ -74,9 +72,9 @@
 			echo '<a class="btn btn-org-in" data-org="'.$org_row->org_id.'">';
 			echo '<i class="fa fa-arrow-right"></i>';
 			echo '</a>';
-			echo anchor('admin/org/detail/', '</i><i class="fa fa-list"></i> ', 'class="btn" title="Delete '. lang('om_org').'"');
-			echo anchor('admin/org/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="Edit '. lang('om_org').'"');
-			echo anchor('admin/org/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="Delete '. lang('om_org').'"');
+			echo anchor('admin/org/detail/'.$org_row->org_id, '</i><i class="fa fa-list"></i> ', 'class="btn" title="'.lang('act_view_detail').' '. lang('om_org').'"');
+			echo anchor('admin/org/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="'.lang('act_delete').' '. lang('om_org').'"');
+			echo anchor('admin/org/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-del" data-obj="'.$org_row->org_id.'"" title="'.lang('act_delete').' '. lang('om_org').'" data-fancybox-type="ajax"');
 
 			echo '</div>';
 			echo '</td>';

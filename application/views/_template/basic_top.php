@@ -22,7 +22,7 @@
 		<!-- fullCalendar -->
 		<?php echo link_tag('assets/AdminLTE/css/fullcalendar/fullcalendar.css'); ?>
 		<!-- Datepicker -->
-		<?php echo link_tag('assets/datepicker/css/datepicker.css'); ?>
+		<?php echo link_tag('assets/AdminLTE/css/datepicker/datepicker3.css'); ?>
 		<!-- Daterange picker -->
 		<?php echo link_tag('assets/AdminLTE/css/daterangepicker/daterangepicker-bs3.css'); ?>
 		<!-- bootstrap wysihtml5 - text editor -->
@@ -31,6 +31,8 @@
 		<?php echo link_tag('assets/AdminLTE/css/AdminLTE.css'); ?>
 		<!-- Multi Level Push Menu -->
 		<?php echo link_tag('assets/mlpm/jquery.multilevelpushmenu.css'); ?>
+		<?php echo link_tag('assets/fancybox/jquery.fancybox.css'); ?>
+		
 		<?php echo link_tag('assets/css/fix.css'); ?>
 
 		<?php

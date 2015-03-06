@@ -22,7 +22,35 @@
 	$lang['menu_report_struc'] = 'Reporting Structure';
 	$lang['menu_job']          = 'Jobs';
 
-			
+	/* BSC */
+	$lang['menu_bsc_set']     = 'BSC Setting';
+	$lang['menu_gen_kpi']     = 'Generic KPI';
+	$lang['menu_score']       = 'Scoring';
+	$lang['menu_score_pa']    = 'PA';
+	$lang['menu_score_pc']    = 'TPC';
+	$lang['menu_period']      = 'Period';
+	$lang['menu_count']  			= 'Counting';
+	$lang['menu_count_unit']  = 'Counting Unit';
+	$lang['menu_formula']     = 'Formula';
+	$lang['menu_perspective'] = 'Perspective';
+	$lang['menu_ref']         = 'Reference';
+	$lang['menu_ytd']         = 'Year to Date';
+	$lang['menu_other']       = 'Other';
+
+	/* User */
+	$lang['menu_user_man'] 	= 'User Management';
+	$lang['menu_user'] 			= 'User';
+	$lang['menu_roles'] 		= 'Roles';
+	$lang['menu_privilege'] = 'Privilege';
+		
+	/* Report */
+	$lang['menu_report'] 		= 'Report';
+	$lang['menu_approval'] 	= 'Approval';
+
+	/* Design */
+	$lang['menu_design'] 	= 'Design';
+	$lang['menu_org_bsc'] = 'Organization Score Card';
+	$lang['menu_emp_bsc'] = 'Employee Score Card';
 	
 /* End of file menu_lang.php */
 /* Location: ./application/languange/en/menu_lang.php */

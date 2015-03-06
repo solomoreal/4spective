@@ -4,7 +4,26 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('home_view');
+		$data['sidemenu'] = 'emp_menu';	
+		$this->load->view('home_view',$data);
+	}
+
+	public function admin()
+	{
+		$data['sidemenu'] = 'admin_menu';	
+		$this->load->view('home_view',$data);
+	}
+
+	public function man()
+	{
+		$data['sidemenu'] = 'man_menu';	
+		$this->load->view('home_view',$data);
+	}
+
+	public function hr()
+	{
+		$data['sidemenu'] = 'hr_menu';	
+		$this->load->view('home_view',$data);
 	}
 
 }

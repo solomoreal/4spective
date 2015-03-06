@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-<?php echo $this->form_builder->open_form(array('action' => '')); ?>
-
-<?php echo $this->form_builder->close_form(); ?>
-=======
 <?php  
 $this->load->view('_template/basic_top');
 echo '<h2>'.lang('om_org').'</h2>';
@@ -34,10 +29,25 @@ echo '<h2>'.lang('om_org').'</h2>';
 echo $this->form_builder->open_form(array('action' => $process, 'id' => 'my_form'));
 echo $this->form_builder->build_form_horizontal(
       array(
+      	array(/* DROP DOWN */
+		        'id' => 'slc_mode',
+			      'label' => 'Mode',
+		        'type' => 'dropdown',
+		        'options' => array(
+		            '' => '',
+		            'update' => lang('act_update'),
+		            'corect' => lang('act_corect')
+		        )
+		    ),
 			  array(
 			      'id' => 'parent_id',
 			      'type' => 'hidden',
-			      'value' => $parent_id
+			      'value' => $parent->org_id
+			  ),
+			  array(
+			      'id' => 'org_id',
+			      'type' => 'hidden',
+			      'value' => $sorg_id
 			  ),
 			  array(
 			      'id' => 'txt_code',
@@ -56,18 +66,19 @@ echo $this->form_builder->build_form_horizontal(
 			      'label' => 'Begin Date',
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
-			      'value' => html_entity_decode($org_begin)
+			      'value' => html_entity_decode($attr_begin)
 			  ),
 			  array(
 			      'id' => 'dt_end',
 			      'label' => 'End Date',
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
-			      'value' => html_entity_decode($org_end)
+			      'value' => html_entity_decode($attr_end)
 			  ),
 			  array(
 			      'id' => 'submit',
 			      'type' => 'submit'
+			      'label' => 'Submit'
 			  )
       )
     );
@@ -108,4 +119,3 @@ jQuery(document).ready(function($) {
 	
 });
 </script>
->>>>>>> b9cb1cba4c2e8dbf88e3fbe66793d2998564d801

@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-<?php echo $this->form_builder->open_form(array('action' => '')); ?>
-
-<?php echo $this->form_builder->close_form(); ?>
-=======
 <?php  
 $this->load->view('_template/basic_top');
 echo '<h2>'.lang('om_org').'</h2>';
@@ -12,15 +7,15 @@ echo '<h2>'.lang('om_org').'</h2>';
 	<div class="col-sm-12">
 		<dl class="dl-horizontal">
 			<dt>ID</dt>
-		  <dd><?php echo $parent->org_id; ?></dd>
+		  <dd><?php echo $org->org_id; ?></dd>
 		  <dt><?php echo lang('om_org_code'); ?></dt>
-		  <dd><?php echo $parent->org_code; ?></dd>
+		  <dd><?php echo $org->org_code; ?></dd>
 		  <dt><?php echo lang('om_org_name'); ?></dt>
-		  <dd><?php echo $parent->org_name; ?></dd>
+		  <dd><?php echo $org->org_name; ?></dd>
 		  <dt>Begin</dt>
-		  <dd><?php echo $parent->org_begin; ?></dd>
+		  <dd><?php echo $org->org_begin; ?></dd>
 		  <dt>End</dt>
-		  <dd><?php echo $parent->org_end; ?></dd>
+		  <dd><?php echo $org->org_end; ?></dd>
 		</dl>
 	</div>
 
@@ -35,39 +30,32 @@ echo $this->form_builder->open_form(array('action' => $process, 'id' => 'my_form
 echo $this->form_builder->build_form_horizontal(
       array(
 			  array(
-			      'id' => 'parent_id',
+			      'id' => 'org_id',
 			      'type' => 'hidden',
-			      'value' => $parent_id
+			      'value' => $org_id
 			  ),
-			  array(
-			      'id' => 'txt_code',
-			      'label' => lang('om_org_code'),
-			      'placeholder' => lang('om_org_code'),
-			      'value' => html_entity_decode($org_code)
-			  ),
-			  array(
-			      'id' => 'txt_name',
-			      'label' => lang('om_org_name'),
-			      'placeholder' => lang('om_org_name'),
-			      'value' => html_entity_decode($org_name)
-			  ),
-			  array(
-			      'id' => 'dt_begin',
-			      'label' => 'Begin Date',
-			      'class' => 'datepicker',
-			      'placeholder' => 'yyyy-mm-dd',
-			      'value' => html_entity_decode($org_begin)
-			  ),
+		   	array(/* DROP DOWN */
+		        'id' => 'slc_mode',
+			      'label' => 'Mode',
+		        'type' => 'dropdown',
+		        'options' => array(
+		            '' => '',
+		            'delimit' => lang('act_delimit'),
+		            'remove' => lang('act_remove')
+		        )
+		    ),
 			  array(
 			      'id' => 'dt_end',
-			      'label' => 'End Date',
+				    'label' => lang('basic_end'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
-			      'value' => html_entity_decode($org_end)
+			      'value' => html_entity_decode($org->org_end),
 			  ),
 			  array(
 			      'id' => 'submit',
-			      'type' => 'submit'
+			      'type' => 'submit',
+			      'label' => lang('act_delete'),
+			      'class' => 'btn btn-danger'
 			  )
       )
     );
@@ -79,6 +67,14 @@ $this->load->view('_template/basic_bot');
 <script>
 jQuery(document).ready(function($) {
 	$('#loading').hide();
+	$('#dt_end').attr('disabled', 'disabled');
+	$('#slc_mode').change(function(event) {
+		if ($(this).val()=='delimit') {
+			$('#dt_end').removeAttr('disabled');
+		} else {
+			$('#dt_end').attr('disabled', 'disabled');
+		}
+	});
 	
 	$('#my_form').submit(function(event) {
 		event.preventDefault();
@@ -108,4 +104,3 @@ jQuery(document).ready(function($) {
 	
 });
 </script>
->>>>>>> b9cb1cba4c2e8dbf88e3fbe66793d2998564d801

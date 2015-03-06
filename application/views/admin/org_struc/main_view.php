@@ -24,18 +24,11 @@
 						<h3 class="box-title" id="org-title"></h3>
 						<!-- tools box -->
 							<div class="pull-right box-tools btn-group">
-								<a href="#" title="Edit <?php echo lang('om_org'); ?>" class="btn btn-act" data-action="edit" data-obj-type="org">
-									<i class="fa fa-pencil"></i>
-								</a>
-								<a href="#" class="btn btn-act btn-add" title="Add '.lang('om_org').'" id="btn_add_org" data-action="add" data-obj-type="org">
-									<i class="fa fa-plus"></i>
-									<i class="fa fa-sitemap"></i> 
-								</a>
-								<a href="#" class="btn btn-act btn-add" title="Add '.lang('om_post').'" id="btn-add-post" data-action="add" data-obj-type="post">
-									<i class="fa fa-plus"></i>
-									<i class="fa fa-user"></i>
-								</a>
-
+								<?php 
+									echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="ajax"');
+									echo anchor($link_add_org, '<i class="fa fa-plus"></i><i class="fa fa-sitemap"></i> ', 'title="Add '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="ajax"');
+									echo anchor($link_add_post, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title="Add '. lang('om_post') .'" class="btn btn-act" " data-fancybox-type="ajax"');
+								?>
 							</div><!-- /. tools -->
 						</div>
 						<div id="org-list" class="box-body">
@@ -63,42 +56,11 @@
 
 		refresh();
 
-		// $('.btn-act').click(function(event) {
-		// 	var base_url = '<?php echo base_url()."index.php/admin/"?>';
-		// 	var action   = $(this).data('action');
-		// 	var obj_type = $(this).data('obj-type');
-		// 	var org_id   = $(this).data('org');
-		//  	var parent   = $('#hdn_org').val();
-
-		// 	$.ajax({
-		// 		url: base_url+obj_type+'/'+action,
-		// 		type: 'POST',
-		// 		data: {
-		// 			org_id: org_id,
-		// 			parent: parent},
-		// 	})
-		// 	.done(function(html) {
-		// 		console.log("success");
-		// 	})
-		// 	.fail(function() {
-		// 		console.log("error");
-		// 	})
-		// 	.always(function() {
-		// 		console.log("complete");
-		// 	});
-			
-
-		// 	$('#sec-main').animate({
-		// 		opacity:0},
-		// 		'slow', function() {
-		// 		$('#sec-main').hide();
-		// 	});
-			
-		// });
-
 		$('#btn_filter').click(function(event) {
 			refresh();
 		});
+
+		
 
 		function refresh () {
 			var base_url = '<?php echo base_url()."index.php"?>';
@@ -117,6 +79,38 @@
 		 	.done(function(html) {
 		 		$('#box-breadcrumb').html(html);
 
+		 		$('.btn-act').click(function(e) {
+					var date_range = $('#dt_range_filter').val();
+				 	var parent = $('#hdn_org').val();
+				 	// var org_id = $('#hdn_org').val();
+					e.preventDefault();
+					$.ajax({
+						url: this.href,
+						type: 'POST',
+						data: {
+							parent: parent,
+							date_range: date_range},
+					})
+					.done(function(data) {
+						 $.fancybox(data, {
+		          // fancybox API options
+		          fitToView: true,
+		          width: 905,
+		          height: 505,
+		          autoSize: false,
+		          closeClick: false,
+		          openEffect: 'none',
+		          closeEffect: 'none',
+		          afterClose: function(){refresh()}
+		        }); // fancybox
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
+					});
+				});
 
 		 	})
 		 	.fail(function() {
@@ -141,6 +135,38 @@
 		 	})
 		 	.done(function(html) {
 				$('#org-list').html(html);
+
+				$('.btn-del').click(function(e) {
+					var date_range = $('#dt_range_filter').val();
+				 	var obj_id = $(this).data('obj');
+					e.preventDefault();
+					$.ajax({
+						url: this.href,
+						type: 'POST',
+						data: {
+							obj_id: obj_id,
+							date_range: date_range},
+					})
+					.done(function(data) {
+						 $.fancybox(data, {
+		          // fancybox API options
+		          fitToView: true,
+		          width: 905,
+		          height: 505,
+		          autoSize: false,
+		          closeClick: false,
+		          openEffect: 'none',
+		          closeEffect: 'none',
+		          afterClose: function(){refresh()}
+		        }); // fancybox
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
+					});
+				});
 		 	})
 		 	.fail(function() {
 		 		console.log("error list");
