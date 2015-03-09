@@ -1,30 +1,10 @@
-<<<<<<< HEAD
-<?php echo $this->form_builder->open_form(array('action' => '')); ?>
-
-<?php echo $this->form_builder->close_form(); ?>
-=======
 <?php  
 $this->load->view('_template/basic_top');
 echo '<h2>'.lang('om_org').'</h2>';
 ?>
-
-<div class="row">
-	<div class="col-sm-12">
-		<dl class="dl-horizontal">
-			<dt>ID</dt>
-		  <dd><?php echo $parent->org_id; ?></dd>
-		  <dt><?php echo lang('om_org_code'); ?></dt>
-		  <dd><?php echo $parent->org_code; ?></dd>
-		  <dt><?php echo lang('om_org_name'); ?></dt>
-		  <dd><?php echo $parent->org_name; ?></dd>
-		  <dt>Begin</dt>
-		  <dd><?php echo $parent->org_begin; ?></dd>
-		  <dt>End</dt>
-		  <dd><?php echo $parent->org_end; ?></dd>
-		</dl>
-	</div>
-
-</div>
+<?php 
+	$this->load->view('admin/org/parent_header');
+?>
 <i class="fa fa-spinner fa-pulse fa-5x" id="loading"></i>
 <div class="row">
 	<div class="col-sm-12" id="result"></div>
@@ -53,20 +33,21 @@ echo $this->form_builder->build_form_horizontal(
 			  ),
 			  array(
 			      'id' => 'dt_begin',
-			      'label' => 'Begin Date',
+			      'label' => lang('basic_begin'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
 			      'value' => html_entity_decode($org_begin)
 			  ),
 			  array(
 			      'id' => 'dt_end',
-			      'label' => 'End Date',
+			      'label' => lang('basic_end'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
 			      'value' => html_entity_decode($org_end)
 			  ),
 			  array(
 			      'id' => 'submit',
+			      'label' => lang('act_save'),
 			      'type' => 'submit'
 			  )
       )
@@ -108,4 +89,3 @@ jQuery(document).ready(function($) {
 	
 });
 </script>
->>>>>>> b9cb1cba4c2e8dbf88e3fbe66793d2998564d801

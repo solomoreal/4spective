@@ -3,23 +3,12 @@ $this->load->view('_template/basic_top');
 echo '<h2>'.lang('om_org').'</h2>';
 ?>
 
-<div class="row">
-	<div class="col-sm-12">
-		<dl class="dl-horizontal">
-			<dt>ID</dt>
-		  <dd><?php echo $parent->org_id; ?></dd>
-		  <dt><?php echo lang('om_org_code'); ?></dt>
-		  <dd><?php echo $parent->org_code; ?></dd>
-		  <dt><?php echo lang('om_org_name'); ?></dt>
-		  <dd><?php echo $parent->org_name; ?></dd>
-		  <dt>Begin</dt>
-		  <dd><?php echo $parent->org_begin; ?></dd>
-		  <dt>End</dt>
-		  <dd><?php echo $parent->org_end; ?></dd>
-		</dl>
-	</div>
+<?php 
+	if (isset($parent)) {
+		$this->load->view('admin/org/parent_header');
+	}
+?>
 
-</div>
 <i class="fa fa-spinner fa-pulse fa-5x" id="loading"></i>
 <div class="row">
 	<div class="col-sm-12" id="result"></div>
@@ -36,18 +25,13 @@ echo $this->form_builder->build_form_horizontal(
 		        'options' => array(
 		            '' => '',
 		            'update' => lang('act_update'),
-		            'corect' => lang('act_corect')
+		            'corect' => lang('act_correct')
 		        )
 		    ),
 			  array(
-			      'id' => 'parent_id',
-			      'type' => 'hidden',
-			      'value' => $parent->org_id
-			  ),
-			  array(
 			      'id' => 'org_id',
 			      'type' => 'hidden',
-			      'value' => $sorg_id
+			      'value' => $org_id
 			  ),
 			  array(
 			      'id' => 'txt_code',
@@ -63,22 +47,22 @@ echo $this->form_builder->build_form_horizontal(
 			  ),
 			  array(
 			      'id' => 'dt_begin',
-			      'label' => 'Begin Date',
+			      'label' => lang('basic_begin'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
-			      'value' => html_entity_decode($attr_begin)
+			      'value' => html_entity_decode($org_begin)
 			  ),
 			  array(
 			      'id' => 'dt_end',
-			      'label' => 'End Date',
+			      'label' => lang('basic_end'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
-			      'value' => html_entity_decode($attr_end)
+			      'value' => html_entity_decode($org_end)
 			  ),
 			  array(
 			      'id' => 'submit',
-			      'type' => 'submit'
-			      'label' => 'Submit'
+			      'type' => 'submit',
+			      'label' => lang('act_save')
 			  )
       )
     );

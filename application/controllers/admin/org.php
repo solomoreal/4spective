@@ -43,12 +43,9 @@ class Org extends CI_Controller {
 		$data['org_name']  = $org_name;
 		$data['org_begin'] = $org_begin;
 		$data['org_end']   = $org_end;
-<<<<<<< HEAD
-		$data['hidden']    = $hidden;
 		$data['process']   = 'admin/org/add_process';
-=======
+
 		$data['parent_id'] = $parent->org_id;
->>>>>>> b9cb1cba4c2e8dbf88e3fbe66793d2998564d801
 
 		$this->load->view('admin/org/add_form', $data, FALSE);
 	}
@@ -79,16 +76,18 @@ class Org extends CI_Controller {
 
 	public function edit_attr()
 	{
-		$org_id     = $this->input->post('org_id');
+		$org_id     = $this->input->post('obj_id');
 		$date_range = $this->input->post('date_range');
 		list($begin,$end) = explode(' - ', $date_range);
 		$begin  = str_replace('/', '-', $begin);
 		$end    = str_replace('/', '-', $end);
-		$org    = 		$this->om_model->get_org_row($org_id,$begin,$end);
+		$org    = $this->om_model->get_org_row($org_id,$begin,$end);
 		$parent = $this->om_model->get_org_parent_row($org_id,$begin,$end);
 
-		$data['parent']     = $parent;
-		$data['org_id']   = $org->org_id;
+		if (count($parent)) {
+			$data['parent']     = $parent;
+		}
+		$data['org_id']     = $org_id;
 		$data['org_code']   = $org->org_code;
 		$data['org_name']   = $org->org_name;
 		$data['attr_begin'] = $org->attr_begin;
@@ -152,34 +151,28 @@ class Org extends CI_Controller {
 		$end  = $this->input->post('dt_end');
 		$mode = $this->input->post('slc_mode');
 
-		try {
-			switch ($mode) {
-				case 'delimit':
-					$this->form_validation->set_rules('dt_end', lang('basic_end'), 'trim|required|xss_clean');
-					if ($this->form_validation->run()) {
-						// DO delimit org
-						$this->om_model->delimit_org($org_id,$end);
-						$this->load->view('_notif/success'); 
-					} else {
-						// DO Notif Error
-						$data['e'] = validation_errors();
-						$this->load->view('_notif/error', $data);
-					}
-					
-					break;
-				case 'remove':
-					// DO remove org
-					$this->om_model->remove_org($org_id,$end);
-					
-					$this->load->view('_notif/success');
-					break;
-			}
-			
-		} catch (Exception $e) {
-			// DO Notif Error
-			$data['e'] = $e->getMessage();
-			$this->load->view('_notif/error', $data);
+		switch ($mode) {
+			case 'delimit':
+				$this->form_validation->set_rules('dt_end', lang('basic_end'), 'trim|required|xss_clean');
+				if ($this->form_validation->run()) {
+					// DO delimit org
+					$this->om_model->delimit_org($org_id,$end);
+					$this->load->view('_notif/success'); 
+				} else {
+					// DO Notif Error
+					$data['e'] = validation_errors();
+					$this->load->view('_notif/error', $data);
+				}
+				
+				break;
+			case 'remove':
+				// DO remove org
+				$this->om_model->remove_org($org_id,$end);
+				
+				$this->load->view('_notif/success');
+				break;
 		}
+
 	}
 
 }

@@ -25,7 +25,7 @@
 						<!-- tools box -->
 							<div class="pull-right box-tools btn-group">
 								<?php 
-									echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="ajax"');
+									echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act"  data-fancybox-type="ajax"');
 									echo anchor($link_add_org, '<i class="fa fa-plus"></i><i class="fa fa-sitemap"></i> ', 'title="Add '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="ajax"');
 									echo anchor($link_add_post, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title="Add '. lang('om_post') .'" class="btn btn-act" " data-fancybox-type="ajax"');
 								?>
@@ -60,35 +60,16 @@
 			refresh();
 		});
 
-		
-
-		function refresh () {
-			var base_url = '<?php echo base_url()."index.php"?>';
-		 	var date_range = $('#dt_range_filter').val();
-		 	var org_id = $('#hdn_org').val();
-
-		 	// DO Fetch Breadcrumb of Organization
-		 	$.ajax({
-		 		url:  base_url+'/admin/org_struc/show_breadcrumb',
-		 		type: 'POST',
-		 		data: {
-		 			date_range: date_range,
-		 			org_id: org_id,
-		 		},
-		 	})
-		 	.done(function(html) {
-		 		$('#box-breadcrumb').html(html);
-
-		 		$('.btn-act').click(function(e) {
+		$('.btn-act').click(function(e) {
 					var date_range = $('#dt_range_filter').val();
 				 	var parent = $('#hdn_org').val();
-				 	// var org_id = $('#hdn_org').val();
 					e.preventDefault();
 					$.ajax({
 						url: this.href,
 						type: 'POST',
 						data: {
 							parent: parent,
+							obj_id: parent,
 							date_range: date_range},
 					})
 					.done(function(data) {
@@ -111,6 +92,24 @@
 						console.log("complete");
 					});
 				});
+		
+
+		function refresh () {
+			var base_url = '<?php echo base_url()."index.php"?>';
+		 	var date_range = $('#dt_range_filter').val();
+		 	var org_id = $('#hdn_org').val();
+
+		 	// DO Fetch Breadcrumb of Organization
+		 	$.ajax({
+		 		url:  base_url+'/admin/org_struc/show_breadcrumb',
+		 		type: 'POST',
+		 		data: {
+		 			date_range: date_range,
+		 			org_id: org_id,
+		 		},
+		 	})
+		 	.done(function(html) {
+		 		$('#box-breadcrumb').html(html);
 
 		 	})
 		 	.fail(function() {
@@ -136,8 +135,10 @@
 		 	.done(function(html) {
 				$('#org-list').html(html);
 
-				$('.btn-del').click(function(e) {
+				// DO .btn-act-2 behavior 
+				$('.btn-act-2').click(function(e) {
 					var date_range = $('#dt_range_filter').val();
+				 	var parent = $('#hdn_org').val();
 				 	var obj_id = $(this).data('obj');
 					e.preventDefault();
 					$.ajax({
@@ -166,7 +167,9 @@
 					.always(function() {
 						console.log("complete");
 					});
-				});
+				}); // end of .btn-del
+
+				
 		 	})
 		 	.fail(function() {
 		 		console.log("error list");
