@@ -33,14 +33,14 @@ echo $this->form_builder->build_form_horizontal(
 			  ),
 			  array(
 			      'id' => 'dt_begin',
-			      'label' => lang('basic_begin'),
+			      'label' => lang('om_org_begin'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
 			      'value' => html_entity_decode($org_begin)
 			  ),
 			  array(
 			      'id' => 'dt_end',
-			      'label' => lang('basic_end'),
+			      'label' => lang('om_org_end'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
 			      'value' => html_entity_decode($org_end)

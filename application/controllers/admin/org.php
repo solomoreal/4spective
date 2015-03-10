@@ -13,13 +13,46 @@ class Org extends CI_Controller {
 		redirect('admin/org_struc');
 	}
 
-	public function detail($org_id=0)
+	public function detail()
 	{
-		$begin = '2008-01-01';
-		$end   = '9999-12-31';
-		$last_attr = $this->om_model->get_org_row($org_id,$begin,$end);
-		$attr_ls = $this->om_model->get_obj_attr_list($org_id,$begin,$end);
-		$rel_ls = $this->om_model->get_obj_rel_list($org_id,'all','',$begin,$end);
+		$org_id     = $this->input->post('obj_id');
+		$date_range = $this->input->post('date_range');
+		list($begin,$end) = explode(' - ', $date_range);
+	
+		$data['page_title']  = lang('om_org');
+		$data['filter_date'] = $date_range;
+		$data['org_id']      = $org_id;
+
+		$this->load->view('admin/org/main_view',$data);
+	}
+
+	public function show_last()
+	{
+		$org_id     = $this->input->post('org_id');
+		$date_range = $this->input->post('date_range');
+		list($begin,$end) = explode(' - ', $date_range);
+		$data['org'] = $this->om_model->get_org_row($org_id,$begin,$end);
+		echo $this->load->view('admin/org/detail_view', $data, TRUE);
+	}
+
+	public function show_attr()
+	{
+		$org_id     = $this->input->post('org_id');
+		$date_range = $this->input->post('date_range');
+		list($begin,$end) = explode(' - ', $date_range);
+		
+		$data['attr_ls'] = $this->om_model->get_obj_attr_list($org_id,$begin,$end);
+		echo $this->load->view('admin/org/attribute_list', $data, TRUE);
+		
+	}
+
+	public function show_rel()
+	{
+		$org_id     = $this->input->post('org_id');
+		$date_range = $this->input->post('date_range');
+		list($begin,$end) = explode(' - ', $date_range);
+		$data['rel_ls'] = $this->om_model->get_obj_rel_list($org_id,'all','',$begin,$end);
+		echo $this->load->view('admin/org/relation_list', $data, TRUE);
 	}
 
 	public function add()
@@ -92,7 +125,9 @@ class Org extends CI_Controller {
 		$data['org_name']   = $org->org_name;
 		$data['attr_begin'] = $org->attr_begin;
 		$data['attr_end']   = $org->attr_end;
-		$data['process']		= 'admin/org/edit_attr_process';
+		$data['org_begin']  = $org->org_begin;
+		$data['org_end']    = $org->org_end;
+		$data['process']    = 'admin/org/edit_attr_process';
 
 		$this->load->view('admin/org/attr_form', $data, FALSE);
 	}
@@ -115,10 +150,10 @@ class Org extends CI_Controller {
 		if ($this->form_validation->run()) {
 			switch ($mode) {
 				case 'update':
-					$this->om_model->update_org($org_id,$org_code,$org_name,$attr_begin,$attr_end);
+					$this->om_model->update_org($org_id,$code,$name,$attr_begin,$attr_end);
 					break;
 				case 'corect':
-					$this->om_model->correct_org($org_id,$org_code,$org_name,$attr_begin,$attr_end);
+					$this->om_model->correct_org($org_id,$code,$name,$attr_begin,$attr_end);
 					break;
 			}
 			$this->load->view('_notif/success');

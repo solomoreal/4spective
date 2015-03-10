@@ -47,17 +47,17 @@ echo $this->form_builder->build_form_horizontal(
 			  ),
 			  array(
 			      'id' => 'dt_begin',
-			      'label' => lang('basic_begin'),
+			      'label' => lang('om_attr_begin'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
-			      'value' => html_entity_decode($org_begin)
+			      'value' => html_entity_decode($attr_begin)
 			  ),
 			  array(
 			      'id' => 'dt_end',
-			      'label' => lang('basic_end'),
+			      'label' => lang('om_attr_end'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
-			      'value' => html_entity_decode($org_end)
+			      'value' => html_entity_decode($attr_end)
 			  ),
 			  array(
 			      'id' => 'submit',

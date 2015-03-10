@@ -2,8 +2,6 @@
 
 	<aside class="right-side">
 	<?php $this->load->view('_template/page_head'); ?>
-		<section class="content" id="sec-form">
-		</section>
 		<!-- Main content -->
 		<section class="content" id="sec-main">
 			<?php $this->load->view('_template/daterange_filter'); ?>
@@ -167,7 +165,30 @@
 					.always(function() {
 						console.log("complete");
 					});
-				}); // end of .btn-del
+				}); // end of .btn-act-2
+
+				// DO .btn-act-3 behavior 
+				$('.btn-act-3').click(function(e) {
+					var date_range = $('#dt_range_filter').val();
+				 	var obj_id = $(this).data('obj');
+					e.preventDefault();
+					$.ajax({
+						url: this.href,
+						type: 'POST',
+						data: {
+							obj_id: obj_id,
+							date_range: date_range},
+					})
+					.done(function(data) {
+						$('.right-side').html(data);
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
+					});
+				}); // end of .btn-act-3
 
 				
 		 	})
