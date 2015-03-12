@@ -59,37 +59,37 @@
 		});
 
 		$('.btn-act').click(function(e) {
-					var date_range = $('#dt_range_filter').val();
-				 	var parent = $('#hdn_org').val();
-					e.preventDefault();
-					$.ajax({
-						url: this.href,
-						type: 'POST',
-						data: {
-							parent: parent,
-							obj_id: parent,
-							date_range: date_range},
-					})
-					.done(function(data) {
-						 $.fancybox(data, {
-		          // fancybox API options
-		          fitToView: true,
-		          width: 905,
-		          height: 505,
-		          autoSize: false,
-		          closeClick: false,
-		          openEffect: 'none',
-		          closeEffect: 'none',
-		          afterClose: function(){refresh()}
-		        }); // fancybox
-					})
-					.fail(function() {
-						console.log("error");
-					})
-					.always(function() {
-						console.log("complete");
-					});
-				});
+			var date_range = $('#dt_range_filter').val();
+		 	var parent = $('#hdn_org').val();
+			e.preventDefault();
+			$.ajax({
+				url: this.href,
+				type: 'POST',
+				data: {
+					parent: parent,
+					obj_id: parent,
+					date_range: date_range},
+			})
+			.done(function(data) {
+				 $.fancybox(data, {
+          // fancybox API options
+          fitToView: true,
+          width: 905,
+          height: 505,
+          autoSize: false,
+          closeClick: false,
+          openEffect: 'none',
+          closeEffect: 'none',
+          afterClose: function(){refresh()}
+        }); // fancybox
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+			});
+		});
 		
 
 		function refresh () {

@@ -178,7 +178,7 @@ class Om_model extends CI_Model {
 	 * @param  string  $end       [description]
 	 * @return [type]             [description]
 	 */
-	public function get_obj_rel_list($obj_id=0,$direction='all',$rel_type=array(),$begin='',$end='',$limit=0,$offset=0,$search='')
+	public function get_obj_rel_list($obj_id=0,$direction='all',$rel_type=array(),$begin='',$end='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -187,8 +187,27 @@ class Om_model extends CI_Model {
 		if ($end == '') {
 			$end = date('Y-m-d');
 		}
-
-		$columns = array('r.rel_id','r.direction','r.rel_type','r.obj_from','r.obj_to','r.value','r.begin','r.end');
+		$sub_1 = "(SELECT a.short_name FROM om_obj_attr a WHERE a.obj_id = r.obj_from AND ((a.begin >= '$begin' AND a.end <='$end') OR 
+					(a.end >= '$begin' AND a.end <= '$end') OR 
+					(a.begin >= '$begin' AND a.begin <='$end' ) OR
+					(a.begin <= '$begin' AND a.end >= '$end'))) AS code_from ";
+		$sub_2 = "(SELECT a.long_name FROM om_obj_attr a WHERE a.obj_id = r.obj_from AND ((a.begin >= '$begin' AND a.end <='$end') OR 
+					(a.end >= '$begin' AND a.end <= '$end') OR 
+					(a.begin >= '$begin' AND a.begin <='$end' ) OR
+					(a.begin <= '$begin' AND a.end >= '$end'))) AS name_from ";
+		$sub_3 = "(SELECT a.short_name FROM om_obj_attr a WHERE a.obj_id = r.obj_to AND ((a.begin >= '$begin' AND a.end <='$end') OR 
+					(a.end >= '$begin' AND a.end <= '$end') OR 
+					(a.begin >= '$begin' AND a.begin <='$end' ) OR
+					(a.begin <= '$begin' AND a.end >= '$end'))) AS code_to ";
+		$sub_4 = "(SELECT a.long_name FROM om_obj_attr a WHERE a.obj_id = r.obj_to AND ((a.begin >= '$begin' AND a.end <='$end') OR 
+					(a.end >= '$begin' AND a.end <= '$end') OR 
+					(a.begin >= '$begin' AND a.begin <='$end' ) OR
+					(a.begin <= '$begin' AND a.end >= '$end'))) AS name_to ";
+		$this->db->select('r.*');
+		$this->db->select($sub_1);
+		$this->db->select($sub_2);
+		$this->db->select($sub_3);
+		$this->db->select($sub_4);
 		$this->db->from('om_obj_rel r');
 		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
 					(r.end >= '$begin' AND r.end <= '$end') OR 
@@ -208,14 +227,6 @@ class Om_model extends CI_Model {
 			default:
 				$this->db->where("(r.obj_to = $obj_id OR r.obj_from = $obj_id)");
 				break;
-		}
-
-		if ($limit>0) {
-			$this->db->limit($limit,$offset);
-		}
-
-		if ($search!='') {
-			$this->db->or_like($columns,$search);
 		}
 		return $this->db->get()->result();
 	}

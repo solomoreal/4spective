@@ -18,10 +18,11 @@ class Org extends CI_Controller {
 		$org_id     = $this->input->post('obj_id');
 		$date_range = $this->input->post('date_range');
 		list($begin,$end) = explode(' - ', $date_range);
-	
-		$data['page_title']  = lang('om_org');
-		$data['filter_date'] = $date_range;
-		$data['org_id']      = $org_id;
+		
+		$data['link_edit_org'] = 'admin/org/edit_attr/';
+		$data['page_title']    = lang('om_org');
+		$data['filter_date']   = $date_range;
+		$data['org_id']        = $org_id;
 
 		$this->load->view('admin/org/main_view',$data);
 	}
@@ -207,9 +208,12 @@ class Org extends CI_Controller {
 				$this->load->view('_notif/success');
 				break;
 		}
-
 	}
 
+	public function delete_rel()
+	{
+		
+	}
 }
 
 /* End of file org.php */

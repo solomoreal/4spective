@@ -14,6 +14,7 @@
 						<div class="pull-right box-tools btn-group">
 						<?php 
 							echo anchor('admin/org_struc', '<i class="fa fa-arrow-left"></i>', 'class="btn"');
+							echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act"  data-fancybox-type="ajax"');
 						?>
 						</div><!-- /. tools -->
 					</div>
@@ -45,6 +46,43 @@
 <script>
 jQuery(document).ready(function($) {
 	refresh();
+
+	$('#btn_filter').click(function(event) {
+			refresh();
+		});
+
+		$('.btn-act').click(function(e) {
+			var date_range = $('#dt_range_filter').val();
+		 	var parent = $('#hdn_org').val();
+			e.preventDefault();
+			$.ajax({
+				url: this.href,
+				type: 'POST',
+				data: {
+					parent: parent,
+					obj_id: parent,
+					date_range: date_range},
+			})
+			.done(function(data) {
+				 $.fancybox(data, {
+          // fancybox API options
+          fitToView: true,
+          width: 905,
+          height: 505,
+          autoSize: false,
+          closeClick: false,
+          openEffect: 'none',
+          closeEffect: 'none',
+          afterClose: function(){refresh()}
+        }); // fancybox
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+			});
+		});
 
 	$('#nav-attr').click(function() {
 		var base_url   = '<?php echo base_url()."index.php"?>';
@@ -84,6 +122,14 @@ jQuery(document).ready(function($) {
 			})
 			.done(function(result) {
 				$('#tab_rel').html(result);
+				$('.table-dt-basic').dataTable({
+					"bPaginate": true,
+					"bLengthChange": false,
+					"bFilter": false,
+					"bSort": true,
+					"bInfo": true,
+					"bAutoWidth": false
+				});
 			})
 			.fail(function() {
 				console.log("error");
@@ -120,6 +166,7 @@ jQuery(document).ready(function($) {
 			})
 			.done(function(result) {
 				$('#tab_rel').html(result);
+				
 			})
 			.fail(function() {
 				console.log("error");
