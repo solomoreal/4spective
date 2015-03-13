@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Jan 29, 2015 at 05:16 PM
+-- Generation Time: Mar 13, 2015 at 02:15 AM
 -- Server version: 5.5.40
 -- PHP Version: 5.4.34
 
@@ -271,30 +271,24 @@ INSERT INTO `om_obj_attr` (`attr_id`, `obj_id`, `short_name`, `long_name`, `begi
 
 CREATE TABLE IF NOT EXISTS `om_obj_rel` (
 `rel_id` bigint(11) unsigned NOT NULL,
-  `direction` varchar(1) NOT NULL,
   `rel_type` varchar(4) NOT NULL,
   `obj_from` bigint(11) unsigned NOT NULL,
   `obj_to` bigint(11) unsigned NOT NULL,
   `value` int(11) DEFAULT NULL,
   `begin` date NOT NULL,
   `end` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `om_obj_rel`
 --
 
-INSERT INTO `om_obj_rel` (`rel_id`, `direction`, `rel_type`, `obj_from`, `obj_to`, `value`, `begin`, `end`) VALUES
-(1, 'A', '003', 2, 1, 0, '2008-01-01', '9999-12-31'),
-(2, 'B', '003', 1, 2, 0, '2008-01-01', '9999-12-31'),
-(3, 'A', '002', 3, 1, NULL, '2008-01-01', '9999-12-31'),
-(4, 'B', '002', 1, 3, NULL, '2008-01-01', '9999-12-31'),
-(5, 'A', '002', 4, 1, NULL, '0000-00-00', '0000-00-00'),
-(6, 'B', '002', 1, 4, NULL, '0000-00-00', '0000-00-00'),
-(7, 'A', '002', 4, 1, NULL, '2008-01-01', '9999-12-31'),
-(8, 'B', '002', 1, 4, NULL, '2008-01-01', '9999-12-31'),
-(9, 'A', '002', 5, 3, NULL, '2008-01-01', '9999-12-31'),
-(10, 'B', '002', 3, 5, NULL, '2008-01-01', '9999-12-31');
+INSERT INTO `om_obj_rel` (`rel_id`, `rel_type`, `obj_from`, `obj_to`, `value`, `begin`, `end`) VALUES
+(1, '003', 1, 2, NULL, '2008-01-01', '9999-12-31'),
+(2, '002', 1, 3, NULL, '2008-01-01', '9999-12-31'),
+(3, '002', 1, 4, NULL, '2008-01-01', '9999-12-31'),
+(4, '002', 3, 5, NULL, '2008-01-01', '9999-12-31'),
+(5, '012', 1, 2, NULL, '2008-01-01', '9999-12-31');
 
 -- --------------------------------------------------------
 
@@ -429,7 +423,7 @@ MODIFY `attr_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 -- AUTO_INCREMENT for table `om_obj_rel`
 --
 ALTER TABLE `om_obj_rel`
-MODIFY `rel_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+MODIFY `rel_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `pa_employee`
 --

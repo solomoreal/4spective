@@ -46,7 +46,7 @@ class Org_struc extends CI_Controller {
 		$t_org   = $cur_org;
 		$temp    = array();
 		while ($t_org->org_id > 1) {
-			$parent_id = $this->om_model->get_obj_rel_last($t_org->org_id,'B','002',$begin,$end)->obj_to;
+			$parent_id = $this->om_model->get_obj_rel_last($t_org->org_id,'A','002',$begin,$end)->obj_from;	
 			$t_org     = $this->om_model->get_org_row($parent_id,$begin,$end);
 			$temp[]    = $t_org;
 		}

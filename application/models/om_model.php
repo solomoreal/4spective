@@ -345,7 +345,7 @@ class Om_model extends CI_Model {
 		}
 		$this->db->order_by('r.end', 'desc');
 		$this->db->order_by('r.begin', 'desc');
-		$this->db->limit(1);
+
 		return $this->db->get()->row();
 	}
 
@@ -465,10 +465,9 @@ class Om_model extends CI_Model {
 		$this->db->delete('om_obj_attr');
 	}
 
-	public function add_obj_rel($direction='',$rel_type='',$obj_from=0,$obj_to=0,$begin='2008-01-01',$end='9999-12-31',$value=NULL)
+	public function add_obj_rel($rel_type='',$obj_from=0,$obj_to=0,$begin='2008-01-01',$end='9999-12-31',$value=NULL)
 	{
 		$object = array(
-			'direction' => $direction,
 			'rel_type'  => $rel_type,
 			'obj_from'  => $obj_from,
 			'obj_to'    => $obj_to,
@@ -544,16 +543,11 @@ class Om_model extends CI_Model {
 					(r.begin >= '$begin' AND r.begin <='$end' ) OR
 					(r.begin <= '$begin' AND r.end >= '$end'))");
 		if ($parent > 0) {
-			$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
-			$this->db->where('r.obj_to', $parent);
-			$this->db->where('r.direction', 'A');
+			$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_to');
+			$this->db->where('r.obj_from', $parent);
+
 			$this->db->where('r.rel_type', '002');
-		} else {
-			$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
-			$this->db->where('r.obj_to', $parent);
-			$this->db->where('r.direction', 'A');
-			$this->db->where('r.rel_type', '002');
-		}
+		} 
 		return $this->db->get()->row()->val;
 	}
 
@@ -564,7 +558,7 @@ class Om_model extends CI_Model {
 	 * @param  string  $end    [description]
 	 * @return [type]          [description]
 	 */
-	public function get_org_list($parent=0,$begin='',$end='',$limit=0,$offset=0,$search='')
+	public function get_org_list($parent=0,$begin='',$end='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -573,7 +567,6 @@ class Om_model extends CI_Model {
 		if ($end == '') {
 			$end = date('Y-m-d');
 		}
-		$columns = array('o.obj_id','o.obj_type','a.attr_id','a.short_name','a.long_name','a.begin','a.end','o.begin','o.end');
 
 		$this->db->select('o.obj_id AS org_id');
 		$this->db->select('o.obj_type as type');
@@ -601,25 +594,11 @@ class Om_model extends CI_Model {
 					(a.begin >= '$begin' AND a.begin <='$end' ) OR
 					(a.begin <= '$begin' AND a.end >= '$end'))");
 		if ($parent > 0) {
-			$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
-			$this->db->where('r.obj_to', $parent);
-			$this->db->where('r.direction', 'A');
+			$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_to');
+			$this->db->where('r.obj_from', $parent);
 			$this->db->where('r.rel_type', '002');
-		} else {
-			$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
-			// $this->db->where('r.obj_to', 1);
-			$this->db->where('r.direction', 'B');
-			$this->db->where('r.direction <>', 'A');
-			$this->db->where('r.rel_type', '002');
-		}
+		} 
 
-		if ($limit>0) {
-			$this->db->limit($limit,$offset);
-		}
-
-		if ($search!='') {
-			$this->db->or_like($columns,$search);
-		}
 		return $this->db->get()->result();
 
 
@@ -663,7 +642,6 @@ class Om_model extends CI_Model {
 		
 		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
 		$this->db->where('r.obj_to', $org_id);
-		$this->db->where('r.direction', 'B');
 		$this->db->where('r.rel_type', '002');
 		
 
@@ -731,8 +709,7 @@ class Om_model extends CI_Model {
 		$this->add_obj_attr($obj_id,$org_code,$org_name,$begin,$end);
 
 		if ($org_parent>0) {
-			$this->add_obj_rel('A','002',$obj_id,$org_parent,$begin,$end);
-			$this->add_obj_rel('B','002',$org_parent,$obj_id,$begin,$end);
+			$this->add_obj_rel('002',$org_parent,$obj_id,$begin,$end);
 		}
 
 		return $obj_id;
@@ -845,7 +822,7 @@ class Om_model extends CI_Model {
 					(a.begin <= '$begin' AND a.end >= '$end'))");
 		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
 		$this->db->where('r.obj_to', $org_id);
-		$this->db->where('r.direction', 'A');
+
 		$this->db->where('r.rel_type', '003');
 		return $this->db->get()->row()->val;
 	}
@@ -904,7 +881,7 @@ class Om_model extends CI_Model {
 					(a.begin <= '$begin' AND a.end >= '$end'))");
 		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
 		$this->db->where('r.obj_to', $org_id);
-		$this->db->where('r.direction', 'A');
+
 		$this->db->where('r.rel_type', '003');
 		if ($chief==0) {
 			$this->db->where('o.obj_id !=', $chief_id);
@@ -1023,19 +1000,19 @@ class Om_model extends CI_Model {
 		$this->add_obj_attr($post_id,$post_code,$post_name,$begin,$end);
 			
 		// Relation Belong to
-		$this->add_obj_rel('A','003',$post_id,$org_id,$begin,$end);
-		$this->add_obj_rel('B','003',$org_id,$post_id,$begin,$end);
+
+		$this->add_obj_rel('003',$org_id,$post_id,$begin,$end);
 
 		if ($is_chief == 1) {
 			//Relation Chief Of			
-			$this->add_obj_rel('A','012',$post_id,$org_id,$begin,$end);
-			$this->add_obj_rel('B','012',$org_id,$post_id,$begin,$end);
+
+			$this->add_obj_rel('012',$org_id,$post_id,$begin,$end);
 
 		}
 
 		if ($report_to == 0) {
 			if ($is_chief == 1) {
-				$org_t = $this->get_obj_rel_last($org_id,'B','002',$begin,$end);
+				$org_t = $this->get_obj_rel_last($org_id,'A','002',$begin,$end);
 				$org   = $this->get_org_row($org_t->obj_to,$begin,$end);
 				$chief = $this->get_chief_row($org->org_id,$begin,$end);
 
@@ -1045,8 +1022,8 @@ class Om_model extends CI_Model {
 			$report_to = $chief->post_id;
 		}
 		// Relation Report to
-		$this->add_obj_rel('A','002',$post_id,$report_to,$begin,$end);
-		$this->add_obj_rel('B','002',$report_to,$post_id,$begin,$end);
+
+		$this->add_obj_rel('002',$report_to,$post_id,$begin,$end);
 	}
 
 	/**
@@ -1122,7 +1099,6 @@ class Om_model extends CI_Model {
 		$this->db->select('r.value');
 		$this->db->from('pa_employee e');
 		$this->db->join('om_obj_rel r', 'r.obj_to = e.emp_id', 'inner');
-		$this->db->where('r.direction', 'B');
 		$this->db->where('r.rel_type', '008');
 		$this->db->where('r.obj_from', $post_id);
 		$this->db->where("((e.begin >= '$begin' AND e.end <='$end') OR 
@@ -1181,7 +1157,7 @@ class Om_model extends CI_Model {
 					(a.begin <= '$begin' AND a.end >= '$end'))");
 		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
 		$this->db->where('r.obj_to', $emp_id);
-		$this->db->where('r.direction', 'A');
+
 		$this->db->where('r.rel_type', '008');
 
 		if ($limit>0) {
