@@ -122,8 +122,19 @@ jQuery(document).ready(function($) {
 			})
 			.done(function(result) {
 				$('#tab_rel').html(result);
+				btn_bhv ();
 
-				// DO .btn-act-2 behavior 
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+			});
+	});
+
+	function btn_bhv () {
+		/// DO .btn-act-2 behavior 
 				$('.btn-act-2').click(function(e) {
 					var date_range = $('#dt_range_filter').val();
 				 	var parent = $('#hdn_org').val();
@@ -137,6 +148,7 @@ jQuery(document).ready(function($) {
 							date_range: date_range},
 					})
 					.done(function(data) {
+
 						 $.fancybox(data, {
 		          // fancybox API options
 		          fitToView: true,
@@ -156,17 +168,7 @@ jQuery(document).ready(function($) {
 						console.log("complete");
 					});
 				}); // end of .btn-act-2
-
-			})
-			.fail(function() {
-				console.log("error");
-			})
-			.always(function() {
-				console.log("complete");
-			});
-	});
-
-
+	}
 
 	function refresh () {
 		var base_url   = '<?php echo base_url()."index.php"?>';
@@ -193,41 +195,7 @@ jQuery(document).ready(function($) {
 			})
 			.done(function(result) {
 				$('#tab_rel').html(result);
-
-				// DO .btn-act-2 behavior 
-				$('.btn-act-2').click(function(e) {
-					var date_range = $('#dt_range_filter').val();
-				 	var parent = $('#hdn_org').val();
-				 	var obj_id = $(this).data('obj');
-					e.preventDefault();
-					$.ajax({
-						url: this.href,
-						type: 'POST',
-						data: {
-							obj_id: obj_id,
-							date_range: date_range},
-					})
-					.done(function(data) {
-						 $.fancybox(data, {
-		          // fancybox API options
-		          fitToView: true,
-		          width: 905,
-		          height: 505,
-		          autoSize: false,
-		          closeClick: false,
-		          openEffect: 'none',
-		          closeEffect: 'none',
-		          afterClose: function(){refresh()}
-		        }); // fancybox
-					})
-					.fail(function() {
-						console.log("error");
-					})
-					.always(function() {
-						console.log("complete");
-					});
-				}); // end of .btn-act-2
-				
+				btn_bhv ();
 			})
 			.fail(function() {
 				console.log("error");

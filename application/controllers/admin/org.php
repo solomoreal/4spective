@@ -13,12 +13,11 @@ class Org extends CI_Controller {
 		redirect('admin/org_struc');
 	}
 
-	public function detail()
+	public function detail($org_id=0)
 	{
-		$org_id     = $this->input->post('obj_id');
-		$date_range = $this->input->post('date_range');
-		list($begin,$end) = explode(' - ', $date_range);
-		
+		// $org_id     = $this->input->post('obj_id');
+		// $date_range = $this->input->post('date_range');
+		// list($begin,$end) = explode(' - ', $date_range);
 		$data['link_edit_org'] = 'admin/org/edit_attr/';
 		$data['page_title']    = lang('om_org');
 		$data['filter_date']   = $date_range;

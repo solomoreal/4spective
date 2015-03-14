@@ -10,8 +10,12 @@ class Org_struc extends CI_Controller {
 
 	public function index()
 	{
+		$date_range = $this->session->userdata('timeframe');
+		if ($date_range=='') {
+			$date_range = date('Y').'/01/01 - '.date('Y').'/12/31';
+		}
 		$data['page_title']    = lang('menu_org_struc');
-		$data['filter_date']   = date('Y').'/01/01 - '.date('Y').'/12/31';
+		$data['filter_date']   = $date_range;
 		$data['link_edit_org'] = 'admin/org/edit_attr/';
 		$data['link_add_org']  = 'admin/org/add/';
 		$data['link_add_post'] = 'admin/post/add/';
@@ -22,6 +26,8 @@ class Org_struc extends CI_Controller {
 	{
 		$date_range = $this->input->post('date_range');
 		$org_id     = $this->input->post('org_id');
+		
+		$this->session->set_userdata('timeframe', $date_range );
 
 		list($begin,$end) = explode(' - ', $date_range);
 

@@ -46,6 +46,7 @@
 			
 			$('.daterange').daterangepicker({
 				format: 'YYYY-MM-DD',
+				showDropdowns:true,
 			});
 
 			// $("input[type='submit']").click(function () {
