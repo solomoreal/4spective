@@ -5,7 +5,7 @@
 		<!-- Main content -->
 		<section class="content" id="sec-main">
 			<?php $this->load->view('_template/daterange_filter'); ?>
-			<?php echo form_hidden('hdn_org', 1); ?>
+			<?php echo form_hidden('hdn_org', $parent_id); ?>
 			<!-- top row -->
 			<div class="row">
 				<div class="col-xs-12">

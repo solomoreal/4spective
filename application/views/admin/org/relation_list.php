@@ -29,7 +29,7 @@
 			echo '<td>';
 			// Untuk Action Btn
 			echo '<div class="btn-group-vertical">';
-			echo anchor('admin/org/delete_rel/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-2" title="'.lang('act_delete').' '. lang('om_post').'" data-fancybox-type="ajax"');
+			echo anchor('admin/org/delete_rel/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-2" data-rel="'.$row->rel_id.'" title="'.lang('act_delete').' '. lang('om_post').'" data-fancybox-type="ajax"');
 			
 			echo '</div>';
 			echo '</td>';

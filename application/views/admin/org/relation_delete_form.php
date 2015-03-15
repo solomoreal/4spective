@@ -16,9 +16,9 @@ echo $this->form_builder->open_form(array('action' => $process, 'id' => 'my_form
 echo $this->form_builder->build_form_horizontal(
       array(
 			  array(
-			      'id' => 'org_id',
+			      'id' => 'rel_id',
 			      'type' => 'hidden',
-			      'value' => $org_id
+			      'value' => $rel_id
 			  ),
 		   	array(/* DROP DOWN */
 		        'id' => 'slc_mode',

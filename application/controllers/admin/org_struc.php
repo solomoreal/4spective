@@ -19,6 +19,7 @@ class Org_struc extends CI_Controller {
 		$data['link_edit_org'] = 'admin/org/edit_attr/';
 		$data['link_add_org']  = 'admin/org/add/';
 		$data['link_add_post'] = 'admin/post/add/';
+		$data['parent_id']     = 1;
 		$this->load->view('admin/org_struc/main_view',$data);
 	}
 
