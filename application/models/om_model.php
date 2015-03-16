@@ -190,19 +190,19 @@ class Om_model extends CI_Model {
 		$sub_1 = "(SELECT a.short_name FROM om_obj_attr a WHERE a.obj_id = r.obj_from AND ((a.begin >= '$begin' AND a.end <='$end') OR 
 					(a.end >= '$begin' AND a.end <= '$end') OR 
 					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))) AS code_from ";
+					(a.begin <= '$begin' AND a.end >= '$end')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS code_from ";
 		$sub_2 = "(SELECT a.long_name FROM om_obj_attr a WHERE a.obj_id = r.obj_from AND ((a.begin >= '$begin' AND a.end <='$end') OR 
 					(a.end >= '$begin' AND a.end <= '$end') OR 
 					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))) AS name_from ";
+					(a.begin <= '$begin' AND a.end >= '$end')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS name_from ";
 		$sub_3 = "(SELECT a.short_name FROM om_obj_attr a WHERE a.obj_id = r.obj_to AND ((a.begin >= '$begin' AND a.end <='$end') OR 
 					(a.end >= '$begin' AND a.end <= '$end') OR 
 					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))) AS code_to ";
+					(a.begin <= '$begin' AND a.end >= '$end')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS code_to ";
 		$sub_4 = "(SELECT a.long_name FROM om_obj_attr a WHERE a.obj_id = r.obj_to AND ((a.begin >= '$begin' AND a.end <='$end') OR 
 					(a.end >= '$begin' AND a.end <= '$end') OR 
 					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))) AS name_to ";
+					(a.begin <= '$begin' AND a.end >= '$end')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS name_to ";
 		$this->db->select('r.*');
 		$this->db->select($sub_1);
 		$this->db->select($sub_2);
@@ -240,6 +240,51 @@ class Om_model extends CI_Model {
 	{
 		$this->db->from('om_obj o');
 		$this->db->where('o.obj_id', $obj_id);
+		return $this->db->get()->row();
+	}
+
+	/**
+	 * [get_obj_attr_row description]
+	 * @param  integer $attr_id [description]
+	 * @return [type]           [description]
+	 */
+	public function get_obj_attr_row($attr_id=0)
+	{
+		$this->db->from('om_obj_attr a');
+		$this->db->where('a.attr_id', $attr_id);
+		return $this->db->get()->row();
+	}
+
+	/**
+	 * [get_obj_rel_row description]
+	 * @param  integer $rel_id [description]
+	 * @return [type]          [description]
+	 */
+	public function get_obj_rel_row($rel_id=0)
+	{
+		$sub_1 = "(SELECT a.short_name FROM om_obj_attr a WHERE a.obj_id = r.obj_from AND ((a.begin >= r.begin AND a.end <=r.end) OR 
+					(a.end >= r.begin AND a.end <= r.end) OR 
+					(a.begin >= r.begin AND a.begin <=r.end ) OR
+					(a.begin <= r.begin AND a.end >= r.end)) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS code_from ";
+		$sub_2 = "(SELECT a.long_name FROM om_obj_attr a WHERE a.obj_id = r.obj_from AND ((a.begin >= r.begin AND a.end <=r.end) OR 
+					(a.end >= r.begin AND a.end <= r.end) OR 
+					(a.begin >= r.begin AND a.begin <=r.end ) OR
+					(a.begin <= r.begin AND a.end >= r.end)) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS name_from ";
+		$sub_3 = "(SELECT a.short_name FROM om_obj_attr a WHERE a.obj_id = r.obj_to AND ((a.begin >= r.begin AND a.end <=r.end) OR 
+					(a.end >= r.begin AND a.end <= r.end) OR 
+					(a.begin >= r.begin AND a.begin <=r.end ) OR
+					(a.begin <= r.begin AND a.end >= r.end)) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS code_to ";
+		$sub_4 = "(SELECT a.long_name FROM om_obj_attr a WHERE a.obj_id = r.obj_to AND ((a.begin >= r.begin AND a.end <=r.end) OR 
+					(a.end >= r.begin AND a.end <= r.end) OR 
+					(a.begin >= r.begin AND a.begin <=r.end ) OR
+					(a.begin <= r.begin AND a.end >= r.end)) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS name_to ";
+		$this->db->select('r.*');
+		$this->db->select($sub_1);
+		$this->db->select($sub_2);
+		$this->db->select($sub_3);
+		$this->db->select($sub_4);
+		$this->db->from('om_obj_rel r');
+		$this->db->where('r.rel_id', $rel_id);
 		return $this->db->get()->row();
 	}
 

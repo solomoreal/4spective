@@ -7,9 +7,9 @@
 		  <dd><?php echo $org->org_code; ?></dd>
 		  <dt><?php echo lang('om_org_name'); ?></dt>
 		  <dd><?php echo $org->org_name; ?></dd>
-		  <dt>Begin</dt>
+		  <dt><?php echo lang('om_org_begin'); ?></dt>
 		  <dd><?php echo $org->org_begin; ?></dd>
-		  <dt>End</dt>
+		  <dt><?php echo lang('om_org_end'); ?></dt>
 		  <dd><?php echo $org->org_end; ?></dd>
 		</dl>
 	</div>

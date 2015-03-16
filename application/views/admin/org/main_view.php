@@ -138,17 +138,18 @@ jQuery(document).ready(function($) {
 	});
 
 	function btn_bhv () {
-		/// DO .btn-act-2 behavior 
-		$('.btn-act-2').click(function(e) {
+		/// DO .btn-rel behavior 
+		$('.btn-rel').click(function(e) {
 			var date_range = $('#dt_range_filter').val();
-		 	var parent = $('#hdn_org').val();
-		 	var obj_id = $(this).data('obj');
+		 	var org_id = $('#hdn_org').val();
+		 	var rel_id = $(this).data('rel');
 			e.preventDefault();
 			$.ajax({
 				url: this.href,
 				type: 'POST',
 				data: {
-					obj_id: obj_id,
+					rel_id: rel_id,
+					org_id: org_id,
 					date_range: date_range},
 			})
 			.done(function(data) {
@@ -171,7 +172,7 @@ jQuery(document).ready(function($) {
 			.always(function() {
 				console.log("complete");
 			});
-		}); // end of .btn-act-2
+		}); // end of .btn-rel
 	}
 
 	function refresh () {
@@ -199,7 +200,8 @@ jQuery(document).ready(function($) {
 			})
 			.done(function(result) {
 				$('#tab_rel').html(result);
-				btn_bhv ();
+				btn_bhv();
+				$(".table-dt-full").dataTable();
 			})
 			.fail(function() {
 				console.log("error");

@@ -50,7 +50,8 @@ class Org extends CI_Controller {
 		$org_id     = $this->input->post('org_id');
 		$date_range = $this->input->post('date_range');
 		list($begin,$end) = explode(' - ', $date_range);
-		$data['rel_ls'] = $this->om_model->get_obj_rel_list($org_id,'all','',$begin,$end);
+		$data['add_rel'] = 'admin/org/add_rel';
+		$data['rel_ls']  = $this->om_model->get_obj_rel_list($org_id,'all','',$begin,$end);
 		echo $this->load->view('admin/org/relation_list', $data, TRUE);
 	}
 
@@ -102,7 +103,28 @@ class Org extends CI_Controller {
 			$this->load->view('_notif/error', $data);
 
 		}
-			
+	}
+
+	public function add_rel()
+	{
+		$org_id = $this->input->post('org_id');
+		$date_range = $this->input->post('date_range');
+		list($begin,$end) = explode(' - ', $date_range);
+		$begin     = str_replace('/', '-', $begin);
+		$end       = str_replace('/', '-', $end);
+		$data['process'] = 'admin/org/add_rel_process';
+		$data['org_id']  = $org_id;
+		$data['begin']   = $begin;
+		$data['end']     = $end;
+		$data['rel_obj'] = '';
+		$this->load->view('admin/org/relation_add_form', $data, FALSE);
+
+
+	}
+
+	public function add_rel_process()
+	{
+		# code...
 	}
 
 	public function edit_attr()
@@ -212,16 +234,19 @@ class Org extends CI_Controller {
 	public function delete_rel()
 	{
 		$rel_id     = $this->input->post('rel_id');
+		$org_id     = $this->input->post('org_id');
 		$date_range = $this->input->post('date_range');
 		list($begin,$end) = explode(' - ', $date_range);
-		
+
 		$begin = str_replace('/', '-', $begin);
 		$end   = str_replace('/', '-', $end);
+		$rel   = $this->om_model->get_obj_rel_row($rel_id);
 		
 		$data['header_view'] = 'admin/org/relation_header';
 		$data['process']     = 'admin/org/delete_rel_process';
 		$data['rel_id']      = $rel_id;
-		$data['end']         = '';
+		$data['rel']         = $rel;
+		$data['end']         = $rel->end;
 		echo $this->load->view('admin/org/relation_delete_form', $data, TRUE);
 	}
 

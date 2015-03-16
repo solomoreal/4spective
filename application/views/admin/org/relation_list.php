@@ -1,4 +1,13 @@
-<table class="table table-hover table-dt-basic">
+<div class="row">
+	<div class="col-xs-12">
+		<div class="btn-group pull-right">
+			<?php 
+				echo anchor($add_rel, '<i class="fa fa-plus"></i>', 'title="Add '. lang('om_rel') .'" class="btn btn-rel"  data-fancybox-type="ajax"');
+			?>
+		</div>
+	</div>
+</div>
+<table class="table table-hover">
 	<thead>
 		<tr>
 			<th>ID</th>
@@ -17,7 +26,7 @@
 			echo '<tr>';
 			echo '<td>'.$row->rel_id.'</td>';
 
-			echo '<td>'.$row->rel_type.'</td>';
+			echo '<td>'.lang('om_rel_'.$row->rel_type).'</td>';
 			echo '<td>'.$row->obj_from.'</td>';
 			echo '<td>'.$row->code_from.'</td>';
 			echo '<td>'.$row->name_from.'</td>';
@@ -29,7 +38,7 @@
 			echo '<td>';
 			// Untuk Action Btn
 			echo '<div class="btn-group-vertical">';
-			echo anchor('admin/org/delete_rel/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-2" data-rel="'.$row->rel_id.'" title="'.lang('act_delete').' '. lang('om_post').'" data-fancybox-type="ajax"');
+			echo anchor('admin/org/delete_rel/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-rel" data-rel="'.$row->rel_id.'" title="'.lang('act_delete').' '. lang('om_post').'" data-fancybox-type="ajax"');
 			
 			echo '</div>';
 			echo '</td>';
