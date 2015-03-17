@@ -118,13 +118,69 @@ class Org extends CI_Controller {
 		$data['end']     = $end;
 		$data['rel_obj'] = '';
 		$this->load->view('admin/org/relation_add_form', $data, FALSE);
-
-
 	}
 
 	public function add_rel_process()
 	{
-		# code...
+		$this->form_validation->set_rules('slc_type', 'Type', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('txt_obj', 'rel obj', 'trim|integer|greater_than[0]|required||xss_clean');
+		$this->form_validation->set_rules('dt_begin', 'Begin Date', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('dt_end', 'End Date', 'trim|required|xss_clean');
+
+		if ($this->form_validation->run()) {
+			$org_id   = $this->input->post('org_id');
+			$type_dir = $this->input->post('slc_type');
+			$rel_obj  = $this->input->post('txt_obj');
+			$begin    = $this->input->post('dt_begin');
+			$end      = $this->input->post('dt_end');
+			$type     = substr($type_dir, 0,3);
+			$dir      = substr($type_dir, 3,1);
+
+			switch ($dir) {
+				case 'A':
+					$obj_from = $rel_obj;
+					$obj_to 	= $org_id;
+					break;
+				case 'B':
+					$obj_from = $org_id;
+					$obj_to 	= $rel_obj;
+					break;
+			}
+
+			$obj_type = $this->om_model->get_obj_row($rel_obj)->obj_type;
+
+			switch ($type) {
+				case '002':
+					if ($obj_type == 'O') {
+						$flag = TRUE;
+					} else {
+						$flag = FALSE;
+					}
+					break;
+				
+				case '003':
+				case '012':
+					if ($obj_type == 'S') {
+						$flag = TRUE;
+					} else {
+						$flag = FALSE;
+					}
+					break;
+			}
+
+			if ($flag) {
+				$this->om_model->add_obj_rel($type,$obj_from,$obj_to,$begin,$end);
+				$this->load->view('_notif/success');
+			} else {
+				$data['e'] = 'Object not Valid';
+				$this->load->view('_notif/error', $data);
+			}
+
+		} else {
+			$data['e'] = validation_errors();
+			$this->load->view('_notif/error', $data);
+		}
+
 	}
 
 	public function edit_attr()

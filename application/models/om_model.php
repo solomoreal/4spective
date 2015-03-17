@@ -112,7 +112,7 @@ class Om_model extends CI_Model {
 	 * @param  string $end   [description]
 	 * @return [type]        [description]
 	 */
-	public function get_obj_list($type=array(),$begin='',$end='',$limit=0,$offset=0,$search='')
+	public function get_obj_list($type=array(),$begin='',$end='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -121,9 +121,7 @@ class Om_model extends CI_Model {
 		if ($end == '') {
 			$end = date('Y-m-d');
 		}
-
-		$columns = array('o.obj_id','o.begin','o.end');
-		
+				
 		$this->db->from('om_obj o');
 
 		$this->db->where_in('o.obj_type', $type);
@@ -132,13 +130,6 @@ class Om_model extends CI_Model {
 					(o.begin >= '$begin' AND o.begin <='$end' ) OR
 					(o.begin <= '$begin' AND o.end >= '$end'))");
 		
-		if ($limit>0) {
-			$this->db->limit($limit,$offset);
-		}
-
-		if ($search!='') {
-			$this->db->or_like($columns,$search);
-		}
 		return $this->db->get()->result();
 	}
 
