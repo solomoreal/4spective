@@ -25,9 +25,9 @@
 			// Untuk Action Btn
 			echo '<div class=" btn-group-vertical">';
 			
-			echo anchor('admin/post/detail/'.$chief->post_id, '</i><i class="fa fa-list"></i> ', 'class="btn" title="'.lang('act_view_detail').' '. lang('om_post').'"');
-			echo anchor('admin/post/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="'.lang('act_delete').' '. lang('om_post').'"');
-			echo anchor('admin/post/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn" title="'.lang('act_delete').' '. lang('om_post').'"');
+			echo anchor('admin/post/detail/'.$chief->post_id, '</i><i class="fa fa-list"></i> ', 'class="btn" data-obj="'.$chief->post_id.'"title="'.lang('act_view_detail').' '. lang('om_post').'" data-fancybox-type="ajax"');
+			echo anchor('admin/post/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act-2" data-obj="'.$chief->post_id.'"title="'.lang('act_delete').' '. lang('om_post').'" data-fancybox-type="ajax"');
+			echo anchor('admin/post/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-2" data-obj="'.$chief->post_id.'"title="'.lang('act_delete').' '. lang('om_post').'" data-fancybox-type="ajax"');
 			echo '</div>';
 
 			echo '</td>';
@@ -47,9 +47,9 @@
 			// Untuk Action Btn
 			echo '<div class="btn-group-vertical">';
 			
-			echo anchor('admin/post/detail/'.$post_row->post_id, '</i><i class="fa fa-list"></i> ', 'class="btn" title="'.lang('act_view_detail').' '. lang('om_post').'"');
-			echo anchor('admin/post/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn" title="'.lang('act_delete').' '. lang('om_post').'"');
-			echo anchor('admin/post/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-del" title="'.lang('act_delete').' '. lang('om_post').'"');
+			echo anchor('admin/post/detail/'.$post_row->post_id, '</i><i class="fa fa-list"></i> ', 'class="btn" data-obj="'.$post_row->post_id.'" title="'.lang('act_view_detail').' '. lang('om_post').'" data-fancybox-type="ajax"');
+			echo anchor('admin/post/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act-2" data-obj="'.$post_row->post_id.'" title="'.lang('act_delete').' '. lang('om_post').'" data-fancybox-type="ajax"');
+			echo anchor('admin/post/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-2" data-obj="'.$post_row->post_id.'" title="'.lang('act_delete').' '. lang('om_post').'" data-fancybox-type="ajax"');
 			echo '</div>';
 
 			echo '</td>';

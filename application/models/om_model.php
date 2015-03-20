@@ -636,10 +636,16 @@ class Om_model extends CI_Model {
 		} 
 
 		return $this->db->get()->result();
-
-
 	}
 
+
+	/**
+	 * [get_org_parent_row description]
+	 * @param  integer $org_id [description]
+	 * @param  string  $begin  [description]
+	 * @param  string  $end    [description]
+	 * @return [type]          [description]
+	 */
 	public function get_org_parent_row($org_id=0,$begin='',$end='')
 	{
 		if ($begin == '') {
@@ -680,7 +686,56 @@ class Om_model extends CI_Model {
 		$this->db->where('r.obj_to', $org_id);
 		$this->db->where('r.rel_type', '002');
 		
+		return $this->db->get()->row();
+	}
 
+	/**
+	 * [get_org_post_row description]
+	 * @param  integer $post_id [description]
+	 * @param  string  $begin   [description]
+	 * @param  string  $end     [description]
+	 * @return [type]           [description]
+	 */
+	public function get_org_post_row($post_id=0,$begin='',$end='')
+	{
+		if ($begin == '') {
+			$begin = date('Y-m-d');
+		}
+
+		if ($end == '') {
+			$end = date('Y-m-d');
+		}
+
+		$this->db->select('o.obj_id AS org_id');
+		$this->db->select('o.obj_type as type');
+		$this->db->select('a.attr_id');
+		$this->db->select('a.short_name AS org_code');
+		$this->db->select('a.long_name AS org_name');
+		$this->db->select('a.begin AS attr_begin');
+		$this->db->select('a.end AS attr_end');
+		$this->db->select('o.begin AS org_begin');
+		$this->db->select('o.end AS org_end');
+
+		$this->db->from('om_obj o');
+		$this->db->where('o.obj_type', 'O');
+		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
+					(o.end >= '$begin' AND o.end <= '$end') OR 
+					(o.begin >= '$begin' AND o.begin <='$end' ) OR
+					(o.begin <= '$begin' AND o.end >= '$end'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
+					(r.end >= '$begin' AND r.end <= '$end') OR 
+					(r.begin >= '$begin' AND r.begin <='$end' ) OR
+					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
+		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
+					(a.end >= '$begin' AND a.end <= '$end') OR 
+					(a.begin >= '$begin' AND a.begin <='$end' ) OR
+					(a.begin <= '$begin' AND a.end >= '$end'))");
+		
+		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
+		$this->db->where('r.obj_to', $post_id);
+		$this->db->where('r.rel_type', '003');
+		
 		return $this->db->get()->row();
 	}
 
@@ -1030,7 +1085,7 @@ class Om_model extends CI_Model {
 	 * @param string  $end       [description]
 	 * @param integer $report_to [description]
 	 */
-	public function add_post($org_id=0,$post_code='',$post_name='',$is_chief=0,$begin='',$end='9999-12-31',$report_to=0)
+	public function add_post_1($org_id=0,$post_code='',$post_name='',$is_chief=0,$begin='',$end='9999-12-31',$report_to=0)
 	{
 		$post_id = $this->add_obj('S',$begin,$end);
 		$this->add_obj_attr($post_id,$post_code,$post_name,$begin,$end);
@@ -1059,6 +1114,47 @@ class Om_model extends CI_Model {
 		}
 		// Relation Report to
 
+		$this->add_obj_rel('002',$report_to,$post_id,$begin,$end);
+	}
+
+	/**
+	 * [Create new Position]
+	 * @param integer $rel_obj_id [description]
+	 * @param string  $post_code  [description]
+	 * @param string  $post_name  [description]
+	 * @param integer $is_chief   [description]
+	 * @param string  $begin      [description]
+	 * @param string  $end        [description]
+	 */
+	public function add_post($rel_obj_id=0,$post_code='',$post_name='',$is_chief=0,$begin='',$end='9999-12-31')
+	{
+		$post_id = $this->add_obj('S',$begin,$end);
+		$this->add_obj_attr($post_id,$post_code,$post_name,$begin,$end);
+
+		$rel_obj = $this->get_obj_row($rel_obj_id);
+		switch ($rel_obj->obj_type) {
+			case 'O':
+				$this->add_obj_rel('003',$rel_obj_id,$post_id,$begin,$end);
+				if ($is_chief==1) {
+					$this->add_obj_rel('012',$rel_obj_id,$post_id,$begin,$end);
+
+					$org_t = $this->get_obj_rel_last($rel_obj_id,'A','002',$begin,$end);
+					$org   = $this->get_org_row($org_t->obj_to,$begin,$end);
+					$chief = $this->get_chief_row($org->org_id,$begin,$end);
+					
+				} else {
+					$chief = $this->get_chief_row($org_id,$begin,$end);
+				}
+				$report_to = $chief->post_id;
+
+				break;
+			case 'S':
+				$post_t    = $this->get_obj_rel_last($rel_obj_id,'A','003',$begin,$end);
+				$this->add_obj_rel('003',$post_t->obj_to,$post_id,$begin,$end);
+
+				$report_to = $rel_obj_id;
+				break;
+		}
 		$this->add_obj_rel('002',$report_to,$post_id,$begin,$end);
 	}
 
