@@ -32,7 +32,7 @@ echo $this->form_builder->build_form_horizontal(
 			      'value' => html_entity_decode($post_name)
 			  ),
 			  	array(/* DROP DOWN */
-		        'id' => 'slc_mode',
+		        'id' => 'slc_chief',
 			      'label' => lang('om_chief_post'),
 		        'type' => 'dropdown',
 		        'options' => array(

@@ -92,9 +92,10 @@ class Post extends CI_Controller {
 			$parent_id = $this->input->post('parent_id');
 			$code 		 = $this->input->post('txt_code');
 			$name 		 = $this->input->post('txt_name');
+			$is_chief  = $this->input->post('slc_chief');
 			$begin 		 = $this->input->post('dt_begin');
 			$end  		 = $this->input->post('dt_end');
-			$this->om_model->add_post($parent_id,$code,$name,$parent_id,$begin,$end);
+			$this->om_model->add_post($parent_id,$code,$name,$is_chief,$begin,$end);
 			$this->load->view('_notif/success');
 
 		} else {
@@ -197,13 +198,13 @@ class Post extends CI_Controller {
 		if (count($parent)) {
 			$data['parent']     = $parent;
 		}
-		$data['post_id']     = $post_id;
-		$data['post_code']   = $post->post_code;
-		$data['post_name']   = $post->post_name;
+		$data['post_id']    = $post_id;
+		$data['post_code']  = $post->post_code;
+		$data['post_name']  = $post->post_name;
 		$data['attr_begin'] = $post->attr_begin;
 		$data['attr_end']   = $post->attr_end;
-		$data['post_begin']  = $post->post_begin;
-		$data['post_end']    = $post->post_end;
+		$data['post_begin'] = $post->post_begin;
+		$data['post_end']   = $post->post_end;
 		$data['process']    = 'admin/post/edit_attr_process';
 
 		$this->load->view('admin/post/attribute_form', $data, FALSE);

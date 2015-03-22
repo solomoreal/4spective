@@ -918,7 +918,7 @@ class Om_model extends CI_Model {
 		return $this->db->get()->row()->val;
 	}
 
-	public function get_post_list($org_id=0,$begin='',$end='',$chief=2,$limit=0,$offset=0,$search='')
+	public function get_post_list($org_id=0,$begin='',$end='',$chief=2)
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -944,7 +944,7 @@ class Om_model extends CI_Model {
 				break;
 		}
 
-		$columns = array('o.obj_id','o.obj_type','a.attr_id','a.short_name','a.long_name','a.begin','a.end','o.begin','o.end');		
+	
 		$this->db->select('o.obj_id AS post_id');
 		$this->db->select('o.obj_type as type');
 		$this->db->select('a.attr_id');
@@ -970,18 +970,12 @@ class Om_model extends CI_Model {
 					(a.end >= '$begin' AND a.end <= '$end') OR 
 					(a.begin >= '$begin' AND a.begin <='$end' ) OR
 					(a.begin <= '$begin' AND a.end >= '$end'))");
-		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
-		$this->db->where('r.obj_to', $org_id);
+		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_to');
+		$this->db->where('r.obj_from', $org_id);
 
 		$this->db->where('r.rel_type', '003');
 		if ($chief==0) {
 			$this->db->where('o.obj_id !=', $chief_id);
-		}
-		if ($limit>0) {
-			$this->db->limit($limit,$offset);
-		}
-		if ($search!='') {
-			$this->db->or_like($columns,$search);
 		}
 		return $this->db->get()->result();
 	}
@@ -1137,13 +1131,11 @@ class Om_model extends CI_Model {
 				$this->add_obj_rel('003',$rel_obj_id,$post_id,$begin,$end);
 				if ($is_chief==1) {
 					$this->add_obj_rel('012',$rel_obj_id,$post_id,$begin,$end);
-
-					$org_t = $this->get_obj_rel_last($rel_obj_id,'A','002',$begin,$end);
-					$org   = $this->get_org_row($org_t->obj_to,$begin,$end);
+					$org   = $this->get_org_parent_row($rel_obj_id,$begin,$end);
 					$chief = $this->get_chief_row($org->org_id,$begin,$end);
 					
 				} else {
-					$chief = $this->get_chief_row($org_id,$begin,$end);
+					$chief = $this->get_chief_row($rel_obj_id,$begin,$end);
 				}
 				$report_to = $chief->post_id;
 
@@ -1212,6 +1204,22 @@ class Om_model extends CI_Model {
 			$rel_B = $this->get_obj_rel_last($post_id,'B',$rel_type,'2008-01-01','9999-12-31');
 			$this->delimit_obj_rel($rel_B->rel_id,$end);
 		}
+	}
+
+	public function remove_post($post_id=0)
+	{
+		// DO remove all relation
+		$this->db->where('obj_to', $post_id);
+		$this->db->or_where('obj_from', $post_id);
+		$this->db->delete('om_obj_rel');
+
+		// DO remove all Attrribute
+		
+		$this->db->where('obj_id', $post_id);
+		$this->db->delete('om_obj_attr');
+
+		// DO remove object
+		$this->remove_obj($post_id);
 	}
 
 	/////////////
