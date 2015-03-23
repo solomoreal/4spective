@@ -1,9 +1,9 @@
 <?php  
 $this->load->view('_template/basic_top');
-echo '<h2>'.lang('om_org').'</h2>';
+echo '<h2>'.lang('om_post').'</h2>';
 ?>
 <?php 
-	$this->load->view('admin/org/parent_header');
+	$this->load->view($header);
 ?>
 <i class="fa fa-spinner fa-pulse fa-5x" id="loading"></i>
 <div class="row">

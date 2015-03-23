@@ -62,22 +62,36 @@ class Post extends CI_Controller {
 		list($begin,$end) = explode(' - ', $date_range);
 		$begin     = str_replace('/', '-', $begin);
 		$end       = str_replace('/', '-', $end);
+
+		$type = $this->om_model->get_obj_row($parent_id)->obj_type;
+
+		switch ($type) {
+			case 'O':
+				$parent = $this->om_model->get_org_row($parent_id,$begin,$end);
+				$data['header'] = 'admin/org/parent_header';
+				$data['parent'] = $parent;
+				break;
+			case 'S':
+				$chief = $this->om_model->get_post_row($parent_id,$begin,$end);
+				$data['header'] = 'admin/post/chief_header';
+				$data['chief']  = $chief;
+				
+				break;
+			
+		}
 		
-		$parent    = $this->om_model->get_org_row($parent_id,$begin,$end);
 		$post_code  = '';
 		$post_name  = '';
 		$post_begin = $begin;
 		$post_end   = '9999-12-31';
 
 		$data['process']    = 'admin/post/add_process';
-		$data['parent']     = $parent;
 		$data['post_code']  = $post_code;
 		$data['post_name']  = $post_name;
 		$data['post_begin'] = $post_begin;
 		$data['post_end']   = $post_end;
+		$data['parent_id']  = $parent_id;
 		$data['process']    = 'admin/post/add_process';
-
-		$data['parent_id'] = $parent->org_id;
 
 		$this->load->view('admin/post/add_form', $data, FALSE);
 	}

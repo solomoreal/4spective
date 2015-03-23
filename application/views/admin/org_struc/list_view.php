@@ -69,9 +69,8 @@
 			// Untuk Action Btn
 			echo '<div class="btn-group-vertical">';
 			
-			echo '<a class="btn btn-org-in" data-org="'.$org_row->org_id.'">';
-			echo '<i class="fa fa-arrow-right"></i>';
-			echo '</a>';
+			echo '<a class="btn btn-org-in" data-org="'.$org_row->org_id.'"><i class="fa fa-arrow-right"></i></a>';
+			
 			echo anchor('admin/org/detail/'.$org_row->org_id, '</i><i class="fa fa-list"></i> ', 'class="btn"  data-obj="'.$org_row->org_id.'" title="'.lang('act_view_detail').' '. lang('om_org').'"');
 			echo anchor('admin/org/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act-2" data-obj="'.$org_row->org_id.'"  title="'.lang('act_delete').' '. lang('om_org').'"');
 			echo anchor('admin/org/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-2" data-obj="'.$org_row->org_id.'" title="'.lang('act_delete').' '. lang('om_org').'" data-fancybox-type="ajax"');

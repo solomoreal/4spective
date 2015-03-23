@@ -12,6 +12,7 @@
 			4spective
 		</title>
 		<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+		<!-- <style type="text/css"> @media print { body { display:none } } </style> -->
 
 		<!-- bootstrap 3.0.2 -->
 		<?php echo link_tag('assets/AdminLTE/css/bootstrap.min.css'); ?>

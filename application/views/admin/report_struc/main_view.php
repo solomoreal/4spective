@@ -23,8 +23,7 @@
 						<!-- tools box -->
 							<div class="pull-right box-tools btn-group">
 								<?php 
-									echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act"  data-fancybox-type="ajax"');
-									echo anchor($link_add_org, '<i class="fa fa-plus"></i><i class="fa fa-sitemap"></i> ', 'title="Add '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="ajax"');
+									echo anchor($link_edit_post, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act"  data-fancybox-type="ajax"');
 									echo anchor($link_add_post, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title="Add '. lang('om_post') .'" class="btn btn-act" " data-fancybox-type="ajax"');
 								?>
 							</div><!-- /. tools -->
@@ -99,7 +98,7 @@
 
 		 	// DO Fetch Breadcrumb of Organization
 		 	$.ajax({
-		 		url:  base_url+'/admin/repot_struc/show_breadcrumb',
+		 		url:  base_url+'/admin/report_struc/show_breadcrumb',
 		 		type: 'POST',
 		 		data: {
 		 			date_range: date_range,
@@ -123,7 +122,7 @@
 		 	
 		 	// DO Fetch Position and Organization under Parent Organization
 		 	$.ajax({
-		 		url: base_url+'/admin/repot_struc/show_child',
+		 		url: base_url+'/admin/report_struc/show_child',
 		 		type: 'POST',
 		 		data: {
 		 			date_range: date_range,
@@ -138,9 +137,9 @@
 		 		console.log("error list");
 		 	})
 		 	.always(function() {
-		 		$('.btn-org-in').click(function() {
-		 			var org_to = $(this).data('org');
-		 			$('#hdn_post').val(org_to);
+		 		$('.btn-post-in').click(function() {
+		 			var post_to = $(this).data('post');
+		 			$('#hdn_post').val(post_to);
 		 			refresh();
 		 		});
 		 		
@@ -148,7 +147,7 @@
 
 			// DO Fetch Organization Name
 		 	$.ajax({
-		 		url: base_url+'/admin/repot_struc/show_current',
+		 		url: base_url+'/admin/report_struc/show_current',
 		 		type: 'POST',
 		 		data: {
 		 			date_range: date_range,

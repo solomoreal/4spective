@@ -89,7 +89,7 @@ class Om_model extends CI_Model {
 					(r.end >= '$begin' AND r.end <= '$end') OR 
 					(r.begin >= '$begin' AND r.begin <='$end' ) OR
 					(r.begin <= '$begin' AND r.end >= '$end'))");
-		$this->db->where_in('rel_type', $Value);
+		$this->db->where_in('rel_type', $rel_type);
 
 		switch ($direction) {
 			case 'A':
@@ -944,7 +944,6 @@ class Om_model extends CI_Model {
 				break;
 		}
 
-	
 		$this->db->select('o.obj_id AS post_id');
 		$this->db->select('o.obj_type as type');
 		$this->db->select('a.attr_id');
@@ -1032,7 +1031,6 @@ class Om_model extends CI_Model {
 		$rel = $this->get_obj_rel_last($org_id,'B','012',$begin,$end);
 		if (count($rel)) {
 			return $this->get_post_row($rel->obj_to,$begin,$end);
-			# code...
 		} else {
 			return false;
 		}
@@ -1058,13 +1056,71 @@ class Om_model extends CI_Model {
 	 * @param  string  $end     [description]
 	 * @return [type]           [description]
 	 */
-	public function get_subordinate_list($post_id=0,$begin='',$end='',$limit=0,$offset=0,$search='')
+	public function get_subordinate_list($post_id=0,$begin='',$end='',$is_chief=2)
 	{
 
-		$rel_ls = $this->get_obj_rel_list($post_id,'A','002',$begin,$end,$limit,$offset,$search);
-		$result = array();
-		foreach ($rel_ls as $row) {
-			$result[] = $this->get_post_row($row->obj_from,$begin,$end);
+		if ($begin == '') {
+			$begin = date('Y-m-d');
+		}
+
+		if ($end == '') {
+			$end = date('Y-m-d');
+		}
+
+		$this->db->select('o.obj_id AS post_id');
+		$this->db->select('o.obj_type as type');
+		$this->db->select('a.attr_id');
+		$this->db->select('a.short_name AS post_code');
+		$this->db->select('a.long_name AS post_name');
+		$this->db->select('a.begin AS attr_begin');
+		$this->db->select('a.end AS attr_end');
+		$this->db->select('o.begin AS post_begin');
+		$this->db->select('o.end AS post_end');
+
+		$this->db->from('om_obj o');
+		$this->db->where('o.obj_type', 'S');
+		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
+					(o.end >= '$begin' AND o.end <= '$end') OR 
+					(o.begin >= '$begin' AND o.begin <='$end' ) OR
+					(o.begin <= '$begin' AND o.end >= '$end'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
+					(r.end >= '$begin' AND r.end <= '$end') OR 
+					(r.begin >= '$begin' AND r.begin <='$end' ) OR
+					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
+		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
+					(a.end >= '$begin' AND a.end <= '$end') OR 
+					(a.begin >= '$begin' AND a.begin <='$end' ) OR
+					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_to');
+		$this->db->where('r.obj_from', $post_id);
+
+		$this->db->where('r.rel_type', '002');
+
+
+		$ls     = $this->db->get()->result();
+		switch ($is_chief) {
+			case 0:
+				$result = array();
+				foreach ($ls as $row) {
+					$temp = $this->count_obj_rel($row->post_id,'A','012',$begin,$end);
+					if (!$temp) {
+						$result[] = $row;
+					}
+				}
+				break;
+			case 1:
+				$result = array();
+				foreach ($ls as $row) {
+					$temp = $this->count_obj_rel($row->post_id,'A','012',$begin,$end);
+					if ($temp) {
+						$result[] = $row;
+					}
+				}
+				break;
+			default:
+				$result = $ls;
+				break;
 		}
 		return $result;
 	}
@@ -1142,7 +1198,7 @@ class Om_model extends CI_Model {
 				break;
 			case 'S':
 				$post_t    = $this->get_obj_rel_last($rel_obj_id,'A','003',$begin,$end);
-				$this->add_obj_rel('003',$post_t->obj_to,$post_id,$begin,$end);
+				$this->add_obj_rel('003',$post_t->obj_from,$post_id,$begin,$end);
 
 				$report_to = $rel_obj_id;
 				break;
