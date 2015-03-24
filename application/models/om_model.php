@@ -1127,48 +1127,6 @@ class Om_model extends CI_Model {
 
 	/**
 	 * [Create new Position]
-	 * @param integer $org_id    [description]
-	 * @param string  $post_code [description]
-	 * @param string  $post_name [description]
-	 * @param integer $is_chief  [description]
-	 * @param string  $begin     [description]
-	 * @param string  $end       [description]
-	 * @param integer $report_to [description]
-	 */
-	public function add_post_1($org_id=0,$post_code='',$post_name='',$is_chief=0,$begin='',$end='9999-12-31',$report_to=0)
-	{
-		$post_id = $this->add_obj('S',$begin,$end);
-		$this->add_obj_attr($post_id,$post_code,$post_name,$begin,$end);
-			
-		// Relation Belong to
-
-		$this->add_obj_rel('003',$org_id,$post_id,$begin,$end);
-
-		if ($is_chief == 1) {
-			//Relation Chief Of			
-
-			$this->add_obj_rel('012',$org_id,$post_id,$begin,$end);
-
-		}
-
-		if ($report_to == 0) {
-			if ($is_chief == 1) {
-				$org_t = $this->get_obj_rel_last($org_id,'A','002',$begin,$end);
-				$org   = $this->get_org_row($org_t->obj_to,$begin,$end);
-				$chief = $this->get_chief_row($org->org_id,$begin,$end);
-
-			} else {
-				$chief = $this->get_chief_row($org_id,$begin,$end);
-			}
-			$report_to = $chief->post_id;
-		}
-		// Relation Report to
-
-		$this->add_obj_rel('002',$report_to,$post_id,$begin,$end);
-	}
-
-	/**
-	 * [Create new Position]
 	 * @param integer $rel_obj_id [description]
 	 * @param string  $post_code  [description]
 	 * @param string  $post_name  [description]

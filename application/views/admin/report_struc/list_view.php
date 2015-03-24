@@ -3,8 +3,9 @@
 		<tr>
 			<th width="50">Type</th>
 			<th><?php echo lang('basic_id'); ?></th>
-			<th><?php echo lang('basic_code'); ?></th>
-			<th><?php echo lang('basic_name'); ?></th>
+			<th><?php echo lang('om_post_code'); ?></th>
+			<th><?php echo lang('om_post_name'); ?></th>
+
 			<th width="100" class="hidden-xs"><?php echo lang('basic_begin'); ?></th>
 			<th width="100" class="hidden-xs"><?php echo lang('basic_end'); ?></th>
 			<th width="50"><?php echo lang('basic_action'); ?></th>
@@ -18,6 +19,7 @@
 			echo '<td>'.$post_row->post_id .'</td>';
 			echo '<td>'.$post_row->post_code .'</td>';
 			echo '<td>'.$post_row->post_name .'</td>';
+
 			echo '<td class="hidden-xs">'.$post_row->post_begin .'</td>';
 			echo '<td class="hidden-xs">'.$post_row->post_end .'</td>';
 			echo '<td>';
@@ -40,6 +42,7 @@
 			echo '<td>'.$post_row->post_id .'</td>';
 			echo '<td>'.$post_row->post_code .'</td>';
 			echo '<td>'.$post_row->post_name .'</td>';
+
 			echo '<td class="hidden-xs">'.$post_row->post_begin .'</td>';
 			echo '<td class="hidden-xs">'.$post_row->post_end .'</td>';
 			echo '<td>';
