@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Mar 13, 2015 at 02:15 AM
+-- Generation Time: Mar 24, 2015 at 03:19 AM
 -- Server version: 5.5.40
 -- PHP Version: 5.4.34
 
@@ -19,6 +19,19 @@ SET time_zone = "+00:00";
 --
 -- Database: `4spective`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bsc_m_formula`
+--
+
+CREATE TABLE IF NOT EXISTS `bsc_m_formula` (
+`formula_id` int(11) NOT NULL,
+  `formula_name` varchar(200) NOT NULL,
+  `description` text,
+  `type` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -54,9 +67,9 @@ INSERT INTO `bsc_m_measure` (`measure_id`, `short_name`, `long_name`, `descripti
 --
 
 CREATE TABLE IF NOT EXISTS `bsc_m_period` (
-  `period_code` int(4) DEFAULT NULL,
-  `begin` varchar(8) DEFAULT NULL,
-  `end` varchar(10) DEFAULT NULL
+  `period_code` varchar(10) NOT NULL DEFAULT '',
+  `begin` date DEFAULT NULL,
+  `end` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -186,6 +199,7 @@ INSERT INTO `om_m_relation` (`code`, `description`) VALUES
 ('002', 'A: Report to \r\nB: is Line Supervisor of'),
 ('003', 'A: Belongs to \r\nB: Incorporates'),
 ('007', 'A: Describes \r\nB: is Described by'),
+('008', 'Holder\r\n'),
 ('011', 'A: Org Unit, Post assigned to cost center'),
 ('012', 'A: post manages an org \r\nB: org managed by ');
 
@@ -224,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `om_obj` (
   `obj_type` varchar(1) NOT NULL,
   `begin` date NOT NULL,
   `end` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `om_obj`
@@ -235,7 +249,14 @@ INSERT INTO `om_obj` (`obj_id`, `obj_type`, `begin`, `end`) VALUES
 (2, 'S', '2008-01-01', '9999-12-31'),
 (3, 'O', '2008-01-01', '9999-12-31'),
 (4, 'O', '2008-01-01', '9999-12-31'),
-(5, 'O', '2008-01-01', '9999-12-31');
+(5, 'O', '2008-01-01', '9999-12-31'),
+(6, 'S', '2008-01-01', '9999-12-31'),
+(7, 'S', '2008-01-01', '9999-12-31'),
+(9, 'S', '2008-01-01', '9999-12-31'),
+(10, 'S', '2008-01-01', '9999-12-31'),
+(11, 'S', '2008-01-01', '9999-12-31'),
+(12, 'S', '2008-01-01', '9999-12-31'),
+(13, 'S', '2008-01-01', '9999-12-31');
 
 -- --------------------------------------------------------
 
@@ -250,7 +271,7 @@ CREATE TABLE IF NOT EXISTS `om_obj_attr` (
   `long_name` varchar(255) NOT NULL,
   `begin` date NOT NULL,
   `end` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `om_obj_attr`
@@ -259,9 +280,16 @@ CREATE TABLE IF NOT EXISTS `om_obj_attr` (
 INSERT INTO `om_obj_attr` (`attr_id`, `obj_id`, `short_name`, `long_name`, `begin`, `end`) VALUES
 (1, 1, '0HLD', 'Holding Company', '2008-01-01', '9999-12-31'),
 (2, 2, 'CEO', 'Chief Executive Officer', '2008-01-01', '9999-12-31'),
-(3, 3, '1AAA', 'Sub-Holding 1', '2008-01-01', '9999-12-31'),
-(4, 4, '1BBB', 'Sub-Holding 2', '2008-01-01', '9999-12-31'),
-(5, 5, '2AAAHR', 'HR & GA Div', '2008-01-01', '9999-12-31');
+(3, 3, '1SH', 'Sub-Holding 1', '2008-01-01', '9999-12-31'),
+(4, 4, '1SH', 'Sub-Holding 2', '2008-01-01', '9999-12-31'),
+(5, 5, '2AAAHR', 'HR & GA Div', '2008-01-01', '9999-12-31'),
+(6, 6, 'SCR', 'Secretary to CEO', '2008-01-01', '9999-12-31'),
+(7, 7, 'DIR', 'Director Sub-Holding 1', '2008-01-01', '9999-12-31'),
+(9, 9, 'DIR', 'Director Sub-Holding 2', '2008-01-01', '9999-12-31'),
+(10, 10, 'SCR', 'Secretary to Director', '2008-01-01', '9999-12-31'),
+(11, 11, 'SCR', 'Secretary to Director', '2008-01-01', '9999-12-31'),
+(12, 12, 'STFCEO', 'Staff to CEO', '2008-01-01', '9999-12-31'),
+(13, 13, 'STFCEO', 'Staff to CEO', '2008-01-01', '9999-12-31');
 
 -- --------------------------------------------------------
 
@@ -277,7 +305,7 @@ CREATE TABLE IF NOT EXISTS `om_obj_rel` (
   `value` int(11) DEFAULT NULL,
   `begin` date NOT NULL,
   `end` date NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `om_obj_rel`
@@ -288,7 +316,23 @@ INSERT INTO `om_obj_rel` (`rel_id`, `rel_type`, `obj_from`, `obj_to`, `value`, `
 (2, '002', 1, 3, NULL, '2008-01-01', '9999-12-31'),
 (3, '002', 1, 4, NULL, '2008-01-01', '9999-12-31'),
 (4, '002', 3, 5, NULL, '2008-01-01', '9999-12-31'),
-(5, '012', 1, 2, NULL, '2008-01-01', '9999-12-31');
+(5, '012', 1, 2, NULL, '2008-01-01', '9999-12-31'),
+(6, '003', 1, 6, NULL, '2008-01-01', '9999-12-31'),
+(7, '002', 2, 6, NULL, '2008-01-01', '9999-12-31'),
+(8, '003', 3, 7, NULL, '2008-01-01', '9999-12-31'),
+(9, '012', 3, 7, NULL, '2008-01-01', '9999-12-31'),
+(10, '002', 2, 7, NULL, '2008-01-01', '9999-12-31'),
+(12, '003', 4, 9, NULL, '2008-01-01', '9999-12-31'),
+(13, '012', 4, 9, NULL, '2008-01-01', '9999-12-31'),
+(14, '002', 2, 9, NULL, '2008-01-01', '9999-12-31'),
+(15, '003', 3, 10, NULL, '2008-01-01', '9999-12-31'),
+(16, '002', 7, 10, NULL, '2008-01-01', '9999-12-31'),
+(17, '003', 4, 11, NULL, '2008-01-01', '9999-12-31'),
+(18, '002', 9, 11, NULL, '2008-01-01', '9999-12-31'),
+(19, '003', 1, 12, NULL, '2008-01-01', '9999-12-31'),
+(20, '002', 2, 12, NULL, '2008-01-01', '9999-12-31'),
+(21, '003', 1, 13, NULL, '2008-01-01', '9999-12-31'),
+(22, '002', 2, 13, NULL, '2008-01-01', '9999-12-31');
 
 -- --------------------------------------------------------
 
@@ -313,10 +357,22 @@ CREATE TABLE IF NOT EXISTS `pa_employee` (
 --
 
 --
+-- Indexes for table `bsc_m_formula`
+--
+ALTER TABLE `bsc_m_formula`
+ ADD PRIMARY KEY (`formula_id`);
+
+--
 -- Indexes for table `bsc_m_measure`
 --
 ALTER TABLE `bsc_m_measure`
  ADD PRIMARY KEY (`measure_id`);
+
+--
+-- Indexes for table `bsc_m_period`
+--
+ALTER TABLE `bsc_m_period`
+ ADD PRIMARY KEY (`period_code`);
 
 --
 -- Indexes for table `bsc_m_perspective`
@@ -395,6 +451,11 @@ ALTER TABLE `pa_employee`
 --
 
 --
+-- AUTO_INCREMENT for table `bsc_m_formula`
+--
+ALTER TABLE `bsc_m_formula`
+MODIFY `formula_id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `bsc_m_measure`
 --
 ALTER TABLE `bsc_m_measure`
@@ -413,17 +474,17 @@ MODIFY `rel_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `om_obj`
 --
 ALTER TABLE `om_obj`
-MODIFY `obj_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `obj_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `om_obj_attr`
 --
 ALTER TABLE `om_obj_attr`
-MODIFY `attr_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `attr_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `om_obj_rel`
 --
 ALTER TABLE `om_obj_rel`
-MODIFY `rel_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `rel_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `pa_employee`
 --
