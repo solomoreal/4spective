@@ -67,13 +67,13 @@ class Bsc_m_model extends CI_Model {
 		$object = array(
 			'begin'       => $begin,
 			'end'         => $end);
-		$this->db->where('p.period_code', $code);
+		$this->db->where('period_code', $code);
 		$this->db->update('bsc_m_period', $object);
 	}
 
 	public function remove_period($code='')
 	{
-		$this->db->where('p.period_code', $code);
+		$this->db->where('period_code', $code);
 		$this->db->delete('bsc_m_period');
 	}
 // -----------------------------------------------------------------------------

@@ -96,3 +96,13 @@ if ( ! function_exists('form_button'))
 }
 
 // ------------------------------------------------------------------------
+
+if ( ! function_exists('form_number'))
+{
+	function form_number($data = '', $value = '', $extra = '')
+	{
+		$defaults = array('type' => 'number', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value, 'id'=>(( ! is_array($data)) ? $data : ''));
+
+		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
+	}
+}

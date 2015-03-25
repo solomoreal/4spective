@@ -22,26 +22,48 @@
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th><?php echo lang('basic_code'); ?></th>
-										<th width="100" class="hidden-xs"><?php echo lang('basic_begin'); ?></th>
-										<th width="100" class="hidden-xs"><?php echo lang('basic_end'); ?></th>
+										<th><?php echo lang('basic_id'); ?></th>
+										<th colspan="2"><?php echo lang('basic_name'); ?></th>
+										<th><?php echo lang('basic_desc'); ?></th>
+										<th width="100" class="hidden-xs">Min</th>
+										<th width="100" class="hidden-xs">Max</th>
+										<th width="100" class="hidden-xs">Real Num.</th>
 										<th width="50"><?php echo lang('basic_action'); ?></th>
 									</tr>
 								</thead>
 								<tbody >
 
 								<?php
-									foreach ($period_ls as $row) {
+									foreach ($count_unit_ls as $row) {
 										echo '<tr>';
-										echo '<td>'.$row->period_code.'</td>';
-										echo '<td>'.$row->begin.'</td>';
-										echo '<td>'.$row->end.'</td>';
+										echo '<td>'.$row->measure_id.'</td>';
+										echo '<td>'.$row->short_name.'</td>';
+										echo '<td>'.$row->long_name.'</td>';
+										echo '<td>'.$row->description.'</td>';
+										
+										if ($row->has_min) {
+											echo '<td>'.$row->min_val.'</td>';
+										} else {
+											echo '<td>-&infin;</td>';
+										}
+
+										if ($row->has_max) {
+											echo '<td>'.$row->max_val.'</td>';
+										} else {
+											echo '<td>&infin;</td>';
+										}
+
+										if ($row->real_num) {
+											echo '<td><i class="fa fa-check"></i></td>';
+										} else {
+											echo '<td><i class="fa fa-times"></i></td>';
+										}
 										echo '<td>';
 										// Untuk Action Btn
 										echo '<div class=" btn-group-vertical">';
 										
-										echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act" data-code="'.$row->period_code.'"title="'.lang('act_edit').'" data-fancybox-type="ajax"');
-										echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act" data-code="'.$row->period_code.'"title="'.lang('act_remove').'" data-fancybox-type="ajax"');
+										echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act" data-code="'.$row->measure_id.'"title="'.lang('act_edit').'" data-fancybox-type="ajax"');
+										echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act" data-code="'.$row->measure_id.'"title="'.lang('act_remove').'" data-fancybox-type="ajax"');
 										echo '</div>';
 
 										echo '</td>';
@@ -77,7 +99,7 @@
           // fancybox API options
           fitToView: true,
           width: 905,
-          height: 505,
+          height: 605,
           autoSize: false,
           closeClick: false,
           openEffect: 'none',

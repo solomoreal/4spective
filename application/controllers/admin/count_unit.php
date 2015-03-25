@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Period extends CI_Controller {
+class Count_unit extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
@@ -9,21 +9,28 @@ class Period extends CI_Controller {
 
 	public function index()
 	{
-		$data['page_title']  = lang('menu_period');
-		$data['link_add']    = 'admin/period/add/';
-		$data['link_edit']   = 'admin/period/edit/';
-		$data['link_remove'] = 'admin/period/remove/';
-		$data['period_ls'] = $this->bsc_m_model->get_period_list('2008-01-01','9999-12-31'); 
-		$this->load->view('admin/setting/period/main_view',$data);
+		$data['page_title']  = lang('menu_count_unit');
+		$data['link_add']    = 'admin/count_unit/add/';
+		$data['link_edit']   = 'admin/count_unit/edit/';
+		$data['link_remove'] = 'admin/count_unit/remove/';
+		$data['count_unit_ls'] = $this->bsc_m_model->get_measure_list(); 
+		$this->load->view('admin/setting/count_unit/main_view',$data);
 	}
 
 	public function add()
 	{
-		$data['process'] = 'admin/period/add_process';
-		$data['code']    = date('Y');
-		$data['begin']   = date('Y').'-01-01';
-		$data['end']     = date('Y').'-12-31';
-		$this->load->view('admin/setting/period/form', $data, FALSE);
+		$data['process'] = 'admin/count_unit/add_process';
+		$data['hidden']  = array();
+		$data['short']   = '';
+		$data['long']    = '';
+		$data['desc']    = '';
+		$data['has_min'] = FALSE;
+		$data['min_val'] = 0;
+		$data['has_max'] = FALSE;
+		$data['max_val'] = 0;
+		$data['is_real'] = TRUE;
+
+		$this->load->view('admin/setting/count_unit/form', $data, FALSE);
 	}
 
 	public function add_process()
@@ -35,7 +42,7 @@ class Period extends CI_Controller {
 			$code  = $this->input->post('txt_code');
 			$begin = $this->input->post('dt_begin');
 			$end   = $this->input->post('dt_end');
-			$this->bsc_m_model->add_period($code,$begin,$end);
+			$this->bsc_m_model->add_count_unit($code,$begin,$end);
 			$this->load->view('_notif/success');
 
 		} else {
@@ -48,13 +55,19 @@ class Period extends CI_Controller {
 
 	public function edit()
 	{
-		$code  = $this->input->post('code');
-		$period = $this->bsc_m_model->get_period_row($code);
-		$data['code']    = $code;
-		$data['begin']   = $period->begin;
-		$data['end']     = $period->end;
-		$data['process'] = 'admin/period/edit_process';
-		$this->load->view('admin/setting/period/form', $data, FALSE);
+		$code = $this->input->post('code');
+		$old  = $this->bsc_m_model->get_measure_row($code);
+		$data['hidden']  = array();
+		$data['short']   = $old->short_name;
+		$data['long']    = $old->long_name;
+		$data['desc']    = $old->description;
+		$data['has_min'] = $old->has_min;
+		$data['min_val'] = $old->min_val;
+		$data['has_max'] = $old->has_max;
+		$data['max_val'] = $old->max_val;
+		$data['is_real'] = $old->real_num;
+		$data['process'] = 'admin/count_unit/edit_process';
+		$this->load->view('admin/setting/count_unit/form', $data, FALSE);
 	}
 
 	public function edit_process()
@@ -65,7 +78,7 @@ class Period extends CI_Controller {
 			$code  = $this->input->post('hdn_code');
 			$begin = $this->input->post('dt_begin');
 			$end   = $this->input->post('dt_end');
-			$this->bsc_m_model->edit_period($code,$begin,$end);
+			$this->bsc_m_model->edit_count_unit($code,$begin,$end);
 			$this->load->view('_notif/success');
 
 		} else {
@@ -79,11 +92,9 @@ class Period extends CI_Controller {
 	public function remove()
 	{
 		$code  = $this->input->post('code');
-		$period = $this->bsc_m_model->get_period_row($code);
+		$count_unit = $this->bsc_m_model->get_measure_row($code);
 		$data['code']    = $code;
-		$data['begin']   = $period->begin;
-		$data['end']     = $period->end;
-		$data['process'] = 'admin/period/remove_process';
+		$data['process'] = 'admin/count_unit/remove_process';
 		$this->load->view('_template/remove_form', $data);
 
 	}
@@ -93,7 +104,7 @@ class Period extends CI_Controller {
 		$code = $this->input->post('hdn_code');
 		$pass = $this->input->post('txt_code');
 		if (strtoupper($pass)=='DELETE' ) {
-			$this->bsc_m_model->remove_period($code);
+			$this->bsc_m_model->remove_count_unit($code);
 			$this->load->view('_notif/success');
 			
 		} else {
@@ -104,5 +115,5 @@ class Period extends CI_Controller {
 
 }
 
-/* End of file period.php */
-/* Location: ./application/controllers/admin/period.php */
+/* End of file count_unit.php */
+/* Location: ./application/controllers/admin/count_unit.php */
