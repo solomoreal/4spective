@@ -35,14 +35,36 @@ class Count_unit extends CI_Controller {
 
 	public function add_process()
 	{
-		$this->form_validation->set_rules('txt_code', lang('basic_code'), 'trim|required|min_length[4]|max_length[6]|xss_clean');
-		$this->form_validation->set_rules('dt_begin', lang('basic_begin'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('dt_end', lang('basic_end'), 'trim|required|xss_clean');
+		$this->form_validation->set_rules('txt_short', lang('basic_code'), 'trim|required|min_length[2]|max_length[20]|xss_clean');
+		$this->form_validation->set_rules('txt_long', lang('basic_name'), 'trim|required|min_length[3]|max_length[125]|xss_clean');
+		
 		if ($this->form_validation->run()) {
-			$code  = $this->input->post('txt_code');
-			$begin = $this->input->post('dt_begin');
-			$end   = $this->input->post('dt_end');
-			$this->bsc_m_model->add_count_unit($code,$begin,$end);
+			$short   = $this->input->post('txt_short');
+			$long    = $this->input->post('txt_long');
+			$desc    = $this->input->post('txt_desc');
+			$has_min = $this->input->post('chk_min');
+			$has_max = $this->input->post('chk_max');
+			$is_real = $this->input->post('chk_real');
+
+			if ($has_min) {
+				$min_val = $this->input->post('nm_min');
+			} else {
+				$min_val = NULL;
+			}
+
+			if ($has_max) {
+				$max_val = $this->input->post('nm_max');
+			} else {
+				$max_val = NULL;
+			}
+
+			if ($min>$max) {
+				$temp = $min;
+				$min  = $max;
+				$max  = $temp;
+			}
+			
+			$this->bsc_m_model->add_measure($short,$long,$desc,$is_real,$has_min,$min_val,$has_max,$max_val);
 			$this->load->view('_notif/success');
 
 		} else {
@@ -55,9 +77,9 @@ class Count_unit extends CI_Controller {
 
 	public function edit()
 	{
-		$code = $this->input->post('code');
-		$old  = $this->bsc_m_model->get_measure_row($code);
-		$data['hidden']  = array();
+		$id  = $this->input->post('code');
+		$old = $this->bsc_m_model->get_measure_row($id);
+		$data['hidden']  = array('hdn_id'=>$id);
 		$data['short']   = $old->short_name;
 		$data['long']    = $old->long_name;
 		$data['desc']    = $old->description;
@@ -72,13 +94,35 @@ class Count_unit extends CI_Controller {
 
 	public function edit_process()
 	{
-		$this->form_validation->set_rules('dt_begin', lang('basic_begin'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('dt_end', lang('basic_end'), 'trim|required|xss_clean');
+		$this->form_validation->set_rules('txt_short', lang('basic_code'), 'trim|required|min_length[2]|max_length[20]|xss_clean');
+		$this->form_validation->set_rules('txt_long', lang('basic_name'), 'trim|required|min_length[3]|max_length[125]|xss_clean');
 		if ($this->form_validation->run()) {
-			$code  = $this->input->post('hdn_code');
-			$begin = $this->input->post('dt_begin');
-			$end   = $this->input->post('dt_end');
-			$this->bsc_m_model->edit_count_unit($code,$begin,$end);
+			$id  = $this->input->post('hdn_id');
+			$short   = $this->input->post('txt_short');
+			$long    = $this->input->post('txt_long');
+			$desc    = $this->input->post('txt_desc');
+			$has_min = $this->input->post('chk_min');
+			$has_max = $this->input->post('chk_max');
+			$is_real = $this->input->post('chk_real');
+
+			if ($has_min) {
+				$min_val = $this->input->post('nm_min');
+			} else {
+				$min_val = NULL;
+			}
+
+			if ($has_max) {
+				$max_val = $this->input->post('nm_max');
+			} else {
+				$max_val = NULL;
+			}
+
+			if ($min>$max) {
+				$temp = $min;
+				$min  = $max;
+				$max  = $temp;
+			}
+			$this->bsc_m_model->edit_count_unit($id,$short,$long,$desc,$is_real,$has_min,$min_val,$has_max,$max_val);
 			$this->load->view('_notif/success');
 
 		} else {

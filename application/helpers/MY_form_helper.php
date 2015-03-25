@@ -97,8 +97,17 @@ if ( ! function_exists('form_button'))
 
 // ------------------------------------------------------------------------
 
+/**
+	 * Form Button
+	 * 
+	 * @param  string $data  [description]
+	 * @param  string $value [description]
+	 * @param  string $extra [description]
+	 * @return [type]        [description]
+	 */
 if ( ! function_exists('form_number'))
 {
+	
 	function form_number($data = '', $value = '', $extra = '')
 	{
 		$defaults = array('type' => 'number', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value, 'id'=>(( ! is_array($data)) ? $data : ''));
@@ -106,3 +115,4 @@ if ( ! function_exists('form_number'))
 		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
 	}
 }
+// ------------------------------------------------------------------------
