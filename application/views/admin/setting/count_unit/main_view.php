@@ -23,11 +23,12 @@
 								<thead>
 									<tr>
 										<th><?php echo lang('basic_id'); ?></th>
-										<th colspan="2"><?php echo lang('basic_name'); ?></th>
+										<th><?php echo lang('basic_code'); ?></th>
+										<th><?php echo lang('basic_name'); ?></th>
 										<th><?php echo lang('basic_desc'); ?></th>
-										<th width="100" class="hidden-xs">Min</th>
-										<th width="100" class="hidden-xs">Max</th>
-										<th width="100" class="hidden-xs">Real Num.</th>
+										<th width="100">Min</th>
+										<th width="100">Max</th>
+										<th width="100">Real Num.</th>
 										<th width="50"><?php echo lang('basic_action'); ?></th>
 									</tr>
 								</thead>

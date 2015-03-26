@@ -8,7 +8,7 @@ echo '<h2>'.lang('menu_count_unit').'</h2>';
 
 </div>
 <?php
-echo form_open($process, 'class="form-horizontal col-sm-12"', $hidden);
+echo form_open($process, 'id="my_form" class="form-horizontal col-sm-12"', $hidden);
 ?>
 <div class="form-group">
 	<label for="txt_short" class="col-sm-2 control-label"><?php echo lang('basic_code')?></label>

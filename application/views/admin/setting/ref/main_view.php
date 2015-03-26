@@ -13,9 +13,7 @@
 						<h3 class="box-title" id="org-title"></h3>
 						<!-- tools box -->
 							<div class="pull-right box-tools btn-group">
-								<?php 
-									echo anchor($link_add, '<i class="fa fa-plus"></i>', 'title="'.lang('act_add').'" class="btn btn-act" " data-fancybox-type="ajax"');
-								?>
+
 							</div><!-- /. tools -->
 						</div>
 						<div  class="box-body">
@@ -23,28 +21,21 @@
 								<thead>
 									<tr>
 										<th><?php echo lang('basic_code'); ?></th>
-										<th width="100" class="hidden-xs"><?php echo lang('basic_begin'); ?></th>
-										<th width="100" class="hidden-xs"><?php echo lang('basic_end'); ?></th>
-										<th width="50"><?php echo lang('basic_action'); ?></th>
+										<th><?php echo lang('basic_name'); ?></th>
+										<th><?php echo lang('basic_desc'); ?></th>
+
+
 									</tr>
 								</thead>
 								<tbody >
 
 								<?php
-									foreach ($period_ls as $row) {
+									foreach ($ref_ls as $row) {
 										echo '<tr>';
-										echo '<td>'.$row->period_code.'</td>';
-										echo '<td class="hidden-xs">'.$row->begin.'</td>';
-										echo '<td class="hidden-xs">'.$row->end.'</td>';
+										echo '<td>'.$row->ref_code.'</td>';
+										echo '<td>'.$row->ref_name.'</td>';
+										echo '<td>'.$row->description.'</td>';
 										echo '<td>';
-										// Untuk Action Btn
-										echo '<div class=" btn-group-vertical">';
-										
-										echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act" data-code="'.$row->period_code.'"title="'.lang('act_edit').'" data-fancybox-type="ajax"');
-										echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act" data-code="'.$row->period_code.'"title="'.lang('act_remove').'" data-fancybox-type="ajax"');
-										echo '</div>';
-
-										echo '</td>';
 										echo '</tr>';
 									}
 								?>

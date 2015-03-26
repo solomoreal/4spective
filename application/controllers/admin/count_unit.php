@@ -35,7 +35,7 @@ class Count_unit extends CI_Controller {
 
 	public function add_process()
 	{
-		$this->form_validation->set_rules('txt_short', lang('basic_code'), 'trim|required|min_length[2]|max_length[20]|xss_clean');
+		$this->form_validation->set_rules('txt_short', lang('basic_code'), 'trim|required|min_length[1]|max_length[20]|xss_clean');
 		$this->form_validation->set_rules('txt_long', lang('basic_name'), 'trim|required|min_length[3]|max_length[125]|xss_clean');
 		
 		if ($this->form_validation->run()) {
@@ -58,10 +58,10 @@ class Count_unit extends CI_Controller {
 				$max_val = NULL;
 			}
 
-			if ($min>$max) {
-				$temp = $min;
-				$min  = $max;
-				$max  = $temp;
+			if ($min_val>$max_val) {
+				$temp    = $min_val;
+				$min_val = $max_val;
+				$max_val = $temp;
 			}
 			
 			$this->bsc_m_model->add_measure($short,$long,$desc,$is_real,$has_min,$min_val,$has_max,$max_val);
@@ -94,10 +94,10 @@ class Count_unit extends CI_Controller {
 
 	public function edit_process()
 	{
-		$this->form_validation->set_rules('txt_short', lang('basic_code'), 'trim|required|min_length[2]|max_length[20]|xss_clean');
+		$this->form_validation->set_rules('txt_short', lang('basic_code'), 'trim|required|min_length[1]|max_length[20]|xss_clean');
 		$this->form_validation->set_rules('txt_long', lang('basic_name'), 'trim|required|min_length[3]|max_length[125]|xss_clean');
 		if ($this->form_validation->run()) {
-			$id  = $this->input->post('hdn_id');
+			$id      = $this->input->post('hdn_id');
 			$short   = $this->input->post('txt_short');
 			$long    = $this->input->post('txt_long');
 			$desc    = $this->input->post('txt_desc');
@@ -117,12 +117,12 @@ class Count_unit extends CI_Controller {
 				$max_val = NULL;
 			}
 
-			if ($min>$max) {
-				$temp = $min;
-				$min  = $max;
-				$max  = $temp;
+			if ($min_val>$max_val) {
+				$temp    = $min_val;
+				$min_val = $max_val;
+				$max_val = $temp;
 			}
-			$this->bsc_m_model->edit_count_unit($id,$short,$long,$desc,$is_real,$has_min,$min_val,$has_max,$max_val);
+			$this->bsc_m_model->edit_measure($id,$short,$long,$desc,$is_real,$has_min,$min_val,$has_max,$max_val);
 			$this->load->view('_notif/success');
 
 		} else {
@@ -148,7 +148,7 @@ class Count_unit extends CI_Controller {
 		$code = $this->input->post('hdn_code');
 		$pass = $this->input->post('txt_code');
 		if (strtoupper($pass)=='DELETE' ) {
-			$this->bsc_m_model->remove_count_unit($code);
+			$this->bsc_m_model->remove_measure($code);
 			$this->load->view('_notif/success');
 			
 		} else {

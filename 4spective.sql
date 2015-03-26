@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Mar 24, 2015 at 03:19 AM
+-- Generation Time: Mar 26, 2015 at 03:06 AM
 -- Server version: 5.5.40
 -- PHP Version: 5.4.34
 
@@ -30,7 +30,23 @@ CREATE TABLE IF NOT EXISTS `bsc_m_formula` (
 `formula_id` int(11) NOT NULL,
   `formula_name` varchar(200) NOT NULL,
   `description` text,
-  `type` int(11) NOT NULL
+  `type` int(11) NOT NULL,
+  `begin` date NOT NULL,
+  `end` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bsc_m_formula_score`
+--
+
+CREATE TABLE IF NOT EXISTS `bsc_m_formula_score` (
+`score_id` int(11) NOT NULL,
+  `formula_id` int(11) NOT NULL,
+  `pc_score` int(11) NOT NULL,
+  `lower` float DEFAULT NULL,
+  `upper` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -49,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `bsc_m_measure` (
   `min_val` int(11) DEFAULT NULL,
   `max_val` int(11) DEFAULT NULL,
   `real_num` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bsc_m_measure`
@@ -58,7 +74,9 @@ CREATE TABLE IF NOT EXISTS `bsc_m_measure` (
 INSERT INTO `bsc_m_measure` (`measure_id`, `short_name`, `long_name`, `description`, `has_min`, `has_max`, `min_val`, `max_val`, `real_num`) VALUES
 (1, 'IDR', 'Indonesian Rupiah', '', 1, 0, 0, NULL, 1),
 (2, 'USD', 'United State Dollar', '', 1, 0, 0, NULL, 1),
-(3, '%', 'Percentage', '0-100 Percentage', 1, 1, 0, 100, 1);
+(3, '%', 'Percentage', 'Percentage of Progress', 1, 1, 0, 100, 1),
+(4, '%', 'Percentage', '', 0, 0, NULL, NULL, 1),
+(5, 'Qty', 'Quantity', '', 0, 0, NULL, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -92,6 +110,30 @@ INSERT INTO `bsc_m_perspective` (`perspective_code`, `description`) VALUES
 ('FIN', 'Financial'),
 ('IBP', 'Internal Business Process'),
 ('LNG', 'Learning And Growth');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bsc_m_ref`
+--
+
+CREATE TABLE IF NOT EXISTS `bsc_m_ref` (
+  `ref_code` varchar(10) NOT NULL,
+  `ref_name` varchar(125) NOT NULL,
+  `description` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bsc_m_ref`
+--
+
+INSERT INTO `bsc_m_ref` (`ref_code`, `ref_name`, `description`) VALUES
+('AVG', 'Average', NULL),
+('MAX', 'Maximum', NULL),
+('MIN', 'Minimum', NULL),
+('MODE', 'Mode', NULL),
+('PROP', 'Proprotional', NULL),
+('SUM', 'Summary', NULL);
 
 -- --------------------------------------------------------
 
@@ -133,6 +175,29 @@ INSERT INTO `bsc_m_type` (`code`, `description`) VALUES
 ('KPI', 'Key Performance Index'),
 ('OI', 'Strategic Objective / Strategic Initiative'),
 ('OWP', 'Organization Working Plan');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bsc_m_ytd`
+--
+
+CREATE TABLE IF NOT EXISTS `bsc_m_ytd` (
+  `ytd_code` varchar(10) NOT NULL,
+  `ytd_name` varchar(125) NOT NULL,
+  `description` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bsc_m_ytd`
+--
+
+INSERT INTO `bsc_m_ytd` (`ytd_code`, `ytd_name`, `description`) VALUES
+('AVG', 'Average', 'Average Value'),
+('LAST', 'Last Value', 'Last Value'),
+('MAX', 'Maximum', 'Highest Value'),
+('MIN', 'Minimum', 'Lowest Value'),
+('SUM', 'Summary', 'Accumulation of Value');
 
 -- --------------------------------------------------------
 
@@ -363,6 +428,12 @@ ALTER TABLE `bsc_m_formula`
  ADD PRIMARY KEY (`formula_id`);
 
 --
+-- Indexes for table `bsc_m_formula_score`
+--
+ALTER TABLE `bsc_m_formula_score`
+ ADD PRIMARY KEY (`score_id`);
+
+--
 -- Indexes for table `bsc_m_measure`
 --
 ALTER TABLE `bsc_m_measure`
@@ -381,6 +452,12 @@ ALTER TABLE `bsc_m_perspective`
  ADD PRIMARY KEY (`perspective_code`), ADD KEY `perspective_code` (`perspective_code`);
 
 --
+-- Indexes for table `bsc_m_ref`
+--
+ALTER TABLE `bsc_m_ref`
+ ADD PRIMARY KEY (`ref_code`);
+
+--
 -- Indexes for table `bsc_m_relation`
 --
 ALTER TABLE `bsc_m_relation`
@@ -391,6 +468,12 @@ ALTER TABLE `bsc_m_relation`
 --
 ALTER TABLE `bsc_m_type`
  ADD PRIMARY KEY (`code`);
+
+--
+-- Indexes for table `bsc_m_ytd`
+--
+ALTER TABLE `bsc_m_ytd`
+ ADD PRIMARY KEY (`ytd_code`);
 
 --
 -- Indexes for table `bsc_obj`
@@ -456,10 +539,15 @@ ALTER TABLE `pa_employee`
 ALTER TABLE `bsc_m_formula`
 MODIFY `formula_id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `bsc_m_formula_score`
+--
+ALTER TABLE `bsc_m_formula_score`
+MODIFY `score_id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `bsc_m_measure`
 --
 ALTER TABLE `bsc_m_measure`
-MODIFY `measure_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `measure_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `bsc_obj_attr`
 --

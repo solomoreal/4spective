@@ -28,7 +28,7 @@
 							<li> <?php echo anchor('admin/formula', '<i class="fa fa-flask"></i> '.lang('menu_formula')); ?> </li>
 							<li> <?php echo anchor('admin/count_unit','<i class="fa fa-cubes"></i> '. lang('menu_count_unit')); ?> </li>
 							<li> <?php echo anchor('admin/ytd', '<i class="fa fa-calendar"></i> '.lang('menu_ytd')); ?> </li>
-							<li> <?php echo anchor('admin/ytd', '<i class="fa fa-code-fork fa-flip-vertical"></i> '.lang('menu_ref')); ?> </li>
+							<li> <?php echo anchor('admin/ref', '<i class="fa fa-code-fork fa-flip-vertical"></i> '.lang('menu_ref')); ?> </li>
 						</ul>
 					</li>
 					<li> <?php echo anchor('admin/period', '<i class="fa fa-calendar-o"></i> '.lang('menu_period')); ?> </li>
