@@ -31,7 +31,7 @@ echo $this->form_builder->build_form_horizontal(
 			      'placeholder' => lang('om_post_name'),
 			      'value' => html_entity_decode($post_name)
 			  ),
-			  	array(/* DROP DOWN */
+			  array(/* DROP DOWN */
 		        'id' => 'slc_chief',
 			      'label' => lang('om_chief_post'),
 		        'type' => 'dropdown',

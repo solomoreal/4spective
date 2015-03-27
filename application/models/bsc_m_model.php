@@ -259,11 +259,11 @@ class Bsc_m_model extends CI_Model {
 	{
 		$object = array(
 			'formula_name' => $formula_name,
-			'description'  => $desc,
+			'description'  => $description,
 			'type'         => $type,
 			'begin'        => $begin,
 			'end'          => $end);
-		$this->db->insert('bsc_m_formula f', $object);
+		$this->db->insert('bsc_m_formula', $object);
 
 		return $this->db->insert_id();
 	}
@@ -272,25 +272,25 @@ class Bsc_m_model extends CI_Model {
 	{
 		$object = array(
 			'formula_name' => $formula_name,
-			'description'  => $desc,
+			'description'  => $description,
 			'type'         => $type,
 			'begin'        => $begin,
 			'end'          => $end);
-		$this->db->where('f.formula_id', $id);
-		$this->db->update('bsc_m_formula f', $object);
+		$this->db->where('formula_id', $id);
+		$this->db->update('bsc_m_formula', $object);
 	}
 
 	public function delimit_formula($id=0,$end='9999-12-31')
 	{
 		$object = array('end' => $end);
-		$this->db->where('f.formula_id', $id);
-		$this->db->update('bsc_m_formula f', $object);
+		$this->db->where('formula_id', $id);
+		$this->db->update('bsc_m_formula ', $object);
 	}
 
 	public function remove_formula($id=0)
 	{
-		$this->db->where('f.formula_id', $id);
-		$this->db->delete('bsc_m_formula f');
+		$this->db->where('formula_id', $id);
+		$this->db->delete('bsc_m_formula ');
 	}
 
 	public function get_formula_score_list($formula_id=0)
@@ -313,9 +313,9 @@ class Bsc_m_model extends CI_Model {
 		$object = array(
 			'formula_id' => $formula_id,
 			'pc_score' => $pc_score,
-			'lower' => $lower
+			'lower' => $lower,
 			'upper' => $upper);
-		$this->db->insert('bsc_m_formula_score fs', $object);
+		$this->db->insert('bsc_m_formula_score', $object);
 		return $this->db->insert_id();
 	}
 
@@ -323,7 +323,7 @@ class Bsc_m_model extends CI_Model {
 	{
 		$object = array(
 			'pc_score' => $pc_score,
-			'lower' => $lower
+			'lower' => $lower,
 			'upper' => $upper);
 		$this->db->where('fs.score_id', $id);
 		$this->db->update('bsc_m_formula_score fs', $object);

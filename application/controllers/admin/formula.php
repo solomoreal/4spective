@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class formula extends CI_Controller {
+class Formula extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
@@ -16,13 +16,18 @@ class formula extends CI_Controller {
 
 	public function show_formula()
 	{
-		$data['formula_ls'] = $this->bsc_m_model->get_formula_list('2008-01-01','9999-12-31'); 
+		$formula_ls = $this->bsc_m_model->get_formula_list('2008-01-01','9999-12-31'); 
 		$data['link_edit']   = 'admin/formula/edit/';
 		$data['link_remove'] = 'admin/formula/remove/';
 		$data['link_add']    = 'admin/formula/add_score/';
+		$data['type_ls'] = array(
+			0 => 'None',
+			1 => 'Maximize',
+			2 => 'Minimize',
+			3 => 'Stablize'); 
 		foreach ($formula_ls as $row) {
 			$data['row'] = $row;
-			$this->load->view('admin/setting/formula/formula_list', $data, TRUE);
+			echo $this->load->view('admin/setting/formula/formula_list', $data, TRUE);
 		}
 
 	}
@@ -32,17 +37,19 @@ class formula extends CI_Controller {
 		$formula_id = $this->input->post('formula_id');
 		$score_ls = $this->bsc_m_model->get_formula_score_list($formula_id);
 
-		$data['link_edit']   = 'admin/formula/edi_scoret/';
+		$data['link_edit']   = 'admin/formula/edit_score/';
 		$data['link_remove'] = 'admin/formula/remove_score/';
+
 		foreach ($score_ls as $row) {
 			$data['row'] = $row;
-			$this->load->view('admin/setting/formula/score_list', $data, TRUE);
+			echo $this->load->view('admin/setting/formula/score_list', $data, TRUE);
 		}
 	}
 
 	public function add()
 	{
 		$data['process'] = 'admin/formula/add_process';
+		$data['id']    = 0;
 		$data['name']  = '';
 		$data['desc']  = '';
 		$data['type']  = 0;
@@ -53,7 +60,7 @@ class formula extends CI_Controller {
 
 	public function add_process()
 	{
-		$this->form_validation->set_rules('txt_name', lang('basic_name'), 'trim|required|min_length[4]|max_length[6]|xss_clean');
+		$this->form_validation->set_rules('txt_name', lang('basic_name'), 'trim|required|min_length[4]|max_length[125]|xss_clean');
 		$this->form_validation->set_rules('dt_begin', lang('basic_begin'), 'trim|required|xss_clean');
 		$this->form_validation->set_rules('dt_end', lang('basic_end'), 'trim|required|xss_clean');
 		if ($this->form_validation->run()) {
@@ -89,7 +96,7 @@ class formula extends CI_Controller {
 
 	public function edit_process()
 	{
-		$this->form_validation->set_rules('txt_name', lang('basic_name'), 'trim|required|min_length[4]|max_length[6]|xss_clean');
+		$this->form_validation->set_rules('txt_name', lang('basic_name'), 'trim|required|min_length[4]|max_length[125]|xss_clean');
 		$this->form_validation->set_rules('dt_begin', lang('basic_begin'), 'trim|required|xss_clean');
 		$this->form_validation->set_rules('dt_end', lang('basic_end'), 'trim|required|xss_clean');
 		if ($this->form_validation->run()) {

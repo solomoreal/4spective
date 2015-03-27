@@ -22,7 +22,9 @@
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th><?php echo lang('basic_id'); ?></th>
+										<th colspan="2"><?php echo lang('basic_id'); ?></th>
+										<th><?php echo lang('basic_type'); ?></th>
+
 										<th><?php echo lang('basic_name'); ?></th>
 										<th><?php echo lang('basic_desc'); ?></th>
 										<th width="100" class="hidden-xs"><?php echo lang('basic_begin'); ?></th>
@@ -47,6 +49,57 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
+		refresh();
+
+		function refresh () {
+			var base_url = '<?php echo base_url(); ?>index.php/';
+			$.ajax({
+				url: base_url+'admin/formula/show_formula',
+			})
+			.done(function(html) {
+				$('#list').html(html);
+				$('.box-score').hide();
+				// DO define toggle to show Formula's Score
+				$(".tgl-score").toggleClick(function(){ 
+					var formula_id = $(this).data('id');   
+					$(this).children('i').attr('class', 'fa fa-chevron-down');
+					$('.box-score[data-id='+formula_id+']').show();
+					$.ajax({
+						url: base_url+'admin/formula/show_score',
+						type: 'POST',
+						data: {formula_id: formula_id},
+					})
+					.done(function(html) {
+						$('.list-score[data-id='+formula_id+']').html(html);
+						console.log("success");
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
+					});
+					
+
+				}, function(){
+					$(this).children('i').attr('class', 'fa fa-chevron-right');
+					$('.box-score').hide();
+
+				});
+
+
+				// console.log("success");
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+			});
+			
+		}
+
+
 		$('.btn-act').click(function(e) {
 			var code = $(this).data('code');
 			e.preventDefault();
@@ -66,7 +119,7 @@
           closeClick: false,
           openEffect: 'none',
           closeEffect: 'none',
-          afterClose: function(){parent.location.reload(true)}
+          afterClose: function(){refresh()}
         }); // fancybox
 			})
 			.fail(function() {

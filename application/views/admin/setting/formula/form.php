@@ -22,6 +22,17 @@ echo $this->form_builder->build_form_horizontal(
 			      'placeholder' => lang('basic_name'),
 			      'value' => html_entity_decode($name)
 			  ),
+			  array(/* DROP DOWN */
+		        'id' => 'slc_type',
+			      'label' => lang('basic_type'),
+		        'type' => 'dropdown',
+		        'options' => array(
+		            0 => 'none',
+		            1 => 'Maximize',
+		            2 => 'Minimize',
+		            3 => 'Stabilize',
+		        )
+		    ),
 			  array(
 			      'id' => 'txt_desc',
 			      'label' => lang('basic_desc'),
