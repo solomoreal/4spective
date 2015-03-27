@@ -59,6 +59,50 @@
 			.done(function(html) {
 				$('#list').html(html);
 				$('.box-score').hide();
+
+				// DO define btn-act-2 behavior
+				$('.btn-act-2').click(function(e) {
+					var formula_id = $(this).data('id');
+					e.preventDefault();
+					$.ajax({
+						url: this.href,
+						type: 'POST',
+						data: {
+							formula_id: formula_id},
+					})
+					.done(function(data) {
+						 $.fancybox(data, {
+		          // fancybox API options
+		          fitToView: true,
+		          width: 905,
+		          height: 505,
+		          autoSize: false,
+		          closeClick: false,
+		          openEffect: 'none',
+		          closeEffect: 'none',
+		          afterClose: function(){
+		          	$('.box-score[data-id='+formula_id+']').show();
+								$.ajax({
+									url: base_url+'admin/formula/show_score',
+									type: 'POST',
+									data: {formula_id: formula_id},
+								})
+								.done(function(html) {
+									$('.list-score[data-id='+formula_id+']').html(html);
+									console.log("success");
+								})
+		          }
+		        }); // fancybox
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
+					});
+				});
+				// end of btn-act-2 behavior
+
 				// DO define toggle to show Formula's Score
 				$(".tgl-score").toggleClick(function(){ 
 					var formula_id = $(this).data('id');   

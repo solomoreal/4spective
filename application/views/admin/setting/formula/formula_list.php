@@ -9,7 +9,7 @@
 	<td>
 		<div class=" btn-group-vertical">
 		<?php
-			echo anchor($link_add, '</i><i class="fa fa-plus"></i> ', 'class="btn"  data-id="'.$row->formula_id.'" title="'.lang('act_view_detail').' '. lang('menu_score').'"');
+			echo anchor($link_add, '</i><i class="fa fa-plus"></i> ', 'class="btn btn-act-2"  data-id="'.$row->formula_id.'" title="'.lang('act_view_detail').' '. lang('menu_score').'"');
 			echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act-2" data-id="'.$row->formula_id.'"  title="'.lang('act_delete').' '. lang('menu_formula').'"');
 			echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-2" data-id="'.$row->formula_id.'" title="'.lang('act_delete').' '. lang('menu_formula').'" data-fancybox-type="ajax"');
 		?>

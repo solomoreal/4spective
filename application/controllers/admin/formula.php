@@ -145,23 +145,36 @@ class Formula extends CI_Controller {
 
 	public function add_score()
 	{
-		$data['process'] = 'admin/formula/add_score_process';
+		$formula_id = $this->input->post('formula_id');
+		$hidden = array(
+			'formula_id' => $formula_id);
+
+		$data['score_opt'] = array(1,2,3,4,5);
+		$data['score']     = 1;
+		$data['lower']     = 0;
+		$data['upper']     = 0;
+		
+		$data['hidden']    = $hidden;
+		$data['process']   = 'admin/formula/add_score_process';
 
 		$this->load->view('admin/setting/formula/score_form', $data, FALSE);
 	}
 
 	public function add_score_process()
 	{
-		$this->form_validation->set_rules('txt_name', lang('basic_name'), 'trim|required|min_length[4]|max_length[6]|xss_clean');
-		$this->form_validation->set_rules('dt_begin', lang('basic_begin'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('dt_end', lang('basic_end'), 'trim|required|xss_clean');
-		if ($this->form_validation->run_score()) {
-
-			$this->bsc_m_model->add_formula_score();
+		$this->form_validation->set_rules('slc_score', 'Score', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('nm_lower', 'Lower', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('nm_upper', 'Upper', 'trim|required|xss_clean');
+		if ($this->form_validation->run()) {
+			$formula_id = $this->input->post('formula_id');
+			$pc_score   = $this->input->post('slc_score');
+			$lower      = $this->input->post('nm_lower');
+			$upper      = $this->input->post('nm_upper');
+			$this->bsc_m_model->add_formula_score($formula_id,$pc_score,$lower,$upper);
 			$this->load->view('_notif/success');
 
 		} else {
-			$data['e'] = validation_errors_score();
+			$data['e'] = validation_errors();
 
 			$this->load->view('_notif/error', $data);
 		}
@@ -170,27 +183,31 @@ class Formula extends CI_Controller {
 
 	public function edit_score()
 	{
-		$id  = $this->input->post('code');
-		$formula = $this->bsc_m_model->get_formula_row($id);
-		$data['id']    = $id;
-		$data['name']  = $formula->name;
-		$data['desc']  = $formula->description;
-		$data['type']  = $formula->type;
-		$data['begin'] = $formula->begin;
-		$data['end']   = $formula->end;
+		$formula_id = $this->input->post('formula_id');
+		$score_id   = $this->input->post('score_id');
+		$score = $this->bsc_m_model->get_formula_row($score_id);
+		$hidden = array(
+			'formula_id' => $formula_id,
+			'score_id'   => $score_id);
+		$data['score_opt'] = array(1,2,3,4,5);
+		$data['score']     = $score->pc_score;
+		$data['lower']     = $score->lower;
+		$data['upper']     = $score->upper;
 		$data['process'] = 'admin/formula/edit_score_process';
 		$this->load->view('admin/setting/formula/score_form', $data, FALSE);
 	}
 
 	public function edit_score_process()
 	{
-		$this->form_validation->set_rules('txt_name', lang('basic_name'), 'trim|required|min_length[4]|max_length[6]|xss_clean');
-		$this->form_validation->set_rules('dt_begin', lang('basic_begin'), 'trim|required|xss_clean');
-		$this->form_validation->set_rules('dt_end', lang('basic_end'), 'trim|required|xss_clean');
+		$this->form_validation->set_rules('slc_score', 'Score', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('nm_lower', 'Lower', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('nm_upper', 'Upper', 'trim|required|xss_clean');
 		if ($this->form_validation->run_score()) {
-			$id    = $this->input->post('hdn_id');
-
-			$this->bsc_m_model->edit_formula_score($id);
+			$score_id = $this->input->post('score_id');
+			$pc_score = $this->input->post('slc_score');
+			$lower    = $this->input->post('nm_lower');
+			$upper    = $this->input->post('nm_upper');
+			$this->bsc_m_model->edit_formula_score($score_id,$pc_score,$lower,$upper);
 			$this->load->view('_notif/success');
 
 		} else {

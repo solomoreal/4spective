@@ -10,8 +10,32 @@ echo '<h2>'.lang('menu_period').'</h2>';
 <?php
 echo form_open($process, 'id="my_form" class="form-horizontal col-sm-12"', $hidden);
 ?>
+	<div class="form-group">
+		<label for="txt_short" class="col-sm-2 control-label">Score</label>
+		<div class="col-sm-2">
+			<?php echo form_dropdown('slc_score', $score_opt, '','class="form-control"'); ?>
+		</div>
+	</div>
 
+	<div class="form-group">
+		<label for="nm_lower" class="col-sm-2 control-label">Lower</label>
+		<div class="col-sm-2">
+			<?php echo form_number('nm_lower', $lower, 'class="form-control"');?>
+		</div>
+	</div>
 
+	<div class="form-group">
+		<label for="nm_upper" class="col-sm-2 control-label">Upper</label>
+		<div class="col-sm-2">
+			<?php echo form_number('nm_upper', $upper, 'class="form-control"');?>
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-9 col-sm-offset-2">
+			<?php echo form_submit('btn_submit', lang('act_save'),'class="btn btn-primary');?>
+		</div>
+	</div>
 <?php
 
 $this->load->view('_template/basic_bot');
