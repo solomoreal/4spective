@@ -20,21 +20,21 @@
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th><?php echo lang('basic_code'); ?></th>
-										<th><?php echo lang('basic_name'); ?></th>
-										<th><?php echo lang('basic_desc'); ?></th>
-
-
+										<th><?php echo lang('basic_score'); ?></th>
+										<th><?php echo lang('basic_low_bnd'); ?></th>
+										<th><?php echo lang('basic_up_bnd'); ?></th>
+										<th><?php echo lang('basic_color'); ?></th>
 									</tr>
 								</thead>
 								<tbody >
 
 								<?php
-									foreach ($ytd_ls as $row) {
+									foreach ($score_ls as $row) {
 										echo '<tr>';
-										echo '<td>'.$row->ytd_code.'</td>';
-										echo '<td>'.$row->ytd_name.'</td>';
-										echo '<td>'.$row->description.'</td>';
+										echo '<td>'.$row->pc_score.'</td>';
+										echo '<td>'.$row->lower.'</td>';
+										echo '<td>'.$row->upper.'</td>';
+										echo '<td style="background-color:#'.$row->color.';"></td>';
 										echo '</tr>';
 									}
 								?>

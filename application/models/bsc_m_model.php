@@ -290,19 +290,26 @@ class Bsc_m_model extends CI_Model {
 	public function remove_formula($id=0)
 	{
 		$this->db->where('formula_id', $id);
-		$this->db->delete('bsc_m_formula ');
+		$this->db->delete('bsc_m_formula');
 	}
 
 	public function get_formula_score_list($formula_id=0)
 	{
+		$this->db->select('fs.*');
+		$this->db->select('s.color');
 		$this->db->from('bsc_m_formula_score fs');
+		$this->db->join('bsc_m_score s', 'fs.pc_score = s.pc_score', 'inner');
 		$this->db->where('fs.formula_id', $formula_id);
+		$this->db->order_by('fs.lower', 'asc');
 		return $this->db->get()->result();
 	}
 
 	public function get_formula_score_row($id=0)
 	{
+		$this->db->select('fs.*');
+		$this->db->select('s.color');
 		$this->db->from('bsc_m_formula_score fs');
+		$this->db->join('bsc_m_score s', 'fs.pc_score = s.pc_score', 'inner');
 		$this->db->where('fs.score_id', $id);
 		return $this->db->get()->row();
 
@@ -334,6 +341,43 @@ class Bsc_m_model extends CI_Model {
 		$this->db->where('fs.score_id', $id);
 		$this->db->delete('bsc_m_formula_score fs');
 
+	}
+
+// -----------------------------------------------------------------------------
+
+///////////////////////////////////////////////////////////////////////////////////
+// PC SCORE                                                                      //
+// ----------------------------------------------------------------------------- //
+///////////////////////////////////////////////////////////////////////////////////
+
+	public function count_score($formula_id=0)
+	{
+		$this->db->select('COUNT(*) AS val');
+		$this->db->where('formula_id', $formula_id);
+		$this->db->from('bsc_m_score');
+		return $this->db->get()->row()->val;	
+	}
+
+	public function count_score_pc($formula_id=0,$pc_score)
+	{
+		$this->db->select('COUNT(*) AS val');
+		$this->db->where('formula_id', $formula_id);
+		$this->db->where('pc_score', $pc_score);
+		$this->db->from('bsc_m_score');
+		return $this->db->get()->row()->val;
+	}
+
+	public function get_score_list()
+	{
+		$this->db->from('bsc_m_score');
+		return $this->db->get()->result();
+	}
+
+	public function get_score_row($pc_score=0)
+	{
+		$this->db->where('pc_score', $pc_score);
+		$this->db->from('bsc_m_score');
+		return $this->db->get()->row();	
 	}
 
 // -----------------------------------------------------------------------------

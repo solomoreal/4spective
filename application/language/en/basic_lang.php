@@ -4,20 +4,26 @@
 	* dalam bahasa Inggris
 	*
 */
-	$lang['basic_id']     = 'ID';
-	$lang['basic_code']   = 'Code';
-	$lang['basic_desc']   = 'Description';
-	$lang['basic_detail'] = 'Detail';
-	$lang['basic_msg']    = 'Message';
-	$lang['basic_name']   = 'Name';
-	$lang['basic_title']  = 'Title';
-	$lang['basic_note']   = 'Note';
-	$lang['basic_status'] = 'Status';
-	$lang['basic_loc']    = 'Location';
-	$lang['basic_type']   = 'Type';
-	$lang['basic_action'] = 'Action';
-	$lang['basic_min']    = 'Minimum';
-	$lang['basic_max']    = 'Maximum';
+	$lang['basic_id']       = 'ID';
+	$lang['basic_code']     = 'Code';
+	$lang['basic_desc']     = 'Description';
+	$lang['basic_detail']   = 'Detail';
+	$lang['basic_msg']      = 'Message';
+	$lang['basic_name']     = 'Name';
+	$lang['basic_title']    = 'Title';
+	$lang['basic_note']     = 'Note';
+	$lang['basic_status']   = 'Status';
+	$lang['basic_loc']      = 'Location';
+	$lang['basic_type']     = 'Type';
+	$lang['basic_category'] = 'Category';
+	$lang['basic_action']   = 'Action';
+	$lang['basic_min']      = 'Minimum';
+	$lang['basic_max']      = 'Maximum';
+
+	$lang['basic_score']   = 'Score';
+	$lang['basic_low_bnd'] = 'Lower Bound';
+	$lang['basic_up_bnd']  = 'Upper Bound';
+	$lang['basic_color']   = 'Color';
 	
 	$lang['basic_and']			= ' and ';
 	$lang['basic_or']				= ' or ';

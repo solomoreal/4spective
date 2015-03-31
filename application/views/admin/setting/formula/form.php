@@ -31,7 +31,8 @@ echo $this->form_builder->build_form_horizontal(
 		            1 => 'Maximize',
 		            2 => 'Minimize',
 		            3 => 'Stabilize',
-		        )
+		        ),
+		        'value' => $type
 		    ),
 			  array(
 			      'id' => 'txt_desc',

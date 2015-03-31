@@ -82,10 +82,10 @@ class Formula extends CI_Controller {
 
 	public function edit()
 	{
-		$id  = $this->input->post('code');
+		$id  = $this->input->post('formula_id');
 		$formula = $this->bsc_m_model->get_formula_row($id);
 		$data['id']    = $id;
-		$data['name']  = $formula->name;
+		$data['name']  = $formula->formula_name;
 		$data['desc']  = $formula->description;
 		$data['type']  = $formula->type;
 		$data['begin'] = $formula->begin;
@@ -119,11 +119,9 @@ class Formula extends CI_Controller {
 
 	public function remove()
 	{
-		$code  = $this->input->post('code');
+		$code  = $this->input->post('formula_id');
 		$formula = $this->bsc_m_model->get_formula_row($code);
 		$data['code']    = $code;
-		$data['begin']   = $formula->begin;
-		$data['end']     = $formula->end;
 		$data['process'] = 'admin/formula/remove_process';
 		$this->load->view('_template/remove_form', $data);
 
@@ -146,10 +144,14 @@ class Formula extends CI_Controller {
 	public function add_score()
 	{
 		$formula_id = $this->input->post('formula_id');
-		$hidden = array(
+		$hidden     = array(
 			'formula_id' => $formula_id);
-
-		$data['score_opt'] = array(1,2,3,4,5);
+		$score_ls  = $this->bsc_m_model->get_score_list();
+		$score_opt = array();
+		foreach ($score_ls as $row) {
+			$score_opt[$row->pc_score] = $row->pc_score;
+		}
+		$data['score_opt'] = $score_opt;
 		$data['score']     = 1;
 		$data['lower']     = 0;
 		$data['upper']     = 0;
@@ -163,13 +165,17 @@ class Formula extends CI_Controller {
 	public function add_score_process()
 	{
 		$this->form_validation->set_rules('slc_score', 'Score', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('nm_lower', 'Lower', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('nm_upper', 'Upper', 'trim|required|xss_clean');
+	
 		if ($this->form_validation->run()) {
 			$formula_id = $this->input->post('formula_id');
 			$pc_score   = $this->input->post('slc_score');
 			$lower      = $this->input->post('nm_lower');
 			$upper      = $this->input->post('nm_upper');
+			if ($upper < $lower) {
+				$temp  = $lower;
+				$lower = $upper;
+				$upper = $temp;	
+			}
 			$this->bsc_m_model->add_formula_score($formula_id,$pc_score,$lower,$upper);
 			$this->load->view('_notif/success');
 
@@ -185,28 +191,40 @@ class Formula extends CI_Controller {
 	{
 		$formula_id = $this->input->post('formula_id');
 		$score_id   = $this->input->post('score_id');
-		$score = $this->bsc_m_model->get_formula_row($score_id);
-		$hidden = array(
+		$score      = $this->bsc_m_model->get_formula_score_row($score_id);
+		$hidden     = array(
 			'formula_id' => $formula_id,
 			'score_id'   => $score_id);
-		$data['score_opt'] = array(1,2,3,4,5);
+		$score_ls  = $this->bsc_m_model->get_score_list();
+		$score_opt = array();
+		foreach ($score_ls as $row) {
+			$score_opt[$row->pc_score] = $row->pc_score;
+		}
+		$data['score_opt'] = $score_opt;
 		$data['score']     = $score->pc_score;
 		$data['lower']     = $score->lower;
 		$data['upper']     = $score->upper;
-		$data['process'] = 'admin/formula/edit_score_process';
-		$this->load->view('admin/setting/formula/score_form', $data, FALSE);
+		$data['hidden']    = $hidden;
+		$data['process']   = 'admin/formula/edit_score_process';
+		echo $this->load->view('admin/setting/formula/score_form', $data, TRUE);
 	}
 
 	public function edit_score_process()
 	{
 		$this->form_validation->set_rules('slc_score', 'Score', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('nm_lower', 'Lower', 'trim|required|xss_clean');
-		$this->form_validation->set_rules('nm_upper', 'Upper', 'trim|required|xss_clean');
-		if ($this->form_validation->run_score()) {
-			$score_id = $this->input->post('score_id');
-			$pc_score = $this->input->post('slc_score');
-			$lower    = $this->input->post('nm_lower');
-			$upper    = $this->input->post('nm_upper');
+		
+		if ($this->form_validation->run()) {
+			$score_id  = $this->input->post('score_id');
+			$pc_score  = $this->input->post('slc_score');
+			$has_lower = $this->input->post('chk_lower');
+			$has_upper = $this->input->post('chk_upper');
+			$lower     = $this->input->post('nm_lower');
+			$upper     = $this->input->post('nm_upper');
+			if ($upper < $lower) {
+				$temp  = $lower;
+				$lower = $upper;
+				$upper = $temp;	
+			}
 			$this->bsc_m_model->edit_formula_score($score_id,$pc_score,$lower,$upper);
 			$this->load->view('_notif/success');
 
@@ -220,11 +238,10 @@ class Formula extends CI_Controller {
 
 	public function remove_score()
 	{
-		$code  = $this->input->post('code');
-		$formula = $this->bsc_m_model->get_formula_row($code);
+		$code  = $this->input->post('score_id');
+		
 		$data['code']    = $code;
-		$data['begin']   = $formula->begin;
-		$data['end']     = $formula->end;
+		
 		$data['process'] = 'admin/formula/remove_score_process';
 		$this->load->view('_template/remove_form', $data);
 

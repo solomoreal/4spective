@@ -49,9 +49,9 @@
 
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
-		refresh();
+		refresh_formula();
 
-		function refresh () {
+		function refresh_formula () {
 			var base_url = '<?php echo base_url(); ?>index.php/';
 			$.ajax({
 				url: base_url+'admin/formula/show_formula',
@@ -81,67 +81,74 @@
 		          openEffect: 'none',
 		          closeEffect: 'none',
 		          afterClose: function(){
-		          	$('.box-score[data-id='+formula_id+']').show();
-								$.ajax({
-									url: base_url+'admin/formula/show_score',
-									type: 'POST',
-									data: {formula_id: formula_id},
-								})
-								.done(function(html) {
-									$('.list-score[data-id='+formula_id+']').html(html);
-									console.log("success");
-								})
+		          	refresh_formula();
 		          }
 		        }); // fancybox
-					})
-					.fail(function() {
-						console.log("error");
-					})
-					.always(function() {
-						console.log("complete");
-					});
+					}) // END OF ajax
 				});
 				// end of btn-act-2 behavior
 
 				// DO define toggle to show Formula's Score
 				$(".tgl-score").toggleClick(function(){ 
+					// DO WHEN Odd event
 					var formula_id = $(this).data('id');   
 					$(this).children('i').attr('class', 'fa fa-chevron-down');
-					$('.box-score[data-id='+formula_id+']').show();
-					$.ajax({
-						url: base_url+'admin/formula/show_score',
-						type: 'POST',
-						data: {formula_id: formula_id},
-					})
-					.done(function(html) {
-						$('.list-score[data-id='+formula_id+']').html(html);
-						console.log("success");
-					})
-					.fail(function() {
-						console.log("error");
-					})
-					.always(function() {
-						console.log("complete");
-					});
-					
+					refresh_score(formula_id);
 
 				}, function(){
+					// DO WHEN even event
+					var formula_id = $(this).data('id');   
 					$(this).children('i').attr('class', 'fa fa-chevron-right');
-					$('.box-score').hide();
+					$('.box-score[data-id='+formula_id+']').hide();
 
-				});
+				}); // END OF $(".tgl-score").toggleClick()
 
-
-				// console.log("success");
-			})
-			.fail(function() {
-				console.log("error");
-			})
-			.always(function() {
-				console.log("complete");
-			});
+			})// END OF ajax
 			
-		}
+		} // END OF refresh_formula()
+
+		function refresh_score (formula_id) {
+			var base_url = '<?php echo base_url(); ?>index.php/';
+			$('.box-score[data-id='+formula_id+']').show();
+				$.ajax({
+					url: base_url+'admin/formula/show_score',
+					type: 'POST',
+					data: {formula_id: formula_id},
+				})
+				.done(function(html) {
+					$('.list-score[data-id='+formula_id+']').html(html);
+					
+					// DO define .btn-act-score behavior
+					$('.btn-act-score').click(function(e) {
+						var score_id = $(this).data('id');
+						e.preventDefault();
+						$.ajax({
+							url: this.href,
+							type: 'POST',
+							data: {
+								formula_id: formula_id,
+								score_id: score_id},
+						})
+						.done(function(data) {
+							 $.fancybox(data, {
+			          // fancybox API options
+			          fitToView: true,
+			          width: 905,
+			          height: 505,
+			          autoSize: false,
+			          closeClick: false,
+			          openEffect: 'none',
+			          closeEffect: 'none',
+			          afterClose: function(){
+			          	refresh_score();
+			          }
+			        }); // fancybox
+						})
+					});
+					// end of .btn-act-score behavior
+
+				}) // END OF ajax
+		} // END OF refresh_score()
 
 
 		$('.btn-act').click(function(e) {
@@ -163,15 +170,9 @@
           closeClick: false,
           openEffect: 'none',
           closeEffect: 'none',
-          afterClose: function(){refresh()}
+          afterClose: function(){refresh_formula()}
         }); // fancybox
-			})
-			.fail(function() {
-				console.log("error");
-			})
-			.always(function() {
-				console.log("complete");
-			});
+			}) // END OF ajax
 		});
 	});
 </script>
