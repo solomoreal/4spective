@@ -20,9 +20,9 @@
 							<table class="table table-hover">
 								<thead>
 									<tr>
-										<th><?php echo lang('basic_score'); ?></th>
-										<th><?php echo lang('basic_low_bnd'); ?></th>
-										<th><?php echo lang('basic_up_bnd'); ?></th>
+										<th><?php echo lang('number_score'); ?></th>
+										<th><?php echo lang('number_lower'); ?></th>
+										<th><?php echo lang('number_uppper'); ?></th>
 										<th><?php echo lang('basic_color'); ?></th>
 									</tr>
 								</thead>

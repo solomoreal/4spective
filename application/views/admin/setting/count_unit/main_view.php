@@ -26,9 +26,9 @@
 										<th><?php echo lang('basic_code'); ?></th>
 										<th><?php echo lang('basic_name'); ?></th>
 										<th><?php echo lang('basic_desc'); ?></th>
-										<th width="100">Min</th>
-										<th width="100">Max</th>
-										<th width="100">Real Num.</th>
+										<th width="100"><?php echo lang('number_min'); ?></th>
+										<th width="100"><?php echo lang('number_max'); ?></th>
+										<th width="100"><?php echo lang('number_real'); ?></th>
 										<th width="50"><?php echo lang('basic_action'); ?></th>
 									</tr>
 								</thead>

@@ -21,10 +21,10 @@ class Formula extends CI_Controller {
 		$data['link_remove'] = 'admin/formula/remove/';
 		$data['link_add']    = 'admin/formula/add_score/';
 		$data['type_ls'] = array(
-			0 => 'None',
-			1 => 'Maximize',
-			2 => 'Minimize',
-			3 => 'Stablize'); 
+			0 => lang('basic_none'),
+			1 => lang('number_maxi'),
+			2 => lang('number_mini'),
+			3 => lang('number_stab')); 
 		foreach ($formula_ls as $row) {
 			$data['row'] = $row;
 			echo $this->load->view('admin/setting/formula/formula_list', $data, TRUE);

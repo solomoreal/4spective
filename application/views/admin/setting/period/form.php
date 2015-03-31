@@ -24,14 +24,14 @@ echo $this->form_builder->build_form_horizontal(
 			  ),
 			  array(
 			      'id' => 'dt_begin',
-			      'label' => lang('basic_begin'),
+			      'label' => lang('time_begin'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
 			      'value' => html_entity_decode($begin)
 			  ),
 			  array(
 			      'id' => 'dt_end',
-			      'label' => lang('basic_end'),
+			      'label' => lang('time_end'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
 			      'value' => html_entity_decode($end)

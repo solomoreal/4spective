@@ -16,7 +16,7 @@
 	$lang['sc_count_type'] = 'Counting Type';
 	$lang['sc_formula']    = 'Formula';
 	$lang['sc_baseline']   = 'Baseline';
-	$lang['sc_ref']   			= 'Reference';
+	$lang['sc_ref']        = 'Reference';
 	$lang['sc_ref_type']   = 'Reference Type';
 
 	$lang['sc_achv'] = 'Achievement';

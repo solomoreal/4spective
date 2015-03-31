@@ -27,11 +27,10 @@ echo $this->form_builder->build_form_horizontal(
 			      'label' => lang('basic_type'),
 		        'type' => 'dropdown',
 		        'options' => array(
-		            0 => 'none',
-		            1 => 'Maximize',
-		            2 => 'Minimize',
-		            3 => 'Stabilize',
-		        ),
+							0 => lang('basic_none'),
+							1 => lang('number_maxi'),
+							2 => lang('number_mini'),
+							3 => lang('number_stab')),
 		        'value' => $type
 		    ),
 			  array(
@@ -43,14 +42,14 @@ echo $this->form_builder->build_form_horizontal(
 			  ),
 			  array(
 			      'id' => 'dt_begin',
-			      'label' => lang('basic_begin'),
+			      'label' => lang('time_begin'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
 			      'value' => html_entity_decode($begin)
 			  ),
 			  array(
 			      'id' => 'dt_end',
-			      'label' => lang('basic_end'),
+			      'label' => lang('time_end'),
 			      'class' => 'datepicker',
 			      'placeholder' => 'yyyy-mm-dd',
 			      'value' => html_entity_decode($end)

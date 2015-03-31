@@ -18,8 +18,8 @@
 	<td>
 		<div class=" btn-group-vertical">
 		<?php
-			echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act-score" data-id="'.$row->score_id.'"  title="'.lang('act_edit').' '. lang('basic_score').'" data-fancybox-type="ajax"');
-			echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-score" data-id="'.$row->score_id.'" title="'.lang('act_delete').' '. lang('basic_score').'" data-fancybox-type="ajax"');
+			echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act-score" data-id="'.$row->score_id.'"  title="'.lang('act_edit').' '. lang('number_score').'" data-fancybox-type="ajax"');
+			echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-score" data-id="'.$row->score_id.'" title="'.lang('act_delete').' '. lang('number_score').'" data-fancybox-type="ajax"');
 		?>
 		</div>
 	</td>

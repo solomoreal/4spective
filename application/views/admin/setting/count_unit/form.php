@@ -32,7 +32,7 @@ echo form_open($process, 'id="my_form" class="form-horizontal col-sm-12"', $hidd
 </div>
 
 <div class="form-group">
-	<label for="nm_min" class="col-sm-2 control-label"><?php echo lang('basic_min')?></label>
+	<label for="nm_min" class="col-sm-2 control-label"><?php echo lang('number_min')?></label>
 	<div class="col-sm-2">
 		<div class="input-group">
 			<span class="input-group-addon">
@@ -44,7 +44,7 @@ echo form_open($process, 'id="my_form" class="form-horizontal col-sm-12"', $hidd
 </div>
 
 <div class="form-group">
-	<label for="nm_max" class="col-sm-2 control-label"><?php echo lang('basic_max')?></label>
+	<label for="nm_max" class="col-sm-2 control-label"><?php echo lang('number_max')?></label>
 	<div class="col-sm-2">
 		<div class="input-group">
 			<span class="input-group-addon">
@@ -56,7 +56,7 @@ echo form_open($process, 'id="my_form" class="form-horizontal col-sm-12"', $hidd
 </div>
 
 <div class="form-group">
-	<label for="nm_max" class="col-sm-2 control-label">Real Number</label>
+	<label for="nm_max" class="col-sm-2 control-label"><?php echo lang('number_real')?></label>
 	<div class="col-sm-1">
 		<?php echo form_checkbox('chk_real', 1, $is_real, 'id="chk_real"');?>
 	</div>

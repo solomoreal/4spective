@@ -4,24 +4,26 @@
 	* dalam bahasa Inggris
 	*
 */
-	$lang['om_unit']       = 'Unit';
-	$lang['om_chief']      = 'Chief';
-	$lang['om_chief_post'] = 'Chief Position';
-	$lang['om_company']    = 'Company';
-	$lang['om_co_addr']    = 'Company Address';
-	$lang['om_org_ass']    = 'Organizational Assignment';
+	$lang['om_unit']        = 'Unit';
+	$lang['om_chief']       = 'Chief';
+	$lang['om_chief_post']  = 'Chief Position';
+	$lang['om_company']     = 'Company';
+	$lang['om_co_addr']     = 'Company Address';
+	$lang['om_org_ass']     = 'Organizational Assignment';
+	$lang['om_supervisor']  = 'Supervisor';
+	$lang['om_subordinate'] = 'Subordinate';
 
 	$lang['om_org']       = 'Organization';
-	$lang['om_org_code']  = 'Org. Code';
-	$lang['om_org_name']  = 'Org. Name';
-	$lang['om_org_begin'] = 'Org. Begin';
-	$lang['om_org_end']   = 'Org. End';
+	$lang['om_org_code']  = 'Organization Code';
+	$lang['om_org_name']  = 'Organization Name';
+	$lang['om_org_begin'] = 'Organization Begin';
+	$lang['om_org_end']   = 'Organization End';
 
 	$lang['om_post']       = 'Position';
-	$lang['om_post_code']  = 'Post. Code';
-	$lang['om_post_name']  = 'Post. Name';
-	$lang['om_post_begin'] = 'Post. Begin';
-	$lang['om_post_end']   = 'Post. End';
+	$lang['om_post_code']  = 'Position Code';
+	$lang['om_post_name']  = 'Position Name';
+	$lang['om_post_begin'] = 'Position Begin';
+	$lang['om_post_end']   = 'Position End';
 
 	$lang['om_attr_begin'] = 'Attribute Begin';
 	$lang['om_attr_end']   = 'Attribute End';
@@ -29,7 +31,7 @@
 	$lang['om_rel'] 			= 'Relation';
 	$lang['om_rel_begin'] = 'Relation Begin';
 	$lang['om_rel_end']   = 'Relation End';
-
+	
 	$lang['om_rel_002']   = 'Reporting';
 	$lang['om_rel_002A']  = 'Report to';
 	$lang['om_rel_002B']  = 'in Line Supervisor to';

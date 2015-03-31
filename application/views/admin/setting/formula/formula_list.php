@@ -9,7 +9,7 @@
 	<td>
 		<div class=" btn-group-vertical">
 		<?php
-			echo anchor($link_add, '</i><i class="fa fa-plus"></i> ', 'class="btn btn-act-2"  data-id="'.$row->formula_id.'" title="'.lang('act_add').' '. lang('basic_score').'"');
+			echo anchor($link_add, '</i><i class="fa fa-plus"></i> ', 'class="btn btn-act-2"  data-id="'.$row->formula_id.'" title="'.lang('act_add').' '. lang('number_score').'"');
 			echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act-2" data-id="'.$row->formula_id.'"  title="'.lang('act_delete').' '. lang('menu_formula').'"');
 			echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-2" data-id="'.$row->formula_id.'" title="'.lang('act_delete').' '. lang('menu_formula').'" data-fancybox-type="ajax"');
 		?>
@@ -21,9 +21,9 @@
 	<table class="table">
 		<thead>
 			<tr>
-					<th><?php echo lang('basic_score'); ?></th>
-					<th><?php echo lang('basic_low_bnd'); ?></th>
-					<th><?php echo lang('basic_up_bnd'); ?></th>
+					<th><?php echo lang('number_score'); ?></th>
+					<th><?php echo lang('number_lower'); ?></th>
+					<th><?php echo lang('number_uppper'); ?></th>
 					<th width="50"><?php echo lang('basic_action'); ?></th>
 			</tr>
 		</thead>

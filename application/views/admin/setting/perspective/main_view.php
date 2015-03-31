@@ -14,7 +14,7 @@
 						<!-- tools box -->
 							<div class="pull-right box-tools btn-group">
 								<?php 
-									echo anchor($link_add, '<i class="fa fa-plus"></i>', 'title="'.lang('act_add').'" class="btn btn-act" " data-fancybox-type="ajax"');
+									// echo anchor($link_add, '<i class="fa fa-plus"></i>', 'title="'.lang('act_add').'" class="btn btn-act" " data-fancybox-type="ajax"');
 								?>
 							</div><!-- /. tools -->
 						</div>
@@ -24,7 +24,7 @@
 									<tr>
 										<th><?php echo lang('basic_code'); ?></th>
 										<th><?php echo lang('basic_desc'); ?></th>
-										<th width="50"><?php echo lang('basic_action'); ?></th>
+										<!-- <th width="50"><?php echo lang('basic_action'); ?></th> -->
 									</tr>
 								</thead>
 								<tbody >
@@ -35,15 +35,15 @@
 										echo '<td>'.$row->perspective_code.'</td>';
 										echo '<td>'.$row->description.'</td>';
 								
-										echo '<td>';
-										// Untuk Action Btn
-										echo '<div class=" btn-group-vertical">';
+										// echo '<td>';
+										// // Untuk Action Btn
+										// echo '<div class=" btn-group-vertical">';
 										
-										echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act" data-code="'.$row->perspective_code.'"title="'.lang('act_edit').'" data-fancybox-type="ajax"');
-										echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act" data-code="'.$row->perspective_code.'"title="'.lang('act_remove').'" data-fancybox-type="ajax"');
-										echo '</div>';
+										// echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act" data-code="'.$row->perspective_code.'"title="'.lang('act_edit').'" data-fancybox-type="ajax"');
+										// echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act" data-code="'.$row->perspective_code.'"title="'.lang('act_remove').'" data-fancybox-type="ajax"');
+										// echo '</div>';
 
-										echo '</td>';
+										// echo '</td>';
 										echo '</tr>';
 									}
 								?>

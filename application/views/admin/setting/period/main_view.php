@@ -23,8 +23,8 @@
 								<thead>
 									<tr>
 										<th><?php echo lang('basic_code'); ?></th>
-										<th width="100" class="hidden-xs"><?php echo lang('basic_begin'); ?></th>
-										<th width="100" class="hidden-xs"><?php echo lang('basic_end'); ?></th>
+										<th width="100" class="hidden-xs"><?php echo lang('time_begin'); ?></th>
+										<th width="100" class="hidden-xs"><?php echo lang('time_end'); ?></th>
 										<th width="50"><?php echo lang('basic_action'); ?></th>
 									</tr>
 								</thead>

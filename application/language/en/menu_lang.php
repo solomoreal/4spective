@@ -26,8 +26,6 @@
 	$lang['menu_bsc_set']     = 'BSC Setting';
 	$lang['menu_gen_kpi']     = 'Generic KPI';
 	$lang['menu_score']       = 'Scoring';
-	$lang['menu_score_pa']    = 'PA';
-	$lang['menu_score_pc']    = 'TPC';
 	$lang['menu_period']      = 'Period';
 	$lang['menu_count']  			= 'Counting';
 	$lang['menu_count_unit']  = 'Counting Unit';
