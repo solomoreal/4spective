@@ -17,6 +17,7 @@
   $lang['number_score']  = 'Score';
   $lang['number_index']  = 'Index';
   $lang['number_scale']  = 'Scale';
+  $lang['number_range']  = 'Range';
 
   $lang['number_real'] = 'Real Number';
   $lang['number_deci'] = 'Decimal Number';

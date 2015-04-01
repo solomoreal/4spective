@@ -18,10 +18,17 @@
 	$lang['sc_baseline']   = 'Baseline';
 	$lang['sc_ref']        = 'Reference';
 	$lang['sc_ref_type']   = 'Reference Type';
+	$lang['sc_cascade']    = 'Cascade';
 
 	$lang['sc_achv'] = 'Achievement';
 	$lang['sc_pc']   = 'PC';
 	$lang['sc_tpc']  = 'TPC';
+
+	$lang['sc_persp']     = 'Perspective';
+	$lang['sc_persp_cus'] = 'Customer';
+	$lang['sc_persp_fin'] = 'Financial';
+	$lang['sc_persp_ibp'] = 'Internal Business Process';
+	$lang['sc_persp_lng'] = 'Learning and Growth';
 
 	
 	

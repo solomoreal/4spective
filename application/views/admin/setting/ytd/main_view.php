@@ -7,43 +7,20 @@
 			<!-- top row -->
 
 			<div class="row">
-				<div class="col-xs-12">
-					<div class="box box-solid">
-						<div class="box-header">
-						<h3 class="box-title" id="org-title"></h3>
-						<!-- tools box -->
-							<div class="pull-right box-tools btn-group">
+				<?php 
+				$style = array('box-primary','box-info','box-success','box-warning','box-danger');
+				$count = 0 ;
+				foreach ($ytd_ls as $row) {
 
-							</div><!-- /. tools -->
-						</div>
-						<div  class="box-body">
-							<table class="table table-hover">
-								<thead>
-									<tr>
-										<th><?php echo lang('basic_code'); ?></th>
-										<th><?php echo lang('basic_name'); ?></th>
-										<th><?php echo lang('basic_desc'); ?></th>
+					$desc = 'number_'.strtolower($row->ytd_code);
+					echo '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="box '.$style[$count%5].'">';
+					echo '<div class="box-header"><h3 class="box-title">'.$row->ytd_code.'</h3></div>';
 
-
-									</tr>
-								</thead>
-								<tbody >
-
-								<?php
-									foreach ($ytd_ls as $row) {
-										echo '<tr>';
-										echo '<td>'.$row->ytd_code.'</td>';
-										echo '<td>'.$row->ytd_name.'</td>';
-										echo '<td>'.$row->description.'</td>';
-										echo '</tr>';
-									}
-								?>
-								</tbody>
-							</table>
-
-						</div>
-					</div>
-				</div><!-- /.col -->
+					echo '<div class="box-body">'.lang($desc).'</div>';
+					echo '</div></div>';
+					$count++;
+				}
+				?>
 			</div>
 			<!-- /.row -->
 		</section><!-- /.content -->

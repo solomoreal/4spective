@@ -7,52 +7,20 @@
 			<!-- top row -->
 
 			<div class="row">
-				<div class="col-xs-12">
-					<div class="box box-solid">
-						<div class="box-header">
-						<h3 class="box-title" id="org-title"></h3>
-						<!-- tools box -->
-							<div class="pull-right box-tools btn-group">
-								<?php 
-									// echo anchor($link_add, '<i class="fa fa-plus"></i>', 'title="'.lang('act_add').'" class="btn btn-act" " data-fancybox-type="ajax"');
-								?>
-							</div><!-- /. tools -->
-						</div>
-						<div  class="box-body">
-							<table class="table table-hover">
-								<thead>
-									<tr>
-										<th><?php echo lang('basic_code'); ?></th>
-										<th><?php echo lang('basic_desc'); ?></th>
-										<!-- <th width="50"><?php echo lang('basic_action'); ?></th> -->
-									</tr>
-								</thead>
-								<tbody >
+				<?php 
+				$style = array('box-primary','box-info','box-success','box-warning','box-danger');
+				$count = 0 ;
+				foreach ($perspective_ls as $row) {
 
-								<?php
-									foreach ($perspective_ls as $row) {
-										echo '<tr>';
-										echo '<td>'.$row->perspective_code.'</td>';
-										echo '<td>'.$row->description.'</td>';
-								
-										// echo '<td>';
-										// // Untuk Action Btn
-										// echo '<div class=" btn-group-vertical">';
-										
-										// echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act" data-code="'.$row->perspective_code.'"title="'.lang('act_edit').'" data-fancybox-type="ajax"');
-										// echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act" data-code="'.$row->perspective_code.'"title="'.lang('act_remove').'" data-fancybox-type="ajax"');
-										// echo '</div>';
+					$desc = 'sc_persp_'.strtolower($row->perspective_code);
+					echo '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="box '.$style[$count%5].'">';
+					echo '<div class="box-header"><h3 class="box-title">'.$row->perspective_code.'</h3></div>';
 
-										// echo '</td>';
-										echo '</tr>';
-									}
-								?>
-								</tbody>
-							</table>
-
-						</div>
-					</div>
-				</div><!-- /.col -->
+					echo '<div class="box-body">'.lang($desc).'</div>';
+					echo '</div></div>';
+					$count++;
+				}
+				?>
 			</div>
 			<!-- /.row -->
 		</section><!-- /.content -->

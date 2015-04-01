@@ -19,64 +19,63 @@
 							</div><!-- /. tools -->
 						</div>
 						<div  class="box-body">
-							<table class="table table-hover">
-								<thead>
-									<tr>
-										<th><?php echo lang('basic_id'); ?></th>
-										<th><?php echo lang('basic_code'); ?></th>
-										<th><?php echo lang('basic_name'); ?></th>
-										<th><?php echo lang('basic_desc'); ?></th>
-										<th width="100"><?php echo lang('number_min'); ?></th>
-										<th width="100"><?php echo lang('number_max'); ?></th>
-										<th width="100"><?php echo lang('number_real'); ?></th>
-										<th width="50"><?php echo lang('basic_action'); ?></th>
-									</tr>
-								</thead>
-								<tbody >
-
-								<?php
-									foreach ($count_unit_ls as $row) {
-										echo '<tr>';
-										echo '<td>'.$row->measure_id.'</td>';
-										echo '<td>'.$row->short_name.'</td>';
-										echo '<td>'.$row->long_name.'</td>';
-										echo '<td>'.$row->description.'</td>';
-										
-										if ($row->has_min) {
-											echo '<td>'.$row->min_val.'</td>';
-										} else {
-											echo '<td>-&infin;</td>';
-										}
-
-										if ($row->has_max) {
-											echo '<td>'.$row->max_val.'</td>';
-										} else {
-											echo '<td>&infin;</td>';
-										}
-
-										if ($row->real_num) {
-											echo '<td><i class="fa fa-check"></i></td>';
-										} else {
-											echo '<td><i class="fa fa-times"></i></td>';
-										}
-										echo '<td>';
-										// Untuk Action Btn
-										echo '<div class=" btn-group-vertical">';
-										
-										echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act" data-code="'.$row->measure_id.'"title="'.lang('act_edit').'" data-fancybox-type="ajax"');
-										echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act" data-code="'.$row->measure_id.'"title="'.lang('act_remove').'" data-fancybox-type="ajax"');
-										echo '</div>';
-
-										echo '</td>';
-										echo '</tr>';
-									}
-								?>
-								</tbody>
-							</table>
+	
 
 						</div>
 					</div>
 				</div><!-- /.col -->
+			</div>
+			<!-- /.row -->
+
+			<div class="row">
+				<?php 
+				$style = array('box-primary','box-info','box-success','box-warning','box-danger');
+				$count = 0 ;
+				foreach ($count_unit_ls as $row) {
+					echo '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 sortable"><div class="box '.$style[$count%5].'" data-toggle="tooltip"  title="'.$row->description.'">';
+
+					echo '<div class="box-header">';
+					echo '<h3 class="box-title" >'.$row->short_name .' '.$row->long_name.'</h3>';
+					echo '<div class="pull-right box-tools btn-group">';
+					echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act" data-code="'.$row->measure_id.'"title="'.lang('act_edit').'" data-fancybox-type="ajax"');
+					echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act" data-code="'.$row->measure_id.'"title="'.lang('act_remove').'" data-fancybox-type="ajax"');
+					echo '</div>'; // .tools
+					echo '</div>'; // .box-header
+
+					echo '<div class="box-body">';
+					echo '<dl>';
+				  // echo '<dt>'.lang('basic_name').'</dt><dd>'. $row->long_name.'</dd>';
+
+				  echo '<dt>'.lang('number_range').'</dt>';
+				  echo '<dd>';
+				  if ($row->has_min) {
+						echo $row->min_val;
+					} else {
+						echo '-&infin;';
+					}
+
+					echo ' ~ ';
+				  if ($row->has_max) {
+						echo $row->max_val;
+					} else {
+						echo '&infin;';
+					}
+
+					echo '</dd>'; // range
+
+					echo '<dt>'.lang('number_real').'</dt>';
+					if ($row->real_num) {
+						echo '<dd><i class="fa fa-check"></i></dd>';
+					} else {
+						echo '<dd><i class="fa fa-times"></i></dd>';
+					}
+
+					echo '</dl>';
+					echo '</div>'; // .box-body
+					echo '</div></div>';
+					$count++;
+				}
+				?>
 			</div>
 			<!-- /.row -->
 		</section><!-- /.content -->
