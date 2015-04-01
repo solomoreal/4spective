@@ -13,10 +13,13 @@
 				foreach ($ytd_ls as $row) {
 
 					$desc = 'number_'.strtolower($row->ytd_code);
-					echo '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="box '.$style[$count%5].'">';
-					echo '<div class="box-header"><h3 class="box-title">'.$row->ytd_code.'</h3></div>';
+					echo '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="text-center box '.$style[$count%5].'">';
+					// echo '<div class="box-header"><h3 class="box-title">'.$row->ytd_code.'</h3></div>';
 
-					echo '<div class="box-body">'.lang($desc).'</div>';
+					echo '<div class="box-body">';
+					echo heading($row->ytd_code,4);
+					echo '<p>'.lang($desc).'</p>';
+					echo '</div>';
 					echo '</div></div>';
 					$count++;
 				}

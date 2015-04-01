@@ -14,9 +14,11 @@
 
 					$desc = 'sc_persp_'.strtolower($row->perspective_code);
 					echo '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="box '.$style[$count%5].'">';
-					echo '<div class="box-header"><h3 class="box-title">'.$row->perspective_code.'</h3></div>';
-
-					echo '<div class="box-body">'.lang($desc).'</div>';
+					echo '<div class="box-body text-center">';
+					echo '<i class="fa '.$row->icon .' fa-5x "></i>';
+					echo '<h4>'.$row->perspective_code.'</h4>';
+					echo '<p>'.lang($desc).'</p>';
+					echo '</div>';
 					echo '</div></div>';
 					$count++;
 				}

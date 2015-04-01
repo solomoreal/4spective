@@ -32,20 +32,12 @@
 				$style = array('box-primary','box-info','box-success','box-warning','box-danger');
 				$count = 0 ;
 				foreach ($count_unit_ls as $row) {
-					echo '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 sortable"><div class="box '.$style[$count%5].'" data-toggle="tooltip"  title="'.$row->description.'">';
-
-					echo '<div class="box-header">';
-					echo '<h3 class="box-title" >'.$row->short_name .' '.$row->long_name.'</h3>';
-					echo '<div class="pull-right box-tools btn-group">';
-					echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act" data-code="'.$row->measure_id.'"title="'.lang('act_edit').'" data-fancybox-type="ajax"');
-					echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act" data-code="'.$row->measure_id.'"title="'.lang('act_remove').'" data-fancybox-type="ajax"');
-					echo '</div>'; // .tools
-					echo '</div>'; // .box-header
+					echo '<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 sortable"><div class="text-center box '.$style[$count%5].'" data-toggle="tooltip"  title="'.$row->description.'">';
 
 					echo '<div class="box-body">';
+					echo heading($row->short_name,1);
+					echo heading($row->long_name,5);
 					echo '<dl>';
-				  // echo '<dt>'.lang('basic_name').'</dt><dd>'. $row->long_name.'</dd>';
-
 				  echo '<dt>'.lang('number_range').'</dt>';
 				  echo '<dd>';
 				  if ($row->has_min) {
@@ -72,6 +64,12 @@
 
 					echo '</dl>';
 					echo '</div>'; // .box-body
+					echo '<div class="box-footer">';
+					echo '<div class="btn-group">';
+					echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act" data-code="'.$row->measure_id.'"title="'.lang('act_edit').'" data-fancybox-type="ajax"');
+					echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act" data-code="'.$row->measure_id.'"title="'.lang('act_remove').'" data-fancybox-type="ajax"');
+					echo '</div>'; // .tools
+					echo '</div>'; // .box-footer
 					echo '</div></div>';
 					$count++;
 				}

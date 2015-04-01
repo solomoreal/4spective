@@ -32,16 +32,20 @@
 				$style = array('box-primary','box-info','box-success','box-warning','box-danger');
 				$count = 0 ;
 				foreach ($period_ls as $row) {
-					echo '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="box '.$style[$count%5].'">';
-					echo '<div class="box-header">';
-					echo '<h3 class="box-title">'.$row->period_code.'</h3>';
-					echo '<div class="pull-right box-tools btn-group">';
+					echo '<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="text-center box '.$style[$count%5].'">';
+
+					echo '<div class="box-body">';
+					echo heading($row->period_code,4);
+					echo '<p>'.date('d M Y',strtotime($row->begin)) .' - '.date('d M Y',strtotime($row->end)).'</p>';
+
+					echo '</div>'; // .box-body
+					echo '<div class="box-footer">';
+					
+					echo '<div class="btn-group">';
 					echo anchor($link_edit, '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act" data-code="'.$row->period_code.'"title="'.lang('act_edit').'" data-fancybox-type="ajax"');
 					echo anchor($link_remove, '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act" data-code="'.$row->period_code.'"title="'.lang('act_remove').'" data-fancybox-type="ajax"');
 					echo '</div>'; // .tools
-					echo '</div>'; // .box-header
-
-					echo '<div class="box-body">'.date('d M Y',strtotime($row->begin)) .' - '.date('d M Y',strtotime($row->end)).'</div>';
+					echo '</div>'; // .box-footer
 					echo '</div></div>';
 					$count++;
 				}
