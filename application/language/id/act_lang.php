@@ -20,11 +20,14 @@
 
 	$lang['act_add']			= 'Tambah';
 	$lang['act_edit']			= 'Ubah';
+	$lang['act_update']		= 'Pembaruan';
+	$lang['act_correct']	= 'Perbaikan';
+	$lang['act_delete']		= 'Hilangkan';
 	$lang['act_remove']		= 'Hapus';
+	$lang['act_delimit']	= 'Batasi';
 	
 	$lang['act_approve']	= 'Setuju';
 	$lang['act_reject']		= 'Tolak';
-
 	$lang['act_request']	= 'Pengajuan';
 
 

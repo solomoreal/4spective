@@ -4,9 +4,9 @@
 	* in English
 	*
 */
-	$lang['sc_bsc'] = 'Balance Score Card';
+	$lang['sc_bsc'] = 'Balanced ScoreCard';
 	$lang['sc_pm']  = 'Performance Management ';
-	$lang['sc_pa']  = 'Performance App??';
+	$lang['sc_pa']  = 'Performance Appraisal';
 	$lang['sc_so']  = 'Strategic Objective';
 	$lang['sc_si']  = 'Strategic Initiative';
 	$lang['sc_kpi'] = 'Key Performance Indicator';
@@ -20,6 +20,7 @@
 	$lang['sc_ref_type']   = 'Reference Type';
 	$lang['sc_cascade']    = 'Cascade';
 
+	$lang['sc_real'] = 'Realisation';
 	$lang['sc_achv'] = 'Achievement';
 	$lang['sc_pc']   = 'PC';
 	$lang['sc_tpc']  = 'TPC';

@@ -18,8 +18,7 @@
 	$lang['basic_category'] = 'Category';
 	$lang['basic_action']   = 'Action';
 	$lang['basic_none']     = 'None';
-
-	$lang['basic_color']   = 'Color';
+	$lang['basic_color']    = 'Color';
 	
 	$lang['basic_and']			= ' and ';
 	$lang['basic_or']				= ' or ';

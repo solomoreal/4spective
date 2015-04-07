@@ -28,7 +28,6 @@
 	
 	$lang['act_approve']	= 'Approve';
 	$lang['act_reject']		= 'Reject';
-
 	$lang['act_request']	= 'Request';
 
 

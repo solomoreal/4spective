@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.9.1
+-- version 4.2.11
 -- http://www.phpmyadmin.net
 --
--- Host: localhost:3306
--- Generation Time: Mar 26, 2015 at 03:06 AM
--- Server version: 5.5.40
--- PHP Version: 5.4.34
+-- Host: localhost
+-- Generation Time: Apr 05, 2015 at 10:40 AM
+-- Server version: 5.6.21
+-- PHP Version: 5.6.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -23,6 +23,52 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bsc_kpi_formula`
+--
+
+CREATE TABLE IF NOT EXISTS `bsc_kpi_formula` (
+`kpi_formula_id` int(11) NOT NULL,
+  `obj_id` int(11) NOT NULL,
+  `formula_id` int(11) NOT NULL,
+  `ytd_code` varchar(5) NOT NULL,
+  `refrence_code` varchar(5) DEFAULT NULL,
+  `measure_id` int(11) NOT NULL,
+  `begin` date NOT NULL,
+  `end` date NOT NULL DEFAULT '9999-12-31'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bsc_kpi_target`
+--
+
+CREATE TABLE IF NOT EXISTS `bsc_kpi_target` (
+`kpi_target_id` int(11) NOT NULL,
+  `obj_id` int(11) NOT NULL,
+  `subperiod` varchar(10) NOT NULL,
+  `target_val` float DEFAULT NULL,
+  `begin` date NOT NULL,
+  `end` date NOT NULL DEFAULT '9999-12-31'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bsc_kpi_weight`
+--
+
+CREATE TABLE IF NOT EXISTS `bsc_kpi_weight` (
+`kpi_weight_id` int(11) NOT NULL,
+  `obj_id` int(11) NOT NULL,
+  `weight` float NOT NULL DEFAULT '0',
+  `begin` date NOT NULL,
+  `end` date NOT NULL DEFAULT '9999-12-31'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `bsc_m_formula`
 --
 
@@ -33,7 +79,16 @@ CREATE TABLE IF NOT EXISTS `bsc_m_formula` (
   `type` int(11) NOT NULL,
   `begin` date NOT NULL,
   `end` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bsc_m_formula`
+--
+
+INSERT INTO `bsc_m_formula` (`formula_id`, `formula_name`, `description`, `type`, `begin`, `end`) VALUES
+(1, 'Default Max', '', 1, '2008-01-01', '9999-12-31'),
+(2, 'Default Min', '', 2, '2008-01-01', '9999-12-31'),
+(3, 'Default Stable', '', 3, '2008-01-01', '9999-12-31');
 
 -- --------------------------------------------------------
 
@@ -47,7 +102,28 @@ CREATE TABLE IF NOT EXISTS `bsc_m_formula_score` (
   `pc_score` int(11) NOT NULL,
   `lower` float DEFAULT NULL,
   `upper` float DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bsc_m_formula_score`
+--
+
+INSERT INTO `bsc_m_formula_score` (`score_id`, `formula_id`, `pc_score`, `lower`, `upper`) VALUES
+(1, 1, 1, -9999.99, 70),
+(2, 1, 2, 70.01, 95),
+(3, 1, 3, 95.01, 115),
+(4, 1, 4, 115.01, 130),
+(5, 1, 5, 130.01, 9999.99),
+(6, 2, 1, 9999.99, 130.01),
+(7, 2, 2, 130, 115.01),
+(8, 2, 3, 115, 95.01),
+(9, 2, 4, 95, 70.01),
+(10, 2, 5, 70, -9999.99),
+(11, 3, 1, -9999.99, 200.01),
+(12, 3, 1, 200.01, 9999.99),
+(13, 3, 2, 100.01, 200),
+(14, 3, 2, -200, -100.01),
+(15, 3, 3, -100, 100);
 
 -- --------------------------------------------------------
 
@@ -65,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `bsc_m_measure` (
   `min_val` int(11) DEFAULT NULL,
   `max_val` int(11) DEFAULT NULL,
   `real_num` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `bsc_m_measure`
@@ -76,7 +152,8 @@ INSERT INTO `bsc_m_measure` (`measure_id`, `short_name`, `long_name`, `descripti
 (2, 'USD', 'United State Dollar', '', 1, 0, 0, NULL, 1),
 (3, '%', 'Percentage', 'Percentage of Progress', 1, 1, 0, 100, 1),
 (4, '%', 'Percentage', '', 0, 0, NULL, NULL, 1),
-(5, 'Qty', 'Quantity', '', 0, 0, NULL, NULL, 0);
+(5, 'Qty', 'Quantity', '', 0, 0, NULL, NULL, 0),
+(6, '1-5', 'Scale', '1 = Very Bad ; 5 = Very Good', 1, 1, 1, 5, 0);
 
 -- --------------------------------------------------------
 
@@ -90,6 +167,13 @@ CREATE TABLE IF NOT EXISTS `bsc_m_period` (
   `end` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `bsc_m_period`
+--
+
+INSERT INTO `bsc_m_period` (`period_code`, `begin`, `end`) VALUES
+('2015', '2015-01-01', '2015-12-31');
+
 -- --------------------------------------------------------
 
 --
@@ -98,6 +182,7 @@ CREATE TABLE IF NOT EXISTS `bsc_m_period` (
 
 CREATE TABLE IF NOT EXISTS `bsc_m_perspective` (
   `perspective_code` varchar(3) NOT NULL DEFAULT '',
+  `icon` varchar(200) NOT NULL,
   `description` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -105,11 +190,11 @@ CREATE TABLE IF NOT EXISTS `bsc_m_perspective` (
 -- Dumping data for table `bsc_m_perspective`
 --
 
-INSERT INTO `bsc_m_perspective` (`perspective_code`, `description`) VALUES
-('CUS', 'Customer'),
-('FIN', 'Financial'),
-('IBP', 'Internal Business Process'),
-('LNG', 'Learning And Growth');
+INSERT INTO `bsc_m_perspective` (`perspective_code`, `icon`, `description`) VALUES
+('CUS', 'fa-users', 'Customer'),
+('FIN', 'fa-money', 'Financial'),
+('IBP', 'fa-cogs', 'Internal Business Process'),
+('LNG', 'fa-line-chart', 'Learning And Growth');
 
 -- --------------------------------------------------------
 
@@ -158,6 +243,30 @@ INSERT INTO `bsc_m_relation` (`code`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bsc_m_score`
+--
+
+CREATE TABLE IF NOT EXISTS `bsc_m_score` (
+  `pc_score` int(11) NOT NULL,
+  `lower` float DEFAULT NULL,
+  `upper` float DEFAULT NULL,
+  `color` varchar(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `bsc_m_score`
+--
+
+INSERT INTO `bsc_m_score` (`pc_score`, `lower`, `upper`, `color`) VALUES
+(1, 0, 1.6, 'f56954'),
+(2, 1.61, 2.5, 'f39c12'),
+(3, 2.51, 3.5, '00a65a'),
+(4, 3.51, 4.4, '00c0ef'),
+(5, 4.41, 5, '3c8dbc');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `bsc_m_type`
 --
 
@@ -194,6 +303,7 @@ CREATE TABLE IF NOT EXISTS `bsc_m_ytd` (
 
 INSERT INTO `bsc_m_ytd` (`ytd_code`, `ytd_name`, `description`) VALUES
 ('AVG', 'Average', 'Average Value'),
+('FIRST', 'First Value', 'First Value'),
 ('LAST', 'Last Value', 'Last Value'),
 ('MAX', 'Maximum', 'Highest Value'),
 ('MIN', 'Minimum', 'Lowest Value'),
@@ -410,16 +520,126 @@ CREATE TABLE IF NOT EXISTS `pa_employee` (
   `firstname` varchar(100) NOT NULL,
   `middlename` varchar(100) DEFAULT NULL,
   `lastname` varchar(100) DEFAULT NULL,
+  `fullname` varchar(255) NOT NULL,
   `nickname` varchar(100) NOT NULL,
   `birthplace` varchar(100) NOT NULL,
   `birthdate` date NOT NULL,
   `begin` date NOT NULL,
+  `end` date NOT NULL DEFAULT '9999-12-31'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pa_emp_status`
+--
+
+CREATE TABLE IF NOT EXISTS `pa_emp_status` (
+  `status_id` int(11) NOT NULL,
+  `status_code` varchar(5) NOT NULL,
+  `emp_id` int(11) NOT NULL,
+  `begin` date NOT NULL,
+  `end` date NOT NULL DEFAULT '9999-12-31'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pa_m_status`
+--
+
+CREATE TABLE IF NOT EXISTS `pa_m_status` (
+  `status_code` varchar(5) NOT NULL,
+  `status_name` varchar(255) NOT NULL,
+  `description` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `pa_m_status`
+--
+
+INSERT INTO `pa_m_status` (`status_code`, `status_name`, `description`) VALUES
+('TRN', 'Training', NULL),
+('CONT1', '1st Contract', NULL),
+('CONT2', '2nd Contract', NULL),
+('CONT3', '3rd Contract', NULL),
+('PERM', 'Permanent', NULL),
+('VAC', 'Vacuum', NULL),
+('PROB', 'Probation', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sys_m_role`
+--
+
+CREATE TABLE IF NOT EXISTS `sys_m_role` (
+  `role_code` varchar(5) NOT NULL,
+  `role_name` varchar(125) NOT NULL,
+  `description` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sys_m_role`
+--
+
+INSERT INTO `sys_m_role` (`role_code`, `role_name`, `description`) VALUES
+('SA', 'Super Administrator', NULL),
+('ADMIN', 'Administrator', NULL),
+('CHR', 'Corporate Human Resources', NULL),
+('HRU', 'Human Resources Unit', NULL),
+('USER', 'User', 'Ordinary User');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sys_user`
+--
+
+CREATE TABLE IF NOT EXISTS `sys_user` (
+`user_id` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(32) NOT NULL,
+  `email` varchar(125) NOT NULL,
+  `phone` varchar(25) NOT NULL,
+  `is_banned` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sys_user_privilege`
+--
+
+CREATE TABLE IF NOT EXISTS `sys_user_privilege` (
+`sys_privilege` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `role_code` varchar(5) NOT NULL,
+  `begin` date NOT NULL DEFAULT '9999-12-31',
   `end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `bsc_kpi_formula`
+--
+ALTER TABLE `bsc_kpi_formula`
+ ADD PRIMARY KEY (`kpi_formula_id`);
+
+--
+-- Indexes for table `bsc_kpi_target`
+--
+ALTER TABLE `bsc_kpi_target`
+ ADD PRIMARY KEY (`kpi_target_id`);
+
+--
+-- Indexes for table `bsc_kpi_weight`
+--
+ALTER TABLE `bsc_kpi_weight`
+ ADD PRIMARY KEY (`kpi_weight_id`);
 
 --
 -- Indexes for table `bsc_m_formula`
@@ -462,6 +682,12 @@ ALTER TABLE `bsc_m_ref`
 --
 ALTER TABLE `bsc_m_relation`
  ADD PRIMARY KEY (`code`);
+
+--
+-- Indexes for table `bsc_m_score`
+--
+ALTER TABLE `bsc_m_score`
+ ADD KEY `pc_score` (`pc_score`);
 
 --
 -- Indexes for table `bsc_m_type`
@@ -530,24 +756,51 @@ ALTER TABLE `pa_employee`
  ADD PRIMARY KEY (`emp_id`);
 
 --
+-- Indexes for table `sys_user`
+--
+ALTER TABLE `sys_user`
+ ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `sys_user_privilege`
+--
+ALTER TABLE `sys_user_privilege`
+ ADD PRIMARY KEY (`sys_privilege`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
+-- AUTO_INCREMENT for table `bsc_kpi_formula`
+--
+ALTER TABLE `bsc_kpi_formula`
+MODIFY `kpi_formula_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `bsc_kpi_target`
+--
+ALTER TABLE `bsc_kpi_target`
+MODIFY `kpi_target_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `bsc_kpi_weight`
+--
+ALTER TABLE `bsc_kpi_weight`
+MODIFY `kpi_weight_id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `bsc_m_formula`
 --
 ALTER TABLE `bsc_m_formula`
-MODIFY `formula_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `formula_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `bsc_m_formula_score`
 --
 ALTER TABLE `bsc_m_formula_score`
-MODIFY `score_id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `score_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT for table `bsc_m_measure`
 --
 ALTER TABLE `bsc_m_measure`
-MODIFY `measure_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `measure_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `bsc_obj_attr`
 --
@@ -578,6 +831,16 @@ MODIFY `rel_id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=23;
 --
 ALTER TABLE `pa_employee`
 MODIFY `emp_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `sys_user`
+--
+ALTER TABLE `sys_user`
+MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `sys_user_privilege`
+--
+ALTER TABLE `sys_user_privilege`
+MODIFY `sys_privilege` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

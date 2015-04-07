@@ -17,7 +17,7 @@ class Report_struc extends CI_Controller {
     $data['filter_date']    = $date_range;
     $data['link_edit_post'] = 'admin/post/edit_attr/';
     $data['link_add_post']  = 'admin/post/add/';
-    $data['parent_id']      = 2;
+    $data['parent_id']      = $this->config->item('root_chief');;
     $this->load->view('admin/report_struc/main_view',$data);
   }
 

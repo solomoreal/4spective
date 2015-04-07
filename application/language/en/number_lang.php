@@ -9,7 +9,7 @@
   $lang['number_max']    = 'Maximum';
   $lang['number_avg']    = 'Average';
   $lang['number_mode']   = 'Mode';
-  $lang['number_sum']    = 'Summary';
+  $lang['number_sum']    = 'Accumulation';
   $lang['number_prop']   = 'Propotional';
   $lang['number_last']   = 'Last';
   $lang['number_first']  = 'First';
@@ -27,8 +27,8 @@
   $lang['number_maxi']   = 'Maximize';
   $lang['number_stab']   = 'Stabilize';
 
-  $lang['number_lower']  = 'Lower Bound';
-  $lang['number_uppper'] = 'Upper Bound';
+  $lang['number_lower']  = 'Batas Bawah';
+  $lang['number_uppper'] = 'Batas Atas';
 
 
 /* End of file number_lang.php */
