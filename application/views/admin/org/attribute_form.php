@@ -1,5 +1,5 @@
 <?php  
-$this->load->view('_template/basic_top');
+// $this->load->view('_template/basic_top');
 echo '<h2>'.lang('om_org').'</h2>';
 ?>
 
@@ -68,7 +68,7 @@ echo $this->form_builder->build_form_horizontal(
     );
 
 echo $this->form_builder->close_form();
-$this->load->view('_template/basic_bot');
+// $this->load->view('_template/basic_bot');
 
 ?>
 <script>

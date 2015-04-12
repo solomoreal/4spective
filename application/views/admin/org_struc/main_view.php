@@ -23,9 +23,9 @@
 						<!-- tools box -->
 							<div class="pull-right box-tools btn-group">
 								<?php 
-									echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act"  data-fancybox-type="ajax"');
-									echo anchor($link_add_org, '<i class="fa fa-plus"></i><i class="fa fa-sitemap"></i> ', 'title="Add '. lang('om_org') .'" class="btn btn-act" " data-fancybox-type="ajax"');
-									echo anchor($link_add_post, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title="Add '. lang('om_post') .'" class="btn btn-act" " data-fancybox-type="ajax"');
+									echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act" data-fancybox-type="ajax"');
+									echo anchor($link_add_org, '<i class="fa fa-plus"></i><i class="fa fa-sitemap"></i> ', 'title="Add '. lang('om_org') .'" class="btn btn-act" data-fancybox-type="ajax"');
+									echo anchor($link_add_post, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title="Add '. lang('om_post') .'" class="btn btn-act" data-fancybox-type="ajax"');
 								?>
 							</div><!-- /. tools -->
 						</div>
@@ -39,7 +39,28 @@
 		</section><!-- /.content -->
 	</aside><!-- /.right-side -->
 </div><!-- ./wrapper -->
-<?php $this->load->view('_template/main_bot'); ?>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<?php 
+	$this->load->view('_template/main_bot'); 
+?>
 
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
@@ -91,6 +112,31 @@
 			});
 		});
 		
+
+		// $('.btn-act').click(function(e) {
+		// 	var date_range = $('#dt_range_filter').val();
+		//  	var parent = $('#hdn_org').val();
+		// 	e.preventDefault();
+		// 	$.ajax({
+		// 		url: this.href,
+		// 		type: 'POST',
+		// 		data: {
+		// 			parent: parent,
+		// 			obj_id: parent,
+		// 			date_range: date_range},
+		// 	})
+		// 	.done(function(data) {
+		// 		 $('#myModal').show();
+		// 		 $('.modal-body').show();
+		// 	})
+		// 	.fail(function() {
+		// 		console.log("error");
+		// 	})
+		// 	.always(function() {
+		// 		console.log("complete");
+		// 	});
+		// });
+
 
 		function refresh () {
 			var base_url = '<?php echo base_url()."index.php"?>';

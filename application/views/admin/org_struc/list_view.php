@@ -12,6 +12,29 @@
 	</thead>
 	<tbody >
 	<?php 
+		foreach ($org_ls as $org_row) {
+			echo '<tr>';	
+			echo '<td><i class="fa fa-sitemap" title="'. lang('om_org').'"></i></td>';
+			echo '<td>'.$org_row->org_id .'</td>';
+			echo '<td>'.$org_row->org_code .'</td>';
+			echo '<td>'.$org_row->org_name .'</td>';
+			echo '<td class="hidden-xs">'.$org_row->org_begin .'</td>';
+			echo '<td class="hidden-xs">'.$org_row->org_end .'</td>';
+			echo '<td>';
+			// Untuk Action Btn
+			echo '<div class="btn-group-vertical">';
+			
+			echo '<a class="btn btn-org-in" data-org="'.$org_row->org_id.'"><i class="fa fa-arrow-right"></i></a>';
+			
+			echo anchor('admin/org/detail/'.$org_row->org_id, '</i><i class="fa fa-list"></i> ', 'class="btn"  data-obj="'.$org_row->org_id.'" title="'.lang('act_view_detail').' '. lang('om_org').'"');
+			echo anchor('admin/org/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act-2" data-obj="'.$org_row->org_id.'"  title="'.lang('act_delete').' '. lang('om_org').'"');
+			echo anchor('admin/org/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-2" data-obj="'.$org_row->org_id.'" title="'.lang('act_delete').' '. lang('om_org').'" data-fancybox-type="ajax"');
+
+			echo '</div>';
+			echo '</td>';
+			echo '</tr>';	
+
+		}
 
 		if (isset($chief)) {
 			echo '<tr>';
@@ -57,29 +80,7 @@
 
 		}
 
-		foreach ($org_ls as $org_row) {
-			echo '<tr>';	
-			echo '<td><i class="fa fa-sitemap" title="'. lang('om_org').'"></i></td>';
-			echo '<td>'.$org_row->org_id .'</td>';
-			echo '<td>'.$org_row->org_code .'</td>';
-			echo '<td>'.$org_row->org_name .'</td>';
-			echo '<td class="hidden-xs">'.$org_row->org_begin .'</td>';
-			echo '<td class="hidden-xs">'.$org_row->org_end .'</td>';
-			echo '<td>';
-			// Untuk Action Btn
-			echo '<div class="btn-group-vertical">';
-			
-			echo '<a class="btn btn-org-in" data-org="'.$org_row->org_id.'"><i class="fa fa-arrow-right"></i></a>';
-			
-			echo anchor('admin/org/detail/'.$org_row->org_id, '</i><i class="fa fa-list"></i> ', 'class="btn"  data-obj="'.$org_row->org_id.'" title="'.lang('act_view_detail').' '. lang('om_org').'"');
-			echo anchor('admin/org/edit_attr/', '</i><i class="fa fa-pencil"></i> ', 'class="btn btn-act-2" data-obj="'.$org_row->org_id.'"  title="'.lang('act_delete').' '. lang('om_org').'"');
-			echo anchor('admin/org/delete/', '</i><i class="fa fa-trash text-danger"></i> ', 'class="btn btn-act-2" data-obj="'.$org_row->org_id.'" title="'.lang('act_delete').' '. lang('om_org').'" data-fancybox-type="ajax"');
-
-			echo '</div>';
-			echo '</td>';
-			echo '</tr>';	
-
-		}
+		
 	?>
 	</tbody>
 </table>

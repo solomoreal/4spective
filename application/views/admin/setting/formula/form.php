@@ -1,5 +1,5 @@
 <?php  
-$this->load->view('_template/basic_top');
+// $this->load->view('_template/basic_top');
 echo '<h2>'.lang('menu_period').'</h2>';
 ?>
 <i class="fa fa-spinner fa-pulse fa-5x" id="loading"></i>
@@ -63,7 +63,7 @@ echo $this->form_builder->build_form_horizontal(
     );
 
 echo $this->form_builder->close_form();
-$this->load->view('_template/basic_bot');
+// $this->load->view('_template/basic_bot');
 
 ?>
 <script>
