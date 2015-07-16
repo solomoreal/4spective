@@ -58,19 +58,19 @@ class Count_unit extends CI_Controller {
 				$max_val = NULL;
 			}
 
-			if ($min_val>$max_val) {
+			if ($min_val>$max_val && $has_min && $has_max) {
 				$temp    = $min_val;
 				$min_val = $max_val;
 				$max_val = $temp;
 			}
 			
 			$this->bsc_m_model->add_measure($short,$long,$desc,$is_real,$has_min,$min_val,$has_max,$max_val);
-			$this->load->view('_notif/success');
+			echo $this->load->view('_notif/success');
 
 		} else {
 			$data['e'] = validation_errors();
 
-			$this->load->view('_notif/error', $data);
+			echo $this->load->view('_notif/error', $data,TRUE);
 		}
 
 	}
@@ -117,18 +117,18 @@ class Count_unit extends CI_Controller {
 				$max_val = NULL;
 			}
 
-			if ($min_val>$max_val) {
+			if ($min_val>$max_val && $has_min && $has_max) {
 				$temp    = $min_val;
 				$min_val = $max_val;
 				$max_val = $temp;
 			}
 			$this->bsc_m_model->edit_measure($id,$short,$long,$desc,$is_real,$has_min,$min_val,$has_max,$max_val);
-			$this->load->view('_notif/success');
+			echo $this->load->view('_notif/success');
 
 		} else {
 			$data['e'] = validation_errors();
 
-			$this->load->view('_notif/error', $data);
+			echo $this->load->view('_notif/error', $data);
 		}
 
 	}

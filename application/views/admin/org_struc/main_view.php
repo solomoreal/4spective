@@ -40,24 +40,6 @@
 	</aside><!-- /.right-side -->
 </div><!-- ./wrapper -->
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 <?php 
 	$this->load->view('_template/main_bot'); 
 ?>
@@ -111,32 +93,6 @@
 				console.log("complete");
 			});
 		});
-		
-
-		// $('.btn-act').click(function(e) {
-		// 	var date_range = $('#dt_range_filter').val();
-		//  	var parent = $('#hdn_org').val();
-		// 	e.preventDefault();
-		// 	$.ajax({
-		// 		url: this.href,
-		// 		type: 'POST',
-		// 		data: {
-		// 			parent: parent,
-		// 			obj_id: parent,
-		// 			date_range: date_range},
-		// 	})
-		// 	.done(function(data) {
-		// 		 $('#myModal').show();
-		// 		 $('.modal-body').show();
-		// 	})
-		// 	.fail(function() {
-		// 		console.log("error");
-		// 	})
-		// 	.always(function() {
-		// 		console.log("complete");
-		// 	});
-		// });
-
 
 		function refresh () {
 			var base_url = '<?php echo base_url()."index.php"?>';

@@ -34,7 +34,7 @@
 				<?php echo anchor('#', '<i class="fa fa-users"></i> '.lang('menu_user_man')); ?>
 				<h2><i class="fa fa-users"></i> <?php echo lang('menu_user_man');?></h2>
 				<ul>
-					<li> <?php echo anchor('', lang('menu_user')); ?> </li>
+					<li> <?php echo anchor('admin/user', lang('menu_user')); ?> </li>
 					<li> <?php echo anchor('', lang('menu_roles')); ?> </li>
 					<li> <?php echo anchor('', lang('menu_privilege')); ?> </li>
 				</ul>

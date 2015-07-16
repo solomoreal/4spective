@@ -45,7 +45,7 @@ echo $this->form_builder->build_form_horizontal(
     );
 
 echo $this->form_builder->close_form();
-// $this->load->view('_template/basic_bot');
+$this->load->view('_template/basic_bot');
 
 ?>
 <script>

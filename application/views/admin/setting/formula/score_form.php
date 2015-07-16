@@ -38,7 +38,7 @@ echo form_open($process, 'id="my_form" class="form-horizontal col-sm-12"', $hidd
 	</div>
 <?php
 
-// $this->load->view('_template/basic_bot');
+$this->load->view('_template/basic_bot');
 
 ?>
 <script>

@@ -10,6 +10,7 @@
 	$lang['basic_detail']   = 'Rincian';
 	$lang['basic_msg']      = 'Pesan';
 	$lang['basic_name']     = 'Nama';
+	$lang['basic_username'] = 'Nama Pengguna';
 	$lang['basic_title']    = 'Judul';
 	$lang['basic_note']     = 'Catatan';
 	$lang['basic_status']   = 'Status';

@@ -2,7 +2,7 @@
 // $this->load->view('_template/basic_top');
 echo '<h2>'.lang('menu_count_unit').'</h2>';
 ?>
-<i class="fa fa-spinner fa-pulse fa-5x" id="loading"></i>
+<i class="fa fa-spinner fa-pulse fa-5x" id="loading" style="display:none"></i>
 <div class="row">
 	<div class="col-sm-12" id="result"></div>
 
@@ -70,7 +70,7 @@ echo form_open($process, 'id="my_form" class="form-horizontal col-sm-12"', $hidd
 <?php
 
 echo form_close();
-// $this->load->view('_template/basic_bot');
+$this->load->view('_template/basic_bot');
 
 ?>
 <script>
