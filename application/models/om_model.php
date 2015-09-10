@@ -30,10 +30,10 @@ class Om_model extends CI_Model {
 		} else {
 			$this->db->where('o.obj_type', $type);
 		}
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
 		return $this->db->get()->row()->val;
 	}
 
@@ -57,10 +57,10 @@ class Om_model extends CI_Model {
 		$this->db->select('COUNT(*) AS val');
 		$this->db->from('om_obj_attr a');
 		$this->db->where('a.obj_id', $obj_id);
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
 		return $this->db->get()->row()->val;
 	}
 
@@ -85,10 +85,10 @@ class Om_model extends CI_Model {
 
 		$this->db->select('COUNT(*) AS val');
 		$this->db->from('om_obj_rel r');
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='9999-12-31') OR 
+					(r.end >= '$begin' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '$begin' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '$begin' AND r.end >= '9999-12-31'))");
 		$this->db->where_in('rel_type', $rel_type);
 
 		switch ($direction) {
@@ -125,10 +125,10 @@ class Om_model extends CI_Model {
 		$this->db->from('om_obj o');
 
 		$this->db->where_in('o.obj_type', $type);
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
 		
 		return $this->db->get()->result();
 	}
@@ -152,10 +152,10 @@ class Om_model extends CI_Model {
 
 		$this->db->from('om_obj_attr a');
 		$this->db->where_in('a.obj_id', $obj_id);
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
 
 		return $this->db->get()->result();
 	}
@@ -178,32 +178,32 @@ class Om_model extends CI_Model {
 		if ($end == '') {
 			$end = date('Y-m-d');
 		}
-		$sub_1 = "(SELECT a.short_name FROM om_obj_attr a WHERE a.obj_id = r.obj_from AND ((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS code_from ";
-		$sub_2 = "(SELECT a.long_name FROM om_obj_attr a WHERE a.obj_id = r.obj_from AND ((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS name_from ";
-		$sub_3 = "(SELECT a.short_name FROM om_obj_attr a WHERE a.obj_id = r.obj_to AND ((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS code_to ";
-		$sub_4 = "(SELECT a.long_name FROM om_obj_attr a WHERE a.obj_id = r.obj_to AND ((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS name_to ";
+		$sub_1 = "(SELECT a.short_name FROM om_obj_attr a WHERE a.obj_id = r.obj_from AND ((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS code_from ";
+		$sub_2 = "(SELECT a.long_name FROM om_obj_attr a WHERE a.obj_id = r.obj_from AND ((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS name_from ";
+		$sub_3 = "(SELECT a.short_name FROM om_obj_attr a WHERE a.obj_id = r.obj_to AND ((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS code_to ";
+		$sub_4 = "(SELECT a.long_name FROM om_obj_attr a WHERE a.obj_id = r.obj_to AND ((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31')) ORDER BY a.end DESC, a.begin DESC, a.obj_id DESC LIMIT 1) AS name_to ";
 		$this->db->select('r.*');
 		$this->db->select($sub_1);
 		$this->db->select($sub_2);
 		$this->db->select($sub_3);
 		$this->db->select($sub_4);
 		$this->db->from('om_obj_rel r');
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='9999-12-31') OR 
+					(r.end >= '$begin' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '$begin' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '$begin' AND r.end >= '9999-12-31'))");
 		if (is_array($rel_type)) {
 			$this->db->where_in('rel_type', $rel_type);
 		}
@@ -299,10 +299,10 @@ class Om_model extends CI_Model {
 		$this->db->from('om_obj o');
 
 		$this->db->where_in('o.obj_type', $type);
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
 		$this->db->order_by('o.end', 'desc');
 		$this->db->order_by('o.begin', 'desc');
 		$this->db->order_by('o.obj_id', 'desc');
@@ -328,10 +328,10 @@ class Om_model extends CI_Model {
 		}
 		$this->db->from('om_obj_attr a');
 		$this->db->where_in('a.obj_id', $obj_id);
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
 		$this->db->order_by('a.end', 'desc');
 		$this->db->order_by('a.begin', 'desc');
 		$this->db->limit(1);
@@ -357,10 +357,10 @@ class Om_model extends CI_Model {
 			$end = date('Y-m-d');
 		}
 		$this->db->from('om_obj_rel r');
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='9999-12-31') OR 
+					(r.end >= '$begin' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '$begin' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '$begin' AND r.end >= '9999-12-31'))");
 		if (is_array($rel_type)) {
 			$this->db->where_in('rel_type', $rel_type);
 			
@@ -570,14 +570,14 @@ class Om_model extends CI_Model {
 		$this->db->select('COUNT(*) AS val');
 		$this->db->from('om_obj o');
 		$this->db->where('o.obj_type', 'O');
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='9999-12-31') OR 
+					(r.end >= '$begin' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '$begin' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '$begin' AND r.end >= '9999-12-31'))");
 		if ($parent > 0) {
 			$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_to');
 			$this->db->where('r.obj_from', $parent);
@@ -616,19 +616,19 @@ class Om_model extends CI_Model {
 
 		$this->db->from('om_obj o');
 		$this->db->where('o.obj_type', 'O');
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='9999-12-31') OR 
+					(r.end >= '$begin' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '$begin' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '$begin' AND r.end >= '9999-12-31'))");
 		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
 		if ($parent > 0) {
 			$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_to');
 			$this->db->where('r.obj_from', $parent);
@@ -668,19 +668,19 @@ class Om_model extends CI_Model {
 
 		$this->db->from('om_obj o');
 		$this->db->where('o.obj_type', 'O');
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='9999-12-31') OR 
+					(r.end >= '$begin' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '$begin' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '$begin' AND r.end >= '9999-12-31'))");
 		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
 		
 		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
 		$this->db->where('r.obj_to', $org_id);
@@ -718,19 +718,19 @@ class Om_model extends CI_Model {
 
 		$this->db->from('om_obj o');
 		$this->db->where('o.obj_type', 'O');
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='9999-12-31') OR 
+					(r.end >= '$begin' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '$begin' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '$begin' AND r.end >= '9999-12-31'))");
 		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
 		
 		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
 		$this->db->where('r.obj_to', $post_id);
@@ -769,14 +769,14 @@ class Om_model extends CI_Model {
 		$this->db->from('om_obj_attr a');
 		$this->db->join('om_obj o', 'a.obj_id = o.obj_id');
 		$this->db->limit(1);
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
 		$this->db->where('o.obj_type', 'O');
 		$this->db->where('o.obj_id', $org_id);
 		$this->db->order_by('a.end', 'desc');
@@ -898,19 +898,19 @@ class Om_model extends CI_Model {
 		$this->db->select('COUNT(*) AS val');
 		$this->db->from('om_obj o');
 		$this->db->where('o.obj_type', 'S');
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='9999-12-31') OR 
+					(r.end >= '$begin' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '$begin' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '$begin' AND r.end >= '9999-12-31'))");
 		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
 		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
 		$this->db->where('r.obj_to', $org_id);
 
@@ -956,19 +956,19 @@ class Om_model extends CI_Model {
 
 		$this->db->from('om_obj o');
 		$this->db->where('o.obj_type', 'S');
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='9999-12-31') OR 
+					(r.end >= '$begin' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '$begin' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '$begin' AND r.end >= '9999-12-31'))");
 		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
 		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_to');
 		$this->db->where('r.obj_from', $org_id);
 
@@ -1002,14 +1002,14 @@ class Om_model extends CI_Model {
 		$this->db->from('om_obj_attr a');
 		$this->db->join('om_obj o', 'a.obj_id = o.obj_id');
 		$this->db->limit(1);
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
 		$this->db->where('o.obj_type', 'S');
 		$this->db->where('o.obj_id', $post_id);
 		$this->db->order_by('a.end', 'desc');
@@ -1079,19 +1079,19 @@ class Om_model extends CI_Model {
 
 		$this->db->from('om_obj o');
 		$this->db->where('o.obj_type', 'S');
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='9999-12-31') OR 
+					(r.end >= '$begin' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '$begin' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '$begin' AND r.end >= '9999-12-31'))");
 		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
 		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_to');
 		$this->db->where('r.obj_from', $post_id);
 
@@ -1190,7 +1190,7 @@ class Om_model extends CI_Model {
 	 */
 	public function update_post($post_id=0,$post_code='',$post_name='',$begin='',$end='9999-12-31')
 	{
-		$attr = $this->get_obj_attr_last($org_id,'2008-01-01','9999-12-31');
+		$attr = $this->get_obj_attr_last($post_id,'2008-01-01','9999-12-31');
 		$prev_date = date('Y-m-d', strtotime($begin .' -1 day'));
 		$this->delimit_obj_attr($attr->attr_id,$prev_date);
 
@@ -1236,43 +1236,37 @@ class Om_model extends CI_Model {
 		$this->remove_obj($post_id);
 	}
 
-	/////////////
-	// HOLDER //
-	/////////////
-	
-	public function get_holder_list($post_id=0,$begin='',$end='',$limit=0,$offset=0,$search='')
+	///////////////////////
+	// PERSON / EMPLOYEE //
+	///////////////////////
+
+	public function count_emp($begin='',$end='')
 	{
-		$columns = array('e.firstname','e.middlename','e.lastname','e.nickname','e.emp_id','r.begin','r.end','r.value');
-		$this->db->select('e.firstname');
-		$this->db->select('e.middlename');
-		$this->db->select('e.lastname');
-		$this->db->select('e.nickname');
-		$this->db->select('e.emp_id');
-		$this->db->select('r.begin AS hold_begin');
-		$this->db->select('r.end AS hold_end');
-		$this->db->select('r.value');
-		$this->db->from('pa_employee e');
-		$this->db->join('om_obj_rel r', 'r.obj_to = e.emp_id', 'inner');
-		$this->db->where('r.rel_type', '008');
-		$this->db->where('r.obj_from', $post_id);
-		$this->db->where("((e.begin >= '$begin' AND e.end <='$end') OR 
-					(e.end >= '$begin' AND e.end <= '$end') OR 
-					(e.begin >= '$begin' AND e.begin <='$end' ) OR
-					(e.begin <= '$begin' AND e.end >= '$end'))");
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
-		if ($limit>0) {
-			$this->db->limit($limit,$offset);
+		if ($begin == '') {
+			$begin = date('Y-m-d');
 		}
-		if ($search!='') {
-			$this->db->or_like($columns,$search);
+
+		if ($end == '') {
+			$end = date('Y-m-d');
 		}
-		return $this->db->get()->result();
+		$this->db->select('COUNT(*) AS val');
+		$this->db->from('om_obj o');
+		$this->db->where('o.obj_type', 'P');
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		
+		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
+
+		return $this->db->get()->row()->val;
 	}
 
-	public function get_holding_list($emp_id=0,$begin='',$end='',$limit=0,$offset=0,$search='')
+	public function get_emp_list($begin='',$end='')
 	{
 		if ($begin == '') {
 			$begin = date('Y-m-d');
@@ -1282,7 +1276,44 @@ class Om_model extends CI_Model {
 			$end = date('Y-m-d');
 		}
 
-		$columns = array('o.obj_id','o.obj_type','a.attr_id','a.short_name','a.long_name','a.begin','a.end','o.begin','o.end','r.begin','r.end');		
+		$this->db->select('o.obj_id AS emp_id');
+		$this->db->select('o.obj_type as type');
+		$this->db->select('a.attr_id');
+		$this->db->select('a.short_name AS nickname');
+		$this->db->select('a.long_name AS fullname');
+		$this->db->select('a.begin AS attr_begin');
+		$this->db->select('a.end AS attr_end');
+		$this->db->select('o.begin AS emp_begin');
+		$this->db->select('o.end AS emp_end');
+
+		$this->db->from('om_obj o');
+		$this->db->where('o.obj_type', 'P');
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+	
+		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
+
+		
+		return $this->db->get()->result();
+	}
+
+	public function get_hold_list($emp_id=0,$begin='',$end='')
+	{
+		if ($begin == '') {
+			$begin = date('Y-m-d');
+		}
+
+		if ($end == '') {
+			$end = date('Y-m-d');
+		}
+
+
 		$this->db->select('o.obj_id AS post_id');
 		$this->db->select('o.obj_type as type');
 		$this->db->select('a.attr_id');
@@ -1292,35 +1323,202 @@ class Om_model extends CI_Model {
 		$this->db->select('a.end AS attr_end');
 		$this->db->select('o.begin AS post_begin');
 		$this->db->select('o.end AS post_end');
-		$this->db->select('r.begin AS hold_begin');
-		$this->db->select('r.end AS hold_end');
+
 		$this->db->from('om_obj o');
 		$this->db->where('o.obj_type', 'S');
-		$this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-					(o.end >= '$begin' AND o.end <= '$end') OR 
-					(o.begin >= '$begin' AND o.begin <='$end' ) OR
-					(o.begin <= '$begin' AND o.end >= '$end'))");
-		$this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-					(r.end >= '$begin' AND r.end <= '$end') OR 
-					(r.begin >= '$begin' AND r.begin <='$end' ) OR
-					(r.begin <= '$begin' AND r.end >= '$end'))");
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		$this->db->where("((r.begin >= '$begin' AND r.end <='9999-12-31') OR 
+					(r.end >= '$begin' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '$begin' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '$begin' AND r.end >= '9999-12-31'))");
 		$this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
-		$this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-					(a.end >= '$begin' AND a.end <= '$end') OR 
-					(a.begin >= '$begin' AND a.begin <='$end' ) OR
-					(a.begin <= '$begin' AND a.end >= '$end'))");
-		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_from');
-		$this->db->where('r.obj_to', $emp_id);
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
+		$this->db->join('om_obj_rel r', 'o.obj_id = r.obj_to');
+		$this->db->where('r.obj_from', $emp_id);
 
 		$this->db->where('r.rel_type', '008');
-
-		if ($limit>0) {
-			$this->db->limit($limit,$offset);
-		}
-		if ($search!='') {
-			$this->db->or_like($columns,$search);
-		}
+		
 		return $this->db->get()->result();
+	}
+
+	public function get_emp_row($emp_id=0,$begin='',$end='')
+	{
+		if ($begin == '') {
+			$begin = date('Y-m-d');
+		}
+
+		if ($end == '') {
+			$end = date('Y-m-d');
+		}
+
+		$this->db->select('o.obj_id AS emp_id');
+		$this->db->select('o.obj_type as type');
+		$this->db->select('a.attr_id');
+		$this->db->select('a.short_name AS nickname');
+		$this->db->select('a.long_name AS fullname');
+		$this->db->select('a.begin AS attr_begin');
+		$this->db->select('a.end AS attr_end');
+		$this->db->select('o.begin AS emp_begin');
+		$this->db->select('o.end AS emp_end');
+
+		$this->db->from('om_obj_attr a');
+		$this->db->join('om_obj o', 'a.obj_id = o.obj_id');
+		$this->db->limit(1);
+		$this->db->where("((o.begin >= '$begin' AND o.end <='9999-12-31') OR 
+					(o.end >= '$begin' AND o.end <= '9999-12-31') OR 
+					(o.begin >= '$begin' AND o.begin <='9999-12-31' ) OR
+					(o.begin <= '$begin' AND o.end >= '9999-12-31'))");
+		$this->db->where("((a.begin >= '$begin' AND a.end <='9999-12-31') OR 
+					(a.end >= '$begin' AND a.end <= '9999-12-31') OR 
+					(a.begin >= '$begin' AND a.begin <='9999-12-31' ) OR
+					(a.begin <= '$begin' AND a.end >= '9999-12-31'))");
+		$this->db->where('o.obj_type', 'P');
+		$this->db->where('o.obj_id', $emp_id);
+		$this->db->order_by('a.end', 'desc');
+		$this->db->order_by('o.end', 'desc');
+		$this->db->order_by('a.begin', 'desc');
+		$this->db->order_by('o.begin', 'desc');
+		return $this->db->get()->row();
+	}
+
+	public function add_emp($fullname='',$nickname='',$post_id=0,$begin='',$end='9999-12-31')
+	{
+		$emp_id = $this->add_obj('P',$begin,$end);
+		$this->add_obj_attr($emp_id,$nickname,$fullname,$begin,$end);
+		$this->add_obj_rel('008',$post_id,$emp_id,$begin,$end);
+	}
+
+	public function correct_emp_name($emp_id=0,$fullname='',$nickname='',$begin='',$end='9999-12-31')
+	{
+		$attr = $this->get_obj_attr_last($emp_id,'2008-01-01','9999-12-31');
+		$this->edit_obj_attr($attr->attr_id,$nickname,$fullname,$begin,$end);
+	}
+
+	public function update_emp_name($emp_id=0,$fullname='',$nickname='',$begin='',$end='9999-12-31')
+	{
+		$attr = $this->get_obj_attr_last($emp_id,'2008-01-01','9999-12-31');
+		$prev_date = date('Y-m-d', strtotime($begin .' -1 day'));
+		$this->delimit_obj_attr($attr->attr_id,$prev_date);
+
+		$this->add_obj_attr($post_id,$nickname,$fullname,$begin,$end);
+	}
+
+	public function add_emp_post($emp_id=0,$post_id=0,$begin='',$end='9999-12-31')
+	{
+		$this->add_obj_rel('008',$post_id,$emp_id,$begin,$end);
+
+	}
+
+	public function correct_emp_post($emp_id=0,$old_post_id=0,$new_post_id=0,$begin='',$end='9999-12-31')
+	{
+		$object = array(
+			'r.obj_to' => $new_post_id,
+			'begin'    => $begin,
+			'end'      => $end
+		);
+
+		$this->db->where("((r.begin >= '1900-01-01' AND r.end <='9999-12-31') OR 
+					(r.end >= '1900-01-01' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '1900-01-01' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '1900-01-01' AND r.end >= '9999-12-31'))");
+		
+		$this->db->where('rel_type', '008');
+
+		$this->db->where('r.obj_from', $emp_id);
+		$this->db->where('r.obj_to', $old_post_id);
+
+		$this->db->update('om_obj_rel', $object);
+
+	}
+
+	public function update_emp_post($emp_id=0,$old_post_id=0,$new_post_id=0,$begin='',$end='9999-12-31')
+	{
+		$this->db->select('r.rel_id');
+		$this->db->from('om_obj_rel r');
+		$this->db->where("((r.begin >= '1900-01-01' AND r.end <='9999-12-31') OR 
+					(r.end >= '1900-01-01' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '1900-01-01' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '1900-01-01' AND r.end >= '9999-12-31'))");
+		
+		$this->db->where('rel_type', '008');
+
+		$this->db->where('r.obj_from', $emp_id);
+		$this->db->where('r.obj_to', $post_id);
+				
+		$this->db->order_by('r.end', 'desc');
+		$this->db->order_by('r.begin', 'desc');
+
+		$rel_id    = $this->db->get()->row()->rel_id;
+		$prev_date = date('Y-m-d', strtotime($begin .' -1 day'));
+
+		$this->delimit_obj_rel($rel_id,$prev_date);
+
+		$this->add_emp_post($emp_id,$new_post_id,$begin,$end);
+	}
+
+	public function delimit_emp_post($emp_id=0,$post_id=0,$end='9999-12-31')
+	{
+		$this->db->select('r.rel_id');
+		$this->db->from('om_obj_rel r');
+		$this->db->where("((r.begin >= '1900-01-01' AND r.end <='9999-12-31') OR 
+					(r.end >= '1900-01-01' AND r.end <= '9999-12-31') OR 
+					(r.begin >= '1900-01-01' AND r.begin <='9999-12-31' ) OR
+					(r.begin <= '1900-01-01' AND r.end >= '9999-12-31'))");
+		
+		$this->db->where('rel_type', '008');
+
+		$this->db->where('r.obj_from', $emp_id);
+		$this->db->where('r.obj_to', $post_id);
+				
+		$this->db->order_by('r.end', 'desc');
+		$this->db->order_by('r.begin', 'desc');
+
+		$rel_id = $this->db->get()->row()->rel_id;
+
+		$this->delimit_obj_rel($rel_id,$end);
+	}
+
+	public function delimit_emp($emp_id=0,$end='9999-12-31')
+	{
+		$object = array('end' => $end);
+
+		$attr = $this->get_obj_attr_last($emp_id,'2008-01-01','9999-12-31');
+		$this->db->where('attr_id', $attr->attr_id);
+		$this->db->update('om_obj_attr', $object);
+
+		$post_ls = $this->get_hold_list($emp_id);
+		foreach ($post_ls as $post) {
+			$this->db->where('r.obj_from', $emp_id);
+			$this->db->where('r.obj_to', $post->post_id);
+			$this->db->update('om_obj_rel', $object);
+
+		}
+
+		$this->db->where('obj_id', $emp_id);
+		$this->db->update('om_obj', $object);
+
+	}
+
+	public function remove_emp($emp_id=0)
+	{
+		// DO remove all relation
+		$this->db->where('obj_to', $emp_id);
+		$this->db->or_where('obj_from', $emp_id);
+		$this->db->delete('om_obj_rel');
+
+		// DO remove all Attrribute
+		
+		$this->db->where('obj_id', $emp_id);
+		$this->db->delete('om_obj_attr');
+
+		// DO remove object
+		$this->remove_obj($emp_id);
 	}
 }
 

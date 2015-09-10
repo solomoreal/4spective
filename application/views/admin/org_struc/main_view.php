@@ -23,9 +23,9 @@
 						<!-- tools box -->
 							<div class="pull-right box-tools btn-group">
 								<?php 
-									echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act" data-fancybox-type="ajax"');
-									echo anchor($link_add_org, '<i class="fa fa-plus"></i><i class="fa fa-sitemap"></i> ', 'title="Add '. lang('om_org') .'" class="btn btn-act" data-fancybox-type="ajax"');
-									echo anchor($link_add_post, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title="Add '. lang('om_post') .'" class="btn btn-act" data-fancybox-type="ajax"');
+									echo anchor($link_edit_org, '<i class="fa fa-pencil"></i>', 'title="'.lang('act_edit').' '. lang('om_org') .'" class="btn btn-act" data-fancybox-type="ajax"');
+									echo anchor($link_add_org, '<i class="fa fa-plus"></i><i class="fa fa-sitemap"></i> ', 'title="'.lang('act_add').' '. lang('om_org') .'" class="btn btn-act" data-fancybox-type="ajax"');
+									echo anchor($link_add_post, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title="'.lang('act_add').' '. lang('om_post') .'" class="btn btn-act" data-fancybox-type="ajax"');
 								?>
 							</div><!-- /. tools -->
 						</div>

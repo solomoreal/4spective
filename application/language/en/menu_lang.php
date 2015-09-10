@@ -4,21 +4,22 @@
 	* dalam bahasa Inggris
 	*
 */
-	$lang['menu_change_pw'] 	  = 'Change Password';
-	$lang['menu_forgot'] 		    = 'Forgot Password';
-	$lang['menu_home'] 			     = 'Home';
-	$lang['menu_login'] 		     = 'Login';
-	$lang['menu_logout'] 			   = 'Logout';
-	$lang['menu_notif']			     = 'Notification';
-	$lang['menu_profile'] 		   = 'Profile';
-	$lang['menu_reg'] 			      = 'Register';
-	$lang['menu_switch_lang']	 = 'Switch Language';
+	$lang['menu_change_pw']   = 'Change Password';
+	$lang['menu_forgot']      = 'Forgot Password';
+	$lang['menu_home']        = 'Home';
+	$lang['menu_login']       = 'Login';
+	$lang['menu_logout']      = 'Logout';
+	$lang['menu_notif']       = 'Notification';
+	$lang['menu_profile']     = 'Profile';
+	$lang['menu_reg']         = 'Register';
+	$lang['menu_switch_lang'] = 'Switch Language';
 
 	/* Organization */
 	$lang['menu_job']          = 'Jobs';
 	$lang['menu_om']           = 'Organization Management';
 	$lang['menu_org_struc']    = 'Organizational Structure';
 	$lang['menu_report_struc'] = 'Reporting Structure';
+	$lang['menu_employee']     = 'Employees';
 
 	/* BSC */
 	$lang['menu_bsc_set']     = 'BSC Setting';

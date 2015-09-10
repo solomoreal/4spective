@@ -8,6 +8,7 @@
 				<ul>
 					<li> <?php echo anchor('admin/org_struc', lang('menu_org_struc')); ?> </li>
 					<li> <?php echo anchor('admin/report_struc', lang('menu_report_struc')); ?> </li>
+					<li> <?php echo anchor('admin/employee', lang('menu_employee')); ?> </li>
 				</ul>
 			</li>
 			<li>
