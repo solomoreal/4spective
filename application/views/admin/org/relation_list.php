@@ -26,7 +26,7 @@
 			echo '<tr>';
 			echo '<td>'.$row->rel_id.'</td>';
 
-			echo '<td>'.lang('om_rel_'.$row->rel_type).'</td>';
+			echo '<td>'.lang('om_rel_'.$row->rel_type.'B').'</td>';
 			echo '<td>'.$row->obj_from.'</td>';
 			echo '<td>'.$row->code_from.'</td>';
 			echo '<td>'.$row->name_from.'</td>';

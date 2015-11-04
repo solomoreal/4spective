@@ -24,6 +24,20 @@ class Org extends CI_Controller {
 		$this->load->view('admin/org/main_view',$data);
 	}
 
+	public function get_child()
+	{
+		$org_id = $this->input->post('org_id');
+		
+		$begin = $this->input->post('begin');
+		$end = $this->input->post('end');
+		$ls = $this->om_model->get_org_list($org_id,$begin,$end);
+		$respond = '';
+		foreach ($ls as $row) {
+			$respond .= '<tr class="opt-org " data-org-id="'.$row->org_id.'" ><td class="info">'.$row->org_code .'</td><td class="org_name">'.$row->org_name.'</td></tr>';
+		}
+		echo $respond;
+	}
+
 	public function show_last()
 	{
 		$org_id     = $this->input->post('org_id');

@@ -140,6 +140,7 @@ jQuery(document).ready(function($) {
 	function btn_bhv () {
 		/// DO .btn-rel behavior 
 		$('.btn-rel').click(function(e) {
+
 			var date_range = $('#dt_range_filter').val();
 		 	var post_id = $('#hdn_post').val();
 		 	var rel_id = $(this).data('rel');

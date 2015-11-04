@@ -21,30 +21,79 @@
 						<h3 class="box-title" id="org-title"></h3>
 						<!-- tools box -->
 							<div class="pull-right box-tools btn-group">
+								<button type="button" class="btn" data-toggle="modal" data-target="#myModal" title="<?php echo lang('act_add').' '. lang('om_emp')?>">
+								  <i class="fa fa-plus"></i><i class="fa fa-user"></i>
+								</button>
 								<?php 
 									
-									echo anchor($link_add, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title='.lang('act_add').' '. lang('om_emp') .'" class="btn btn-act" data-fancybox-type="ajax"');
+									// echo anchor($link_add, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title='.lang('act_add').' '. lang('om_emp') .'" class="btn btn-act" data-fancybox-type="ajax"');
 								?>
 							</div><!-- /. tools -->
 						</div>
-						<div class="box-body">
-							<table class="table table-hover">
-								<thead>
-									<tr>
-										<th>Emp ID</th>
-										<th>Fullname</th>
-										<th>Nickname</th>
-										<th>Join Date</th>
-										<th>Action</th>
-									</tr>
-								</thead>
-							</table>
+						<div id="emp-list" class="box-body">
+							
 						</div>
 					</div>
 				</div><!-- /.col -->
 			</div>
 			<!-- /.row -->
 		</section><!-- /.content -->
+
+		<div class="modal fade" id="myModal">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+	      	<?php
+	      		echo form_open($process, 'emp_form');
+	      	?>
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title">New Employee</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<div class="form-group">
+					    <label for="txt_code"><?php echo lang('pa_emp_code'); ?>/Username</label>
+					    <input type="text" class="form-control" id="txt_code" name="txt_code" placeholder="000000">
+					  </div>
+
+					  <div class="form-group">
+					    <label for="txt_name"><?php echo lang('pa_name'); ?></label>
+					    <input type="text" class="form-control" id="txt_name" name="txt_name" placeholder="fullname">
+					  </div>
+
+					  <div class="form-group">
+					    <label for="txt_email"><?php echo lang('pa_email'); ?></label>
+					    <div class="input-group">
+					    	<div class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></div>
+					    	<input type="email" class="form-control" id="txt_email" name="txt_email" placeholder="john@somewhere.com">
+					  	</div>
+					  </div>
+
+					  <div class="form-group">
+					    <label for="txt_phone"><?php echo lang('pa_cellphone'); ?></label>
+					    <div class="input-group">
+					    	<div class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></div>
+					    	<input type="text" class="form-control" id="txt_phone" name="txt_phone" placeholder="+628110001234">
+					    </div>
+					  </div>
+
+					  <div class="form-group">
+					    <label for="dt_join"><?php echo lang('pa_join_date'); ?></label>
+					    <div class="input-group">
+					    	<div class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></div>
+					    	<input type="text" class="form-control datepicker" id="dt_join" name="dt_join">
+					    </div>
+					  </div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo lang('act_close'); ?></button>
+		        <button type="submit" class="btn btn-primary"><?php echo lang('act_save'); ?></button>
+		      </div>
+	      	<?php
+	      		echo form_close();
+	      	?>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 	</aside><!-- /.right-side -->
 </div><!-- ./wrapper -->
 
@@ -61,177 +110,64 @@
 </script>
 
 <script type="text/javascript">
-	jQuery(document).ready(function($) {
+	refresh();
 
-		refresh();
-
-		$('#btn_filter').click(function(event) {
+	$('#btn_filter').click(function(event) {
 			refresh();
-		});
-
-		$('.btn-act').click(function(e) {
-			var date_range = $('#dt_range_filter').val();
-		 	var parent = $('#hdn_org').val();
-			e.preventDefault();
-			$.ajax({
-				url: this.href,
-				type: 'POST',
-				data: {
-					parent: parent,
-					obj_id: parent,
-					date_range: date_range},
-			})
-			.done(function(data) {
-				 $.fancybox(data, {
-          // fancybox API options
-          fitToView: true,
-          width: 905,
-          height: 505,
-          autoSize: false,
-          closeClick: false,
-          openEffect: 'none',
-          closeEffect: 'none',
-          afterClose: function(){refresh()}
-        }); // fancybox
-			})
-			.fail(function() {
-				console.log("error");
-			})
-			.always(function() {
-				console.log("complete");
-			});
-		});
-
-		function refresh () {
-			var base_url = '<?php echo base_url()."index.php"?>';
-		 	var date_range = $('#dt_range_filter').val();
-		 	var org_id = $('#hdn_org').val();
-
-		 	// DO Fetch Breadcrumb of Organization
-		 	// $.ajax({
-		 	// 	url:  base_url+'/admin/org_struc/show_breadcrumb',
-		 	// 	type: 'POST',
-		 	// 	data: {
-		 	// 		date_range: date_range,
-		 	// 		org_id: org_id,
-		 	// 	},
-		 	// })
-		 	// .done(function(html) {
-		 	// 	$('#box-breadcrumb').html(html);
-
-		 	// })
-		 	// .fail(function() {
-		 	// 	console.log("error breadcrumb");
-		 	// })
-		 	// .always(function() {
-		 	// 	$('.link-org').click(function() {
-		 	// 		var org_to = $(this).data('org');
-		 	// 		$('#hdn_org').val(org_to);
-		 	// 		refresh();
-		 	// 	});
-		 	// });
-		 	
-		 	// DO Fetch Position and Organization under Parent Organization
-		 // 	$.ajax({
-		 // 		url: base_url+'/admin/org_struc/show_child',
-		 // 		type: 'POST',
-		 // 		data: {
-		 // 			date_range: date_range,
-		 // 			parent: org_id,
-		 // 		},
-		 // 	})
-		 // 	.done(function(html) {
-			// 	$('#emp-list').html(html);
-
-			// 	// DO .btn-act-2 behavior 
-			// 	$('.btn-act-2').click(function(e) {
-			// 		var date_range = $('#dt_range_filter').val();
-			// 	 	var parent = $('#hdn_org').val();
-			// 	 	var obj_id = $(this).data('obj');
-			// 		e.preventDefault();
-			// 		$.ajax({
-			// 			url: this.href,
-			// 			type: 'POST',
-			// 			data: {
-			// 				obj_id: obj_id,
-			// 				date_range: date_range},
-			// 		})
-			// 		.done(function(data) {
-			// 			 $.fancybox(data, {
-		 //          // fancybox API options
-		 //          fitToView: true,
-		 //          width: 905,
-		 //          height: 505,
-		 //          autoSize: false,
-		 //          closeClick: false,
-		 //          openEffect: 'none',
-		 //          closeEffect: 'none',
-		 //          afterClose: function(){refresh()}
-		 //        }); // fancybox
-			// 		})
-			// 		.fail(function() {
-			// 			console.log("error");
-			// 		})
-			// 		.always(function() {
-			// 			console.log("complete");
-			// 		});
-			// 	}); // end of .btn-act-2
-
-			// 	// DO .btn-act-3 behavior 
-			// 	$('.btn-act-3').click(function(e) {
-			// 		var date_range = $('#dt_range_filter').val();
-			// 	 	var obj_id = $(this).data('obj');
-			// 		e.preventDefault();
-			// 		$.ajax({
-			// 			url: this.href,
-			// 			type: 'POST',
-			// 			data: {
-			// 				obj_id: obj_id,
-			// 				date_range: date_range},
-			// 		})
-			// 		.done(function(data) {
-			// 			$('.right-side').html(data);
-			// 		})
-			// 		.fail(function() {
-			// 			console.log("error");
-			// 		})
-			// 		.always(function() {
-			// 			console.log("complete");
-			// 		});
-			// 	}); // end of .btn-act-3
-
-				
-		 // 	})
-		 // 	.fail(function() {
-		 // 		console.log("error list");
-		 // 	})
-		 // 	.always(function() {
-		 // 		$('.btn-org-in').click(function() {
-		 // 			var org_to = $(this).data('org');
-		 // 			$('#hdn_org').val(org_to);
-		 // 			refresh();
-		 // 		});
-		 		
-			// });
-
-			// DO Fetch Organization Name
-		//  	$.ajax({
-		//  		url: base_url+'/admin/employee/show_current',
-		//  		type: 'POST',
-		//  		data: {
-		//  			date_range: date_range,
-		//  			org_id: org_id,
-		//  		},
-		//  	})
-		//  	.done(function(html) {
-		// 		$('#org-title').html(html);
-		//  	})
-		//  	.fail(function() {
-		//  		console.log("error title");
-		//  	})
-		//  	.always(function() {
-		 		
-		// 	});			 	
-		// }		 
 	});
+
+
+	function refresh () {
+		var base_url = '<?php echo base_url()."index.php"?>';
+		 var date_range = $('#dt_range_filter').val();
+		$.ajax({
+			url: base_url + '/admin/employee/show_list',
+			type: 'POST',
+			data: {date_range: date_range,},
+		})
+		.done(function(respond) {
+			$('#emp-list').html(respond);
+
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			$('.btn-delete').click(function(event) {
+				/* Act on the event */
+				var emp_code = $(this).data('emp-code');
+				swal({   
+					title: "<?php echo lang('confirm_sure'); ?>",   
+					text: "<?php echo lang('confirm_delete'); ?>",   
+					type: "warning",   
+					showCancelButton: true,   
+					confirmButtonColor: "#DD6B55",   
+					confirmButtonText: "<?php echo lang('act_delete'); ?>",   
+					closeOnConfirm: false 
+				}, function(){   
+						console.log(emp_code);
+
+					$.ajax({
+						url: base_url + '/admin/employee/delete',
+						type: 'POST',
+						data: {emp_code: emp_code},
+					})
+					.done(function() {
+            swal({
+                title: "Deleted!",
+                text: "<?php echo lang('notif_delete_ok'); ?>",
+                type: "success"
+              }, function (){
+                location.reload();
+              });
+						console.log("success");
+					});
+					
+					
+				});
+			});
+
+		});
+		
+	}
 </script>

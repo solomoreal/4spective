@@ -27,6 +27,7 @@
 	$lang['basic_on']				= ' on ';
 	$lang['basic_or']				= ' or ';
 	$lang['basic_out']			= 'Out';
+	$lang['basic_password']	= 'Password';
 	$lang['basic_pending']	= 'Pending';
 	$lang['basic_persons']	= ' Person(s)';
 	$lang['basic_phone']    = 'Phone Number';

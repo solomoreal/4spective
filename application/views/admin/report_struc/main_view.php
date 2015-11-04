@@ -24,7 +24,7 @@
 							<div class="pull-right box-tools btn-group">
 								<?php 
 									echo anchor($link_edit_post, '<i class="fa fa-pencil"></i>', 'title="Edit '. lang('om_org') .'" class="btn btn-act"  data-fancybox-type="ajax"');
-									echo anchor($link_add_post, '<i class="fa fa-plus"></i><i class="fa fa-user"></i> ', 'title="Add '. lang('om_post') .'" class="btn btn-act" " data-fancybox-type="ajax"');
+									echo anchor($link_add_post, '<i class="fa fa-plus"></i> <i class="fa fa-briefcase"></i> ', 'title="Add '. lang('om_post') .'" class="btn btn-act" " data-fancybox-type="ajax"');
 								?>
 							</div><!-- /. tools -->
 						</div>
@@ -142,6 +142,40 @@
 		 			$('#hdn_post').val(post_to);
 		 			refresh();
 		 		});
+
+		 		// DO .btn-act-2 behavior 
+				$('.btn-act-2').click(function(e) {
+					var date_range = $('#dt_range_filter').val();
+				 	var parent = $('#hdn_org').val();
+				 	var obj_id = $(this).data('obj');
+					e.preventDefault();
+					$.ajax({
+						url: this.href,
+						type: 'POST',
+						data: {
+							obj_id: obj_id,
+							date_range: date_range},
+					})
+					.done(function(data) {
+						 $.fancybox(data, {
+		          // fancybox API options
+		          fitToView: true,
+		          width: 905,
+		          height: 505,
+		          autoSize: false,
+		          closeClick: false,
+		          openEffect: 'none',
+		          closeEffect: 'none',
+		          afterClose: function(){refresh()}
+		        }); // fancybox
+					})
+					.fail(function() {
+						console.log("error");
+					})
+					.always(function() {
+						console.log("complete");
+					});
+				}); // end of .btn-act-2
 		 		
 			});
 

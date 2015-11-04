@@ -33,6 +33,9 @@
 	$lang['om_rel_007']     = 'Describing';
 	$lang['om_rel_007A']    = 'Describes';
 	$lang['om_rel_007B']    = 'is Described by';
+	$lang['om_rel_008']     = 'Holder';
+	$lang['om_rel_008A']    = 'Holder of';
+	$lang['om_rel_008B']    = 'Holding by';
 	$lang['om_rel_011']     = '';
 	$lang['om_rel_011A']    = '';
 	$lang['om_rel_011B']    = '';

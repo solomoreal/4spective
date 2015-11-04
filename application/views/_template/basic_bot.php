@@ -18,6 +18,7 @@
 		
 	
 		<script src="<?php echo base_url()?>assets/js/toggle_click.js" type="text/javascript"></script>
+		<script src="<?php echo base_url()?>assets/sweetalert/sweetalert.min.js" type="text/javascript"></script>
 		
 		<?php
 		if(isset($js_list)){

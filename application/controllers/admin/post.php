@@ -202,6 +202,7 @@ class Post extends CI_Controller {
 	{
 		$post_id    = $this->input->post('obj_id');
 		$date_range = $this->input->post('date_range');
+		
 		list($begin,$end) = explode(' - ', $date_range);
 		$begin  = str_replace('/', '-', $begin);
 		$end    = str_replace('/', '-', $end);

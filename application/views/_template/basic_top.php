@@ -33,6 +33,7 @@
 		<!-- Multi Level Push Menu -->
 		<?php echo link_tag('assets/mlpm/jquery.multilevelpushmenu.css'); ?>
 		<?php echo link_tag('assets/fancybox/jquery.fancybox.css'); ?>
+		<?php echo link_tag('assets/sweetalert/sweetalert.css'); ?>
 		
 		<?php echo link_tag('assets/css/fix.css'); ?>
 

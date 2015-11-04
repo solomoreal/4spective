@@ -21,6 +21,7 @@
   $lang['act_request']     = 'Request';
   $lang['act_save']        = 'Save';
   $lang['act_search']      = 'Search';
+  $lang['act_select']      = 'Select';
   $lang['act_send']        = 'Send';
   $lang['act_submit']      = 'Submit';
   $lang['act_update']      = 'Update';

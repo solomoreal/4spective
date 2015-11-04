@@ -96,7 +96,7 @@ $autoload['config'] = array('org_man');
 |
 */
 
-$autoload['language'] = array('act','basic','menu','om','time','number','sc');
+$autoload['language'] = array('act','basic','menu','notif','om','time','number','sc');
 
 
 /*

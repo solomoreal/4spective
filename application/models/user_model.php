@@ -125,6 +125,60 @@ class User_model extends CI_Model {
     }
   }
 
+  /**
+   * [remove_user description]
+   * @param  string $user [description]
+   * @param  string $type [user_id or user_code]
+   * @return [type]       [description]
+   */
+  public function remove_user($user='',$type='id')
+  {
+    // remove all all privilege
+    switch (strtolower($type)) {
+      case 'id':
+        $this->db->where('user_id', $user);
+        break;
+
+      case 'username':
+        $this->db->select('user_id');
+        $this->db->where('username', $user);
+        $user_id = $this->db->get('sys_user')->row()->user_id;
+
+        $this->db->where('user_id', $user_id);
+
+        break;
+      
+      default:
+        $this->db->select('user_id');
+        $this->db->where('username', $user);
+        $user_id = $this->db->get('sys_user')->row()->user_id;
+
+        break;
+    }
+    $this->db->delete('sys_user_privilege');
+
+    // remove username
+    switch (strtolower($type)) {
+      case 'id':
+        $this->db->where('user_id', $user);
+        break;
+
+      case 'username':
+        $this->db->where('username', $user);
+        
+        break;
+      
+      default:
+        // $this->db->where('user_id', $user);
+        $this->db->where('username', $user);
+      
+        break;
+    }
+
+    $this->db->delete('sys_user');
+    
+  }
+
   public function count_privilege($user_id=0,$begin='',$end='')
   {
     if ($begin == '') {
@@ -248,6 +302,8 @@ class User_model extends CI_Model {
     $this->db->where('privilege_id', $privilege_id);
     $this->db->delete('sys_user_privilege');
   }
+
+
 
 }
 
