@@ -16,21 +16,21 @@ $this->load->view('_template/basic_top');
 				</a>
 				<div class="navbar-right">
 					<ul class="nav navbar-nav">
-						<li>
-							<?php echo anchor('home', 'Emp'); ?>
-						</li>
-						<li>
-							<?php echo anchor('home/man', 'Man'.' <span class="label label-danger">99</span>'); ?>
-							
-						</li>
-						<li>
-							<?php echo anchor('home/hr', 'HR'.' <span class="label label-danger">99</span>'); ?>
-							
-						</li>
-						<li>
-							<?php echo anchor('home/admin', 'Admin'.' <span class="label label-danger">99</span>'); ?>
-							
-						</li>
+						<?php
+							if ($this->user_model->check_privilege($this->session->userdata('login_user'),'USER')) {
+								echo '<li>'.anchor('', 'Emp','class="nav_role" data-role="emp"') .'</li>';
+							}
+
+							if ($this->user_model->is_chief($this->session->userdata('username'))) {
+								echo '<li>'.anchor('', 'Chief','class="nav_role" data-role="chief"') .'</li>';
+							} else if ($this->user_model->is_spv($this->session->userdata('username'))) {
+								echo '<li>'.anchor('', 'SPV','class="nav_role" data-role="spv"') .'</li>';
+							}
+
+							if ($this->user_model->check_privilege($this->session->userdata('login_user'),'SA')) {
+								echo '<li>'.anchor('', 'Admin','class="nav_role" data-role="admin"').'</li>';
+							}
+						?>
 						
 						<!-- User Account: style can be found in dropdown.less -->
 						<li class="dropdown user user-menu">
@@ -53,8 +53,8 @@ $this->load->view('_template/basic_top');
 									echo img($img_properies);
 									?>
 									<p>
-										Antonio Uno Daniswara
-										<small>Software Enginer</small>
+										<?php echo $this->session->userdata('emp_name');?>
+										<small><?php echo $this->session->userdata('username');?></small>
 									</p>
 								</li>
 								<!-- Menu Body -->
@@ -75,7 +75,7 @@ $this->load->view('_template/basic_top');
 								<li class="user-footer">
 									<div class="pull-left">
 									<?php
-										echo anchor('#', lang('menu_profile'), 'class="btn btn-default btn-flat"');
+										// echo anchor('#', lang('menu_profile'), 'class="btn btn-default btn-flat"');
 									?>
 									</div>
 									<div class="pull-right">
@@ -94,9 +94,13 @@ $this->load->view('_template/basic_top');
 			<!-- Left side column. contains the logo and sidebar -->
 			
 <?php
-	if(isset($sidemenu)){
-		$this->load->view('_template/'.$sidemenu);	
+	
+	if ($this->session->userdata('sidemenu') == false ) {
+		$this->load->view('_template/emp_menu');	
+
 	} else {
-		$this->load->view('_template/admin_menu');	
+		$this->load->view('_template/'.$this->session->userdata('sidemenu'));	
+
 	}
+
 ?>

@@ -45,9 +45,12 @@
 	$lang['menu_report'] 		= 'Report';
 
 	/* Design */
-	$lang['menu_design'] 	= 'Design';
+	$lang['menu_plan'] 	  = 'Plan';
 	$lang['menu_emp_bsc'] = 'Employee Score Card';
 	$lang['menu_org_bsc'] = 'Organization Score Card';
+
+	$lang['menu_obj']     = 'Objective';
+	$lang['menu_achv']    = 'Achievement';
 	
 /* End of file menu_lang.php */
 /* Location: ./application/languange/en/menu_lang.php */

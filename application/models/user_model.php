@@ -2,6 +2,48 @@
 
 class User_model extends CI_Model {
 
+  public function login($input='',$password='')
+  {
+    $count = $this->count_login($input,$password);
+    if ($count == 1) {
+      $this->db->from('sys_user');
+      $this->db->where("(username = '$input' OR email = '$input')");
+      $this->db->where('password', md5($password));
+      $user = $this->db->get()->row();
+
+      $this->db->select('long_name');
+      $this->db->select('obj_id');
+      $this->db->from('om_obj_attr');
+      $this->db->where('short_name', $user->username);
+      $emp = $this->db->get()->row();
+
+      $sess = array(
+        'login_user' => $user->user_id,
+        'username'   => $user->username
+      );
+
+      if ($emp) {
+        $sess['emp_name'] = $emp->long_name;
+      } else {
+        $sess['emp_name'] = $user->username;
+        
+      }
+
+      if($this->count_privilege($user->user_id) == 1 && $this->check_privilege($user->user_id,'SA') == TRUE) {
+        $sess['sidemenu'] = 'admin_menu';
+      } else {
+        $sess['sidemenu'] = 'emp_menu';
+      }
+
+
+      $this->session->set_userdata($sess);
+      return TRUE;
+
+    } else {
+      return FALSE;
+    }
+  }
+
   public function count_login($input='',$password='')
   {
     $this->db->select('count(*) as val');
@@ -85,8 +127,8 @@ class User_model extends CI_Model {
       $object = array(
         'email'     => $email,
         'phone'     => $phone);
-      $this->db->update('sys_user', $object);
       $this->db->where('user_id', $user_id);
+      $this->db->update('sys_user', $object);
       return true;
     }
   }
@@ -186,7 +228,7 @@ class User_model extends CI_Model {
     }
 
     if ($end == '') {
-      $end = date('Y-m-d');
+      $end = $begin;
     }
     $this->db->select('count(*) as val');
     $this->db->from('sys_user_privilege up');
@@ -205,7 +247,7 @@ class User_model extends CI_Model {
     }
 
     if ($end == '') {
-      $end = date('Y-m-d');
+      $end = $begin;
     }
     $this->db->select('count(*) as val');
     $this->db->from('sys_user_privilege up');
@@ -303,6 +345,110 @@ class User_model extends CI_Model {
     $this->db->delete('sys_user_privilege');
   }
 
+  public function is_chief($emp_code='',$begin='',$end='')
+  {
+    if($begin==''){
+      $begin = date('Y-m-d');
+    }
+
+    if ($end == '') {
+      $end = $begin;
+    }
+
+    $this->db->select('obj_id');
+    $this->db->from('om_obj_attr');
+    $this->db->where('short_name', $emp_code);
+    $temp = $this->db->get()->row();
+    if ($temp) {
+      $emp_id = $temp->obj_id;
+      $this->db->from('om_obj_rel r');
+      $this->db->join('om_obj o', 'o.obj_id = r.obj_from');
+      $this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
+      $this->db->join('om_obj_rel r2', 'o.obj_id = r2.obj_to');
+
+      $this->db->where('r.rel_type', '008');
+      $this->db->where('r2.rel_type', '012');
+      $this->db->where('o.obj_type', 'S');
+      $this->db->where('r.obj_to', $emp_id);
+      $this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
+            (o.end >= '$begin' AND o.end <= '$end') OR 
+            (o.begin >= '$begin' AND o.begin <='$end' ) OR
+            (o.begin <= '$begin' AND o.end >= '$end'))");
+      $this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
+            (r.end >= '$begin' AND r.end <= '$end') OR 
+            (r.begin >= '$begin' AND r.begin <='$end' ) OR
+            (r.begin <= '$begin' AND r.end >= '$end'))");
+      $this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
+            (a.end >= '$begin' AND a.end <= '$end') OR 
+            (a.begin >= '$begin' AND a.begin <='$end' ) OR
+            (a.begin <= '$begin' AND a.end >= '$end'))");
+      $this->db->where("((r2.begin >= '$begin' AND r2.end <='$end') OR 
+            (r.end >= '$begin' AND r.end <= '$end') OR 
+            (r.begin >= '$begin' AND r.begin <='$end' ) OR
+            (r.begin <= '$begin' AND r.end >= '$end'))");
+     
+      return $this->db->count_all_results();
+      
+    } else {
+      return false;
+    }
+
+  }
+
+  public function is_spv($emp_code='',$begin='',$end='')
+  {
+    if($begin==''){
+      $begin = date('Y-m-d');
+    }    
+
+    if ($end == '') {
+      $end = $begin;
+    }
+
+    $this->db->select('obj_id');
+    $this->db->from('om_obj_attr');
+    $this->db->where('short_name', $emp_code);
+    $temp = $this->db->get()->row();
+    if ($temp) {
+      $emp_id = $temp->obj_id;
+      $this->db->select('obj_id');
+      $this->db->from('om_obj_attr');
+      $this->db->where('short_name', $emp_code);
+      $emp_id = $this->db->get()->row()->obj_id;
+
+      $this->db->from('om_obj_rel r');
+      $this->db->join('om_obj o', 'o.obj_id = r.obj_from');
+      $this->db->join('om_obj_attr a', 'a.obj_id = o.obj_id');
+      $this->db->join('om_obj_rel r2', 'o.obj_id = r2.obj_from');
+
+      $this->db->where('r.rel_type', '008');
+      $this->db->where('r2.rel_type', '002');
+      $this->db->where('o.obj_type', 'S');
+      $this->db->where('r.obj_to', $emp_id);
+      $this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
+            (o.end >= '$begin' AND o.end <= '$end') OR 
+            (o.begin >= '$begin' AND o.begin <='$end' ) OR
+            (o.begin <= '$begin' AND o.end >= '$end'))");
+      $this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
+            (r.end >= '$begin' AND r.end <= '$end') OR 
+            (r.begin >= '$begin' AND r.begin <='$end' ) OR
+            (r.begin <= '$begin' AND r.end >= '$end'))");
+      $this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
+            (a.end >= '$begin' AND a.end <= '$end') OR 
+            (a.begin >= '$begin' AND a.begin <='$end' ) OR
+            (a.begin <= '$begin' AND a.end >= '$end'))");
+      $this->db->where("((r2.begin >= '$begin' AND r2.end <='$end') OR 
+            (r.end >= '$begin' AND r.end <= '$end') OR 
+            (r.begin >= '$begin' AND r.begin <='$end' ) OR
+            (r.begin <= '$begin' AND r.end >= '$end'))");
+      return $this->db->count_all_results();
+      
+    } else {
+      return false;
+    }
+
+
+  }
 
 
 }

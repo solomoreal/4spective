@@ -5,6 +5,9 @@ class Org_struc extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		if ($this->session->userdata('login_user') == FALSE) {
+      redirect('account/login');
+    }
 		$this->load->model('om_model');
 	}
 

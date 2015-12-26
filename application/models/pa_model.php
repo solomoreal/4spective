@@ -38,53 +38,6 @@ class Pa_model extends CI_Model {
     return $this->db->get()->result();
   }
 
-  public function add_emp($firstname='', $middlename='', $lastname='', $nickname='', $birthplace='', $birthdate='', $join_date='', $email='',$phone='', $status_code='',$status_end='9999-12-31')
-  {
-    $name = array($firstname,$middlename,$lastname);
-
-    $object = array(
-      'firstname'  => $firstname,
-      'middlename' => $middlename,
-      'lastname'   => $lastname,
-      'nickname'   => $nickname,
-      'fullname'   => implode(' ', $name),
-      'birthplace' => $birthplace,
-      'birthdate'  => $birthdate,
-      'begin'      => $join_date,
-      'end'        => $status_end);
-    $this->db->insert('pa_employee', $object);
-
-    $emp_id = $this->db->insert_id();
-
-    // Add Status 
-    $this->add_status($emp_id,$status_code,$join_date,$status_end);
-
-    $this->load->model('user_model');
-    // Add User
-    $user_id = $this->user_model->add($emp_id,date('dmY',strtotime($birthdate)),$email,$phone,1);
-    // Add Role
-    $this->user_model->add_privilege($user_id,'USER',$join_date,$status_end);
-
-    return $emp_id;
-
-  }
-
-  public function edit_emp($emp_id=0,$firstname='', $middlename='', $lastname='', $fullname='', $nickname='', $birthplace='', $birthdate='',$begin='',$end='')
-  {
-    $object = array(
-      'firstname'  => $firstname,
-      'middlename' => $middlename,
-      'lastname'   => $lastname,
-      'nickname'   => $nickname,
-      'fullname'   => $fullname,
-      'birthplace' => $birthplace,
-      'birthdate'  => $birthdate,
-      'begin'      => $begin,
-      'end'        => $end);
-    $this->db->where('emp_id', $emp_id);
-    $this->db->insert('pa_employee', $object);
-  }
-
   public function terminate_emp($emp_id=0,$date='')
   {
     $this->load->model('user_model');

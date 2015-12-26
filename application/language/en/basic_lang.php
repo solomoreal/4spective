@@ -43,5 +43,10 @@
 	$lang['basic_title']    = 'Title';
 	$lang['basic_type']     = 'Type';
 	$lang['basic_username'] = 'Username';
+	$lang['basic_value']    = 'Value';
+
+	$lang['basic_yes'] = 'Yes';
+	$lang['basic_no'] = 'No';
+
 /* End of file basic_lang.php */
 /* Location: ./application/languange/en/basic_lang.php */

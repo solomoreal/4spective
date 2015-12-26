@@ -5,6 +5,9 @@ class Report_struc extends CI_Controller {
   function __construct()
   {
     parent::__construct();
+    if ($this->session->userdata('login_user') == FALSE) {
+      redirect('account/login');
+    }
     $this->load->model('om_model');
   }
   public function index()
@@ -86,8 +89,8 @@ class Report_struc extends CI_Controller {
     $begin   = str_replace('/', '-', $begin);
     $end     = str_replace('/', '-', $end);
       
-    $chief_ls = $this->om_model->get_subordinate_list($chief,$begin,$end,1);
-    $post_ls  = $this->om_model->get_subordinate_list($chief,$begin,$end,0);
+    $chief_ls = $this->om_model->get_sub_post_list($chief,$begin,$end,1);
+    $post_ls  = $this->om_model->get_sub_post_list($chief,$begin,$end,0);
 
     $data['chief_ls'] = $chief_ls;
     $data['post_ls']  = $post_ls;

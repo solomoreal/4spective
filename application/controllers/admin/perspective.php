@@ -4,7 +4,7 @@ class Perspective extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('bsc_m_model');
+		$this->load->model('sc_m_model');
 	}
 
 	public function index()
@@ -13,7 +13,7 @@ class Perspective extends CI_Controller {
 		// $data['link_add']    = 'admin/perspective/add/';
 		// $data['link_edit']   = 'admin/perspective/edit/';
 		// $data['link_remove'] = 'admin/perspective/remove/';
-		$data['perspective_ls'] = $this->bsc_m_model->get_perspective_list('2008-01-01','9999-12-31'); 
+		$data['perspective_ls'] = $this->sc_m_model->get_perspective_list('2008-01-01','9999-12-31'); 
 		$this->load->view('admin/setting/perspective/main_view',$data);
 	}
 
@@ -33,7 +33,7 @@ class Perspective extends CI_Controller {
 	// 		$code = $this->input->post('txt_code');
 	// 		$name = $this->input->post('txt_name');
 
-	// 		$this->bsc_m_model->add_perspective($code,$name);
+	// 		$this->sc_m_model->add_perspective($code,$name);
 	// 		$this->load->view('_notif/success');
 
 	// 	} else {
@@ -47,7 +47,7 @@ class Perspective extends CI_Controller {
 	// public function edit()
 	// {
 	// 	$code  = $this->input->post('code');
-	// 	$perspective = $this->bsc_m_model->get_perspective_row($code);
+	// 	$perspective = $this->sc_m_model->get_perspective_row($code);
 	// 	$data['code']    = $code;
 	// 	$data['name']    = $perspective->description;
 	// 	$data['process'] = 'admin/perspective/edit_process';
@@ -60,7 +60,7 @@ class Perspective extends CI_Controller {
 	// 	if ($this->form_validation->run()) {
 	// 		$code  = $this->input->post('hdn_code');
 	// 		$name = $this->input->post('txt_name');
-	// 		$this->bsc_m_model->edit_perspective($code,$name);
+	// 		$this->sc_m_model->edit_perspective($code,$name);
 	// 		$this->load->view('_notif/success');
 
 	// 	} else {
@@ -74,7 +74,7 @@ class Perspective extends CI_Controller {
 	// public function remove()
 	// {
 	// 	$code  = $this->input->post('code');
-	// 	$perspective = $this->bsc_m_model->get_perspective_row($code);
+	// 	$perspective = $this->sc_m_model->get_perspective_row($code);
 	// 	$data['code']    = $code;
 
 	// 	$data['process'] = 'admin/perspective/remove_process';
@@ -87,7 +87,7 @@ class Perspective extends CI_Controller {
 	// 	$code = $this->input->post('hdn_code');
 	// 	$pass = $this->input->post('txt_code');
 	// 	if (strtoupper($pass)=='DELETE' ) {
-	// 		$this->bsc_m_model->remove_perspective($code);
+	// 		$this->sc_m_model->remove_perspective($code);
 	// 		$this->load->view('_notif/success');
 			
 	// 	} else {

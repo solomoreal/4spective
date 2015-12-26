@@ -4,7 +4,7 @@ class Period extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('bsc_m_model');
+		$this->load->model('sc_m_model');
 	}
 
 	public function index()
@@ -13,7 +13,7 @@ class Period extends CI_Controller {
 		$data['link_add']    = 'admin/period/add/';
 		$data['link_edit']   = 'admin/period/edit/';
 		$data['link_remove'] = 'admin/period/remove/';
-		$data['period_ls'] = $this->bsc_m_model->get_period_list('2008-01-01','9999-12-31'); 
+		$data['period_ls'] = $this->sc_m_model->get_period_list('2008-01-01','9999-12-31'); 
 		$this->load->view('admin/setting/period/main_view',$data);
 	}
 
@@ -35,7 +35,7 @@ class Period extends CI_Controller {
 			$code  = $this->input->post('txt_code');
 			$begin = $this->input->post('dt_begin');
 			$end   = $this->input->post('dt_end');
-			$this->bsc_m_model->add_period($code,$begin,$end);
+			$this->sc_m_model->add_period($code,$begin,$end);
 			$this->load->view('_notif/success');
 
 		} else {
@@ -49,7 +49,7 @@ class Period extends CI_Controller {
 	public function edit()
 	{
 		$code  = $this->input->post('code');
-		$period = $this->bsc_m_model->get_period_row($code);
+		$period = $this->sc_m_model->get_period_row($code);
 		$data['code']    = $code;
 		$data['begin']   = $period->begin;
 		$data['end']     = $period->end;
@@ -65,7 +65,7 @@ class Period extends CI_Controller {
 			$code  = $this->input->post('hdn_code');
 			$begin = $this->input->post('dt_begin');
 			$end   = $this->input->post('dt_end');
-			$this->bsc_m_model->edit_period($code,$begin,$end);
+			$this->sc_m_model->edit_period($code,$begin,$end);
 			$this->load->view('_notif/success');
 
 		} else {
@@ -79,7 +79,7 @@ class Period extends CI_Controller {
 	public function remove()
 	{
 		$code  = $this->input->post('code');
-		$period = $this->bsc_m_model->get_period_row($code);
+		$period = $this->sc_m_model->get_period_row($code);
 		$data['code']    = $code;
 		$data['begin']   = $period->begin;
 		$data['end']     = $period->end;
@@ -93,7 +93,7 @@ class Period extends CI_Controller {
 		$code = $this->input->post('hdn_code');
 		$pass = $this->input->post('txt_code');
 		if (strtoupper($pass)=='DELETE' ) {
-			$this->bsc_m_model->remove_period($code);
+			$this->sc_m_model->remove_period($code);
 			$this->load->view('_notif/success');
 			
 		} else {

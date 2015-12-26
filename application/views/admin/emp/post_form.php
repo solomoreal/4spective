@@ -60,30 +60,28 @@
             </div>
             <div class="row">
               <div class="form-group col-xs-12 col-sm-3">
-                <label ><?php echo lang('om_org_code');?></label>
+                <label ><?php echo lang('om_post');?></label>
                 <div class="input-group">
+                  <?php echo form_input('post_id', $post_id, 'class="form-control"');?>
                   <span class="input-group-btn">
-                    <button class="btn btn-default" data-toggle="modal" data-target="#modal-org-dir" type="button" id="btn-search"><i class="fa fa-search"></i></button>
+                    <button class="btn btn-default" data-toggle="modal" data-target="#modal-org-dir" type="button" id="btn-search"><i class="fa fa-ellipsis-h"></i></button>
                   </span>
-                  <?php echo form_input('org_code', $org_code, 'class="form-control"');?>
                 </div>
               </div>
 
               <div class="form-group col-xs-12 col-sm-9">
-                <label ><?php echo lang('om_org_name');?></label>
-                <?php echo form_input('org_name', $org_name, 'class="form-control disabled" readonly disabled="disabled"');?>
+                <label ><?php echo lang('om_post_name');?></label>
+                <?php echo form_input('post_name', $post_name, 'class="form-control disabled" readonly disabled="disabled"');?>
+              </div>
+
+              <div class="form-group col-xs-12 col-sm-3">
+                <label ><?php echo lang('basic_value');?></label>
+                <?php echo form_number('nm_value', $value, 'class="form-control " id="nm_value"');?>
               </div>
               
             </div>
 
-            <div class="row">
-              <div class="form-group col-xs-12 ">
-                <label ><?php echo lang('om_post');?></label>
-                <?php echo form_dropdown('slc_post', array(), '','class="form-control"');?>
-              </div>
-              
-            </div>
-            <?php echo anchor('admin/employee', lang('act_cancel'), 'class="btn btn-default"'); ?>
+            <?php echo anchor('admin/employee/detail/'.$emp_code, lang('act_cancel'), 'class="btn btn-default"'); ?>
             <button type="submit" class="btn btn-primary"><?php echo lang('act_save'); ?></button>
 
             
@@ -98,142 +96,179 @@
   </aside><!-- /.right-side -->
 </div><!-- ./wrapper -->
 
-<div class="modal fade" id="modal-org-dir">
+<!-- Modal -->
+<div class="modal fade noselect" id="modal-org-dir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo lang('om_org'); ?></h4>
+        <h4 class="modal-title" id="myModalLabel"><?php echo lang('act_search') . ' '. lang('pa_post'); ?></h4>
       </div>
       <div class="modal-body">
-
-        
-        <button class="btn btn-lg btn-default btn-block" id="btn-back"><i class="fa fa-home"></i> Home</button>
+        <div id="box-bc" >
+          
+        </div>
         <input type="hidden" name="hdn-org-search" id="hdn-org-search" value="<?php echo isset($org_id)? $org_id:'1'; ?> ">
-        <table class="table " style="-webkit-touch-callout: none;-webkit-user-select: none; -khtml-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;">
-          <thead>
-            <tr>
-              <th><?php echo lang('basic_code'); ?></th>
-              <th><?php echo lang('basic_name'); ?></th>
-            </tr>
-          </thead>
-          <tbody id="org-list" style="cursor:pointer">
+      
+          <div id="org-list">
             
-          </tbody>
-        </table>
+          </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo lang('act_close');?></button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btn-select"><?php echo lang('act_select');?></button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+    </div>
+  </div>
+</div>
 <?php $this->load->view('_template/main_bot'); ?>
 
 <script>
-jQuery(document).ready(function($) {
-  refresh();
+refresh();
+function refresh () {
+  var base_url   = '<?php echo base_url()."index.php"?>';
+  var date_range = $('#hdn_date').val();
+  var emp_code   = $('#hdn_emp').val();
+  
+  
+  $.ajax({
+    url: base_url+'/admin/employee/fetch_attr',
+    type: 'POST',
+    dataType: 'json',
 
-  function refresh () {
-    var base_url   = '<?php echo base_url()."index.php"?>';
-    var date_range = $('#hdn_date').val();
-    var emp_code   = $('#hdn_emp').val();
+    data: {
+      emp_code: emp_code,
+      date_range: date_range
+    },
+  })
+  .done(function(respond) {
+    $('.emp-join').html(respond.emp_begin);
+
+    $('.emp-code').html(respond.emp_code);
+    $('.emp-name').html(respond.fullname);
+   
     
+  });
+  
+}
+</script>
+<script type="text/javascript">
+
+  $('#spinner-post').hide();
+
+  function refresh_org_list () {
+    var base_url = '<?php echo base_url()."index.php"?>';
+    var org_id = $('#hdn-org-search').val();
+    var begda = $('#dt_begin').val();
+    var endda = $('#dt_end').val();
     
+    // // DO Fetch Breadcrumb of Organization
     $.ajax({
-      url: base_url+'/admin/employee/fetch_attr',
+      url: base_url+'/admin/employee/dir_path',
       type: 'POST',
-      dataType: 'json',
-
       data: {
-        emp_code: emp_code,
-        date_range: date_range
+        org_id: org_id,
+        begin: begda,
+        end:endda
       },
     })
-    .done(function(respond) {
-      $('.emp-join').html(respond.emp_begin);
+    .done(function(html) {
+      $('#box-bc').html(html)
+      $('.link-org').click(function(event) {
+        $('#org-list').hide();
 
-      $('.emp-code').html(respond.emp_code);
-      $('.emp-name').html(respond.fullname);
-     
+        /* Act on the event */
+        var org = $(this).data('org');
+        $('#hdn-org-search').val(org);
+        refresh_org_list();
+      });
+    })
+    .fail(function() {
+      console.log("error");
+    })
+    .always(function() {
+      $('.link-org').click(function() {
+        var org_to = $(this).data('org');
+        $('#hdn-org-search').val(org_to);
+        refresh_org_list();
+      });
+    });
+
+    // DO Fetch Position and Organization under Parent Organization
+    $.ajax({
+      url: base_url+'/admin/employee/dir_ls',
+      type: 'POST',
+      data: {
+        parent: org_id,
+        begin: begda,
+        end:endda
+      },
+    })
+    .done(function(html) {
+      
+      $('#org-list').html(html);
+      $('#org-list').show();
+      $('.btn-in').click(function(event) {
+        /* Act on the event */
+        org_row = $(this).parents('tr');
+
+        var org = org_row.data('org');
+
+        $('#hdn-org-search').val(org);
+        refresh_org_list();
+      });
+
+      $('.org-row').dblclick(function(event) {
+        /* Act on the event */
+        var org = $(this).data('org');
+        $('#hdn-org-search').val(org);
+        refresh_org_list();
+      });
+
+      $('.post-row').dblclick(function(event) {
+        var post_id = $(this).data('post');
+
+        var post_name = $(this).children('td.post_name').html();
+        // TODO Pindahkan nilai ke textbox post dan tutup modal
+        $('#post_id').val(post_id);
+        $('#post_name').val(post_name);
+        $('#modal-org-dir').modal('hide')
+      });
+
+      $('.btn-select').click(function(event) {
+        var post_id = $(this).data('post');
+
+        var post_name = $(this).parent().parent().children('td.post_name').html();
+        // TODO Pindahkan nilai ke textbox post dan tutup modal
+        $('#post_id').val(post_id);
+        $('#post_name').val(post_name);
+        $('#modal-org-dir').modal('hide')
+      });
+    })
+    .fail(function() {
+      console.log("error list");
+    })
+    .always(function() {
+      $('.btn-org-in').click(function() {
+        $('#org-list').hide();
+
+        var org_to = $(this).data('org');
+        $('#hdn-org-search').val(org_to);
+        refresh_org_list();
+      });
       
     });
     
   }
-});
-</script>
-<script type="text/javascript">
-  $('#btn-search').click(function(event) {
+  refresh_org_list();
+
+  $('#dt_begin').change(function(event) {
     /* Act on the event */
-    $('#modal-org-dir').show();
-  });
-</script>
-
-<script type="text/javascript">
-
-
-    function refresh_org_list () {
-      var base_url = '<?php echo base_url()."index.php"?>';
-      var org_id   = $('#hdn-org-search').val();
-      var begin    = $('#dt_begin').val();
-      var end      = $('#dt_end').val();
-
-      // DO Fetch Position and Organization under Parent Organization
-      $.ajax({
-        url: base_url+'/admin/org/get_child',
-        type: 'POST',
-        data: {
-          org_id: org_id,
-          begin: begin,
-          end: end,
-        },
-      })
-      .done(function(respond) {
-        $('#org-list').html(respond);
-      })
-      .fail(function() {
-
-      })
-      .always(function() {
-        $('.opt-org').click(function(event) {
-          /* Act on the event */
-
-          $('.opt-org').attr('class', 'opt-org');
-
-          $(this).attr('class', 'opt-org selected');
-        });
-
-        $('#btn-back').click(function(event) {
-          /* Act on the event */
-          $('#hdn-org-search').val($(this).data('parent-id')); 
-          $('#btn-back').html('<i class="fa fa-home"></i> Home');
-          $('#btn-back').data('parent-id',1);
-
-          $('.opt-org').attr('class', 'opt-org');
-          refresh_org_list();
-        });
-
-
-        $('.opt-org').dblclick(function(event) {
-          /* Act on the event */
-          $('.opt-org').attr('style', '');
-          var child_id = $(this).data('org-id');
-          var name = $(this).closest('tr').children('td.org_name').html();
-          $('#btn-back').html('<i class="fa fa-arrow-left"></i> '+name);
-          $('#btn-back').data('parent-id',org_id);
-          $('#hdn-org-search').val(child_id); 
-          refresh_org_list();
-        });
-        
-      });
-      
-    }
-
-
-    $('#spinner-post').hide();
-    
     refresh_org_list();
+  });
 
+  $('#dt_end').change(function(event) {
+    /* Act on the event */
+    refresh_org_list();
+  });
 </script>

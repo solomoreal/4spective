@@ -4,7 +4,7 @@ class Count_unit extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('bsc_m_model');
+		$this->load->model('sc_m_model');
 	}
 
 	public function index()
@@ -13,7 +13,7 @@ class Count_unit extends CI_Controller {
 		$data['link_add']    = 'admin/count_unit/add/';
 		$data['link_edit']   = 'admin/count_unit/edit/';
 		$data['link_remove'] = 'admin/count_unit/remove/';
-		$data['count_unit_ls'] = $this->bsc_m_model->get_measure_list(); 
+		$data['count_unit_ls'] = $this->sc_m_model->get_measure_list(); 
 		$this->load->view('admin/setting/count_unit/main_view',$data);
 	}
 
@@ -64,7 +64,7 @@ class Count_unit extends CI_Controller {
 				$max_val = $temp;
 			}
 			
-			$this->bsc_m_model->add_measure($short,$long,$desc,$is_real,$has_min,$min_val,$has_max,$max_val);
+			$this->sc_m_model->add_measure($short,$long,$desc,$is_real,$has_min,$min_val,$has_max,$max_val);
 			echo $this->load->view('_notif/success');
 
 		} else {
@@ -78,7 +78,7 @@ class Count_unit extends CI_Controller {
 	public function edit()
 	{
 		$id  = $this->input->post('code');
-		$old = $this->bsc_m_model->get_measure_row($id);
+		$old = $this->sc_m_model->get_measure_row($id);
 		$data['hidden']  = array('hdn_id'=>$id);
 		$data['short']   = $old->short_name;
 		$data['long']    = $old->long_name;
@@ -122,7 +122,7 @@ class Count_unit extends CI_Controller {
 				$min_val = $max_val;
 				$max_val = $temp;
 			}
-			$this->bsc_m_model->edit_measure($id,$short,$long,$desc,$is_real,$has_min,$min_val,$has_max,$max_val);
+			$this->sc_m_model->edit_measure($id,$short,$long,$desc,$is_real,$has_min,$min_val,$has_max,$max_val);
 			echo $this->load->view('_notif/success');
 
 		} else {
@@ -136,7 +136,7 @@ class Count_unit extends CI_Controller {
 	public function remove()
 	{
 		$code  = $this->input->post('code');
-		$count_unit = $this->bsc_m_model->get_measure_row($code);
+		$count_unit = $this->sc_m_model->get_measure_row($code);
 		$data['code']    = $code;
 		$data['process'] = 'admin/count_unit/remove_process';
 		$this->load->view('_template/remove_form', $data);
@@ -148,7 +148,7 @@ class Count_unit extends CI_Controller {
 		$code = $this->input->post('hdn_code');
 		$pass = $this->input->post('txt_code');
 		if (strtoupper($pass)=='DELETE' ) {
-			$this->bsc_m_model->remove_measure($code);
+			$this->sc_m_model->remove_measure($code);
 			$this->load->view('_notif/success');
 			
 		} else {

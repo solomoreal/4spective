@@ -11,6 +11,8 @@
 	$lang['om_chief_post']  = 'Chief Position';
 	$lang['om_co_addr']     = 'Company Address';
 	$lang['om_company']     = 'Company';
+	$lang['om_holding']     = 'Holding';
+	$lang['om_holder']      = 'Holder';
 	$lang['om_emp']         = 'Employee';
 	$lang['om_org']         = 'Organization';
 	$lang['om_org_ass']     = 'Organizational Assignment';

@@ -4,13 +4,13 @@ class Score extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('bsc_m_model');
+		$this->load->model('sc_m_model');
 	}
 
 	public function index()
 	{
 		$data['page_title']  = lang('menu_score');
-		$data['score_ls'] = $this->bsc_m_model->get_score_list(); 
+		$data['score_ls'] = $this->sc_m_model->get_score_list(); 
 		$this->load->view('admin/setting/score/main_view',$data);
 	}
 

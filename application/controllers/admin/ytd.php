@@ -4,13 +4,13 @@ class Ytd extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('bsc_m_model');
+		$this->load->model('sc_m_model');
 	}
 
 	public function index()
 	{
 		$data['page_title']  = lang('menu_ytd');
-		$data['ytd_ls'] = $this->bsc_m_model->get_ytd_list('2008-01-01','9999-12-31'); 
+		$data['ytd_ls'] = $this->sc_m_model->get_ytd_list('2008-01-01','9999-12-31'); 
 		$this->load->view('admin/setting/ytd/main_view',$data);
 	}
 

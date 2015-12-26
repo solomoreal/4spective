@@ -3,10 +3,10 @@
 		<h2><i class="fa fa-list"></i> Management</h2>
 		<ul>
 			<li>
-				<?php echo anchor('#', '<i class="fa fa-table"></i> '.lang('menu_design')); ?>
-				<h2><i class="fa fa-table"></i> <?php echo lang('menu_design');?></h2>
+				<?php echo anchor('#', '<i class="fa fa-table"></i> '.lang('menu_plan')); ?>
+				<h2><i class="fa fa-table"></i> <?php echo lang('menu_plan');?></h2>
 				<ul>
-					<li> <?php echo anchor('', lang('menu_org_bsc')); ?> </li>
+					<li> <?php echo anchor('plan/org', lang('menu_org_bsc')); ?> </li>
 					<li> <?php echo anchor('', lang('menu_emp_bsc')); ?> </li>
 
 				</ul>

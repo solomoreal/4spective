@@ -4,7 +4,7 @@ class Formula extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('bsc_m_model');
+		$this->load->model('sc_m_model');
 	}
 
 	public function index()
@@ -16,7 +16,7 @@ class Formula extends CI_Controller {
 
 	public function show_formula()
 	{
-		$formula_ls = $this->bsc_m_model->get_formula_list('2008-01-01','9999-12-31'); 
+		$formula_ls = $this->sc_m_model->get_formula_list('2008-01-01','9999-12-31'); 
 		$data['link_edit']   = 'admin/formula/edit/';
 		$data['link_remove'] = 'admin/formula/remove/';
 		$data['link_add']    = 'admin/formula/add_score/';
@@ -35,7 +35,7 @@ class Formula extends CI_Controller {
 	public function show_score()
 	{
 		$formula_id = $this->input->post('formula_id');
-		$score_ls = $this->bsc_m_model->get_formula_score_list($formula_id);
+		$score_ls = $this->sc_m_model->get_formula_score_list($formula_id);
 
 		$data['link_edit']   = 'admin/formula/edit_score/';
 		$data['link_remove'] = 'admin/formula/remove_score/';
@@ -69,7 +69,7 @@ class Formula extends CI_Controller {
 			$type  = $this->input->post('slc_type');
 			$begin = $this->input->post('dt_begin');
 			$end   = $this->input->post('dt_end');
-			$this->bsc_m_model->add_formula($name,$desc,$type,$begin,$end);
+			$this->sc_m_model->add_formula($name,$desc,$type,$begin,$end);
 			$this->load->view('_notif/success');
 
 		} else {
@@ -83,7 +83,7 @@ class Formula extends CI_Controller {
 	public function edit()
 	{
 		$id  = $this->input->post('formula_id');
-		$formula = $this->bsc_m_model->get_formula_row($id);
+		$formula = $this->sc_m_model->get_formula_row($id);
 		$data['id']    = $id;
 		$data['name']  = $formula->formula_name;
 		$data['desc']  = $formula->description;
@@ -106,7 +106,7 @@ class Formula extends CI_Controller {
 			$type  = $this->input->post('slc_type');
 			$begin = $this->input->post('dt_begin');
 			$end   = $this->input->post('dt_end');
-			$this->bsc_m_model->edit_formula($id,$name,$desc,$type,$begin,$end);
+			$this->sc_m_model->edit_formula($id,$name,$desc,$type,$begin,$end);
 			$this->load->view('_notif/success');
 
 		} else {
@@ -120,7 +120,7 @@ class Formula extends CI_Controller {
 	public function remove()
 	{
 		$code  = $this->input->post('formula_id');
-		$formula = $this->bsc_m_model->get_formula_row($code);
+		$formula = $this->sc_m_model->get_formula_row($code);
 		$data['code']    = $code;
 		$data['process'] = 'admin/formula/remove_process';
 		$this->load->view('_template/remove_form', $data);
@@ -132,7 +132,7 @@ class Formula extends CI_Controller {
 		$code = $this->input->post('hdn_code');
 		$pass = $this->input->post('txt_code');
 		if (strtoupper($pass)=='DELETE' ) {
-			$this->bsc_m_model->remove_formula($code);
+			$this->sc_m_model->remove_formula($code);
 			$this->load->view('_notif/success');
 			
 		} else {
@@ -146,7 +146,7 @@ class Formula extends CI_Controller {
 		$formula_id = $this->input->post('formula_id');
 		$hidden     = array(
 			'formula_id' => $formula_id);
-		$score_ls  = $this->bsc_m_model->get_score_list();
+		$score_ls  = $this->sc_m_model->get_score_list();
 		$score_opt = array();
 		foreach ($score_ls as $row) {
 			$score_opt[$row->pc_score] = $row->pc_score;
@@ -176,7 +176,7 @@ class Formula extends CI_Controller {
 				$lower = $upper;
 				$upper = $temp;	
 			}
-			$this->bsc_m_model->add_formula_score($formula_id,$pc_score,$lower,$upper);
+			$this->sc_m_model->add_formula_score($formula_id,$pc_score,$lower,$upper);
 			$this->load->view('_notif/success');
 
 		} else {
@@ -191,11 +191,11 @@ class Formula extends CI_Controller {
 	{
 		$formula_id = $this->input->post('formula_id');
 		$score_id   = $this->input->post('score_id');
-		$score      = $this->bsc_m_model->get_formula_score_row($score_id);
+		$score      = $this->sc_m_model->get_formula_score_row($score_id);
 		$hidden     = array(
 			'formula_id' => $formula_id,
 			'score_id'   => $score_id);
-		$score_ls  = $this->bsc_m_model->get_score_list();
+		$score_ls  = $this->sc_m_model->get_score_list();
 		$score_opt = array();
 		foreach ($score_ls as $row) {
 			$score_opt[$row->pc_score] = $row->pc_score;
@@ -225,7 +225,7 @@ class Formula extends CI_Controller {
 				$lower = $upper;
 				$upper = $temp;	
 			}
-			$this->bsc_m_model->edit_formula_score($score_id,$pc_score,$lower,$upper);
+			$this->sc_m_model->edit_formula_score($score_id,$pc_score,$lower,$upper);
 			$this->load->view('_notif/success');
 
 		} else {
@@ -252,7 +252,7 @@ class Formula extends CI_Controller {
 		$code = $this->input->post('hdn_code');
 		$pass = $this->input->post('txt_code');
 		if (strtoupper($pass)=='DELETE' ) {
-			$this->bsc_m_model->remove_formula_score($code);
+			$this->sc_m_model->remove_formula_score($code);
 			$this->load->view('_notif/success');
 			
 		} else {
