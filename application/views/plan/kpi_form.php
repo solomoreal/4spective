@@ -3,7 +3,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <?php echo form_open('', 'id="form-kpi"'); ?>
-      <!-- <?php echo form_hidden('sc_id', '','id="sc_id"'); ?> -->
+
       <?php echo form_hidden('kpi_id', '','id="kpi_id"'); ?>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -236,7 +236,7 @@
           </div>
 
         </div>
-
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo lang('act_close'); ?></button>
         <button type="submit" class="btn btn-primary"><?php echo lang('act_save'); ?></button>
@@ -245,6 +245,7 @@
     </div>
   </div>
 </div>
+
 
 <script type="text/javascript">
   $('#target-base').hide();
@@ -386,7 +387,7 @@
       data: {sc_id: sc_id, persp: persp},
     })
     .done(function(respond) {
-      $('#slc_so').html(respond);
+      $('#slc_so_kpi').html(respond);
     });
     
   });

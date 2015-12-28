@@ -36,7 +36,16 @@ $this->load->view('_template/basic_top');
 						<li class="dropdown user user-menu">
 							<a href="#" class="dropdown-toggle hidden-xs" data-toggle="dropdown">
 								<i class="glyphicon glyphicon-user"></i>
-								<span class="">Uno <i class="caret"></i></span>
+								<span class="">
+									<?php 
+
+									if ($this->session->userdata('emp_name')) {
+										echo $this->session->userdata('emp_name');
+									} else {
+										echo $this->session->userdata('username');
+									}
+									?>
+								 <i class="caret"></i></span>
 							</a>
 							<a href="#" class="dropdown-toggle visible-xs" data-toggle="dropdown">
 								<i class="glyphicon glyphicon-user"></i>

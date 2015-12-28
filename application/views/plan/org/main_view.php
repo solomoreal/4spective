@@ -2,6 +2,8 @@
 
 	<aside class="right-side">
 	<?php $this->load->view('_template/page_head'); ?>
+  <?php echo form_hidden('hdn_org', 0); ?>
+
 		<!-- Main content -->
 		<section class="content" id="sec-main">
 			<!-- top row -->
@@ -21,6 +23,13 @@
 					</div>
 				</div>
 			</div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="box-breadcrumb" class="box-body">
+
+          </div>
+        </div>
+      </div>
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="box box-solid">
@@ -102,16 +111,19 @@
 	$('#slc_period').change(function(event) {
 		/* Act on the event */
 		show_list();
+
 	
 	});
 	function show_list () {
 		var base_url = '<?php echo base_url()?>index.php/';
 		var period = $('#slc_period').val();
+    var org_id = $('#hdn_org').val();
+
 		$.ajax({
 			url: base_url + 'plan/org/sc_list',
 			type: 'POST',
 			dataType: 'html',
-			data: {period: period},
+			data: {period: period,parent: org_id},
 		})
 		.done(function(respond) {
 			$('#list').html(respond);
@@ -120,7 +132,38 @@
 				$('#hdn_period').val($(this).data('period'));
 				$('#hdn_org').val($(this).data('org'));
 			});
-		});
+		})
+    .always(function(){
+      $('.btn-org-in').click(function() {
+        var org_to = $(this).data('org');
+        $('#hdn_org').val(org_to);
+        show_list();
+      });
+    });
+
+    // DO Fetch Breadcrumb of Organization
+    $.ajax({
+      url:  base_url+'plan/org/show_breadcrumb',
+      type: 'POST',
+      data: {
+        period: period,
+        org_id: org_id,
+      },
+    })
+    .done(function(html) {
+      $('#box-breadcrumb').html(html);
+
+    })
+    .fail(function() {
+      console.log("error breadcrumb");
+    })
+    .always(function() {
+      $('.link-org').click(function() {
+        var org_to = $(this).data('org');
+        $('#hdn_org').val(org_to);
+        show_list();
+      });
+    });
 		
 	}
 	

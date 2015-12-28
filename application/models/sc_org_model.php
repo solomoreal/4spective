@@ -49,12 +49,6 @@ class Sc_org_model extends CI_Model {
 
   public function get_sc_byid_row($sc_id=0)
   {
-    if ($begin == '') {
-      $begin = date('Y-m-d');
-    }
-    if ($end == '') {
-      $end = $begin;
-    }
 
     $this->db->from('sc_org sc');
     $this->db->where('sc.sc_id', $sc_id);
@@ -140,7 +134,10 @@ class Sc_org_model extends CI_Model {
           (a.begin >= '$begin' AND a.begin <='$end' ) OR
           (a.begin <= '$begin' AND a.end >= '$end'))");
 
-        if ($status !='') {
+        if (is_array($status)) {
+          $this->db->where_in('sc.status', $status);
+
+        } else if ($status !='') {
           $this->db->where('sc.status', $status);
         }
         $this->db->order_by('p.end', 'desc');

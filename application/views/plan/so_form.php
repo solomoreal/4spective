@@ -3,7 +3,6 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <?php echo form_open('', 'id="form-so"'); ?>
-      <?php echo form_hidden('sc_id', $sc_id,'id="sc_id"'); ?>
       <?php echo form_hidden('so_id', $sc_id,'id="so_id"'); ?>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>

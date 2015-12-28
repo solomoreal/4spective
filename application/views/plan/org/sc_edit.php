@@ -8,6 +8,8 @@
     </style>
     <!-- Main content -->
     <section class="content" id="sec-main">
+      <?php echo form_hidden('sc_id', $sc_id,'id="sc_id"'); ?>
+      
       <!-- top row -->
       <div class="row">
         <div class="col-xs-12">
@@ -109,6 +111,7 @@
 <?php $this->load->view('_template/main_bot'); ?>
 <?php $this->load->view('plan/so_form'); ?>
 <?php $this->load->view('plan/kpi_form'); ?>
+<?php $this->load->view('plan/org/kpi_modal'); ?>
 <script type="text/javascript">
   so_list();
   
@@ -305,7 +308,7 @@
           });
 
         });
-      });
+      }); // End of $('.edit-kpi').click()
 
       $('.remove-kpi').click(function(event) {
         var kpi_id = $(this).data("kpi");
@@ -343,8 +346,43 @@
           } else {     
               swal("Cancelled", "Your imaginary file is safe :)", "error");   
           }
-      });
-    });
+        });
+      }); // End of $('.remove-kpi').click()
+    
+      $('.detail-kpi').click(function(event) {
+        /* Act on the event */
+        var kpi_id = $(this).data('kpi');
+        var base_url ='<?php echo base_url(); ?>index.php/';
+
+        $.ajax({
+          url: base_url+'plan/org/kpi_detail',
+          type: 'POST',
+          dataType: 'json',
+          data: {kpi_id: kpi_id},
+        })
+        .done(function(respond) {
+          $('#kpi-persp').html(respond.persp);
+          $('#kpi-so').html(respond.so);
+          $('#kpi-kpi').html(respond.kpi);
+          $('#kpi-modal-title').html(respond.kpi);
+          $('#kpi-weight').html(respond.weight);
+          $('#kpi-desc').html(respond.desc);
+          $('#kpi-measure').html(respond.measure);
+          $('#kpi-formula').html(respond.formula);
+          $('#kpi-ytd').html(respond.ytd);
+         
+          $.each(respond.target, function(month, val) {
+            $('#target_'+month).html(val);
+          });
+          // console.log("success");
+        })
+        .fail(function() {
+          console.log("error");
+        })
+        .always(function() {
+          console.log("complete");
+        });
+      });// End of $('.detail-kpi').click()
     
   });
 }

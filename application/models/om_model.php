@@ -1826,8 +1826,8 @@ class Om_model extends CI_Model {
 	 */
 	public function get_sup_post_row($post_id=0,$begin='',$end='')
 	{
-		$rel = $this->get_obj_rel_last($post_id,'B','002',$begin,$end);
-		return $this->get_post_row($rel->obj_to,$begin,$end);
+		$rel = $this->get_obj_rel_last($post_id,'A','002',$begin,$end);
+		return $this->get_post_row($rel->obj_from,$begin,$end);
 	}
 
 	/**

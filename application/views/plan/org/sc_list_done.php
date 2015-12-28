@@ -5,6 +5,9 @@
   <td>
     <div class="btn-group">
       <?php
+      echo '<a class="btn btn-default btn-org-in" data-org="'.$org_id.'"><i class="fa fa-arrow-right"></i></a>';
+      echo anchor('plan/org/view_sc/'.$sc_id, '<i class="fa fa-list"></i>', 'data-sc="'.$sc_id.'" class="btn btn-default link"');
+      
       echo anchor('plan/org/rev_sc/'.$sc_id, '<i class="fa fa-unlock"></i>', 'data-sc="'.$sc_id.'" class="btn btn-default"');
       ?>
     </div>
