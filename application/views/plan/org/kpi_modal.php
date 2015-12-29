@@ -2,6 +2,8 @@
 <div class="modal fade" id="kpi-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
+      <?php echo form_open('', 'id="form-kpi"'); ?>
+      <?php echo form_hidden('kpi_id', '','id="kpi_id"'); ?>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="kpi-modal-title">KPI Title</h4>
@@ -74,13 +76,14 @@
           </tr>
 
         </table>
-
+        
       </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo lang('act_close'); ?></button>
-        
+        <button type="submit" class="btn btn-primary"><?php echo lang('act_save'); ?></button>
       </div>
+      <?php echo form_close(); ?>
 
     </div>
   </div>

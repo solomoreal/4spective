@@ -248,6 +248,7 @@
     })
     .done(function(respond) {
       $('#kpi-list').html(respond);
+
       $('.edit-kpi').click(function(event) {
         var kpi_id = $(this).data('kpi');
         $('#kpi-form-title').html('Edit KPI');
@@ -385,40 +386,7 @@
         });
       });// End of $('.detail-kpi').click()
 
-      $('.cascade-kpi').click(function(event) {
-        /* Act on the event */
-        var kpi_id = $(this).data('kpi');
-        var base_url ='<?php echo base_url(); ?>index.php/';
-
-        $.ajax({
-          url: base_url+'plan/org/kpi_detail',
-          type: 'POST',
-          dataType: 'json',
-          data: {kpi_id: kpi_id},
-        })
-        .done(function(respond) {
-          $('#source_kpi-persp').html(respond.persp);
-          $('#source_kpi-so').html(respond.so);
-          $('#source_kpi-kpi').html(respond.kpi);
-          $('#kpi-modal-title').html(respond.kpi);
-          $('#source_kpi-weight').html(respond.weight);
-          $('#source_kpi-desc').html(respond.desc);
-          $('#source_kpi-measure').html(respond.measure);
-          $('#source_kpi-formula').html(respond.formula);
-          $('#source_kpi-ytd').html(respond.ytd);
-         
-          $.each(respond.target, function(month, val) {
-            $('#source_target_'+month).html(val);
-          });
-          // console.log("success");
-        })
-        .fail(function() {
-          console.log("error");
-        })
-        .always(function() {
-          console.log("complete");
-        });
-      });// End of $('.cascade-kpi').click()
+      
     
   });
 }

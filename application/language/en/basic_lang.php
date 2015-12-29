@@ -22,6 +22,7 @@
 	$lang['basic_loc']      = 'Location';
 	$lang['basic_msg']      = 'Message';
 	$lang['basic_name']     = 'Name';
+	$lang['basic_num']      = 'Number';
 	$lang['basic_none']     = 'None';
 	$lang['basic_note']     = 'Note';
 	$lang['basic_on']				= ' on ';
