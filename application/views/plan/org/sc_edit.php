@@ -16,7 +16,8 @@
           <div class="box box-solid">
             <div class="box-header">
               <div class="pull-right box-tools btn-group">
-              <?php echo anchor($send_sc, '<i class="fa fa-send"></i>', ' class="btn pull-right" id="btn-send-sc"');?>
+              <?php //echo anchor($send_sc, '<i class="fa fa-send"></i>', ' class="btn pull-right" id="btn-send-sc"');?>
+              <button id="btn-send-sc" class="btn btn-default"  title="<?php echo lang('act_send'); ?>"><i class="fa fa-send"></i></button>
               </div>
             </div>
             <div  class="box-body">
@@ -383,6 +384,41 @@
           console.log("complete");
         });
       });// End of $('.detail-kpi').click()
+
+      $('.cascade-kpi').click(function(event) {
+        /* Act on the event */
+        var kpi_id = $(this).data('kpi');
+        var base_url ='<?php echo base_url(); ?>index.php/';
+
+        $.ajax({
+          url: base_url+'plan/org/kpi_detail',
+          type: 'POST',
+          dataType: 'json',
+          data: {kpi_id: kpi_id},
+        })
+        .done(function(respond) {
+          $('#source_kpi-persp').html(respond.persp);
+          $('#source_kpi-so').html(respond.so);
+          $('#source_kpi-kpi').html(respond.kpi);
+          $('#kpi-modal-title').html(respond.kpi);
+          $('#source_kpi-weight').html(respond.weight);
+          $('#source_kpi-desc').html(respond.desc);
+          $('#source_kpi-measure').html(respond.measure);
+          $('#source_kpi-formula').html(respond.formula);
+          $('#source_kpi-ytd').html(respond.ytd);
+         
+          $.each(respond.target, function(month, val) {
+            $('#source_target_'+month).html(val);
+          });
+          // console.log("success");
+        })
+        .fail(function() {
+          console.log("error");
+        })
+        .always(function() {
+          console.log("complete");
+        });
+      });// End of $('.cascade-kpi').click()
     
   });
 }
@@ -410,4 +446,41 @@
     });
     
   }
+</script>
+<script type="text/javascript">
+  $('#btn-send-sc').click(function(event) {
+      var sc_id = $('#sc_id').val();
+      var base_url = '<?php echo base_url() ?>index.php/';
+      swal({   
+        title: "Confirm",   
+        text: "Are you sure to Send this Score Card?",    
+        type: "warning",   
+        showCancelButton: true,   
+        // confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "<?php echo lang('basic_yes'); ?>",   
+        cancelButtonText: "<?php echo lang('basic_no'); ?>",   
+        closeOnConfirm: false,   
+        closeOnCancel: false 
+      }, function(isConfirm){   
+        if (isConfirm) {
+          $.ajax({
+            url: base_url+'plan/org/send_sc',
+            type: 'POST',
+            data: {sc_id: sc_id},
+          })
+          .done(function() {
+            swal({
+              title: "Sended!",
+              text: "Score Card has been Send",
+              type: "success"
+            }, function (){
+              location.reload();
+            });
+          });
+                      
+        } else {     
+            swal("Cancelled", "", "error");   
+        }
+    });
+  });
 </script>

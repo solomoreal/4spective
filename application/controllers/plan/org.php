@@ -33,6 +33,12 @@ class Org extends CI_Controller {
     $begin  = $period->begin;
     $end    = $period->end;
     $data['period'] = $code;
+
+    $org_temp = $this->om_model->get_org_chief_ls($this->session->userdata('username'),$begin,$end);
+    $chief_of = array();
+    foreach ($org_temp as $org) {
+      $chief_of[] = $org->org_id;
+    }
     
     if (!is_numeric($parent) OR $parent < 1 ) {
       $org_ls = $this->om_model->get_org_chief_ls($this->session->userdata('username'),$begin,$end);
@@ -68,13 +74,25 @@ class Org extends CI_Controller {
 
             break;
           case 'pend1':
-            $data['status'] = '<span class="label label-warning">Pending Approval</span>';
-            $view = 'plan/org/sc_list';
+            $data['status'] = '<span class="label label-warning">Pending Agreement</span>';
+            if (in_array($sc->org_id, $chief_of)) {
+              $view = 'plan/org/sc_list_pending';
+
+            } else {
+              $view = 'plan/org/sc_list';
+
+            }
             
             break;
           case 'pend2':
-            $data['status'] = '<span class="label label-warning">Pending Agreement</span>';
-            $view = 'plan/org/sc_list';
+            $data['status'] = '<span class="label label-warning">Pending Aproval</span>';
+            if (in_array($sc->org_id, $chief_of)) {
+              $view = 'plan/org/sc_list';
+
+            } else {
+              $view = 'plan/org/sc_list_pending';
+
+            }
             
             break;
           case 'ok';
@@ -213,9 +231,11 @@ class Org extends CI_Controller {
 
   }
 
-  public function send_sc($sc_id=0)
+  public function send_sc()
   {
-    $sc = $this->sc_org_model->get_sc_row($sc_id);
+    $sc_id = $this->input->post('sc_id');
+    $sc = $this->sc_org_model->get_sc_byid_row($sc_id);
+    var_dump($sc);
     $period = $this->sc_m_model->get_period_row($sc->period);
     $org_temp = $this->om_model->get_org_chief_ls($this->session->userdata('username'),$period->begin,$period->end);
     $chief_of = array();
@@ -223,42 +243,51 @@ class Org extends CI_Controller {
       $chief_of[] = $org->org_id;
     }
 
+    // TODO check status
     switch ($sc->status) {
       case 'draft':
       case 'rev':
       case 'rj1';
       case 'rj2';
-        if (in_array($this->config->item('root_org'), $chief_of)) {
-          // TODO berikan perlakukkan khusus untuk CEO / pimpinan tertinggi perusahaan
+        // TODO check jumlah weigth KPI yang ada
+        $weight = $this->sc_org_model->sum_kpi_weight($sc_id);
+        if ($weight == 100) {
+          if (in_array($this->config->item('root_org'), $chief_of) && in_array($sc->org_id, $chief_of)) {
+            // TODO berikan perlakukkan khusus untuk CEO / pimpinan tertinggi perusahaan
 
-          // TODO Langsung memberikan status OK untuk Pimpinan tertinggi
-          $this->sc_org_model->edit_sc_status($sc_id,'ok');
+            // TODO Langsung memberikan status OK untuk Pimpinan tertinggi
+            $this->sc_org_model->edit_sc_status($sc_id,'ok');
 
-        } else if (in_array($sc->org_id, $chief_of)) { 
-          // Atasan ke Bawahan
-          
-          // TODO memberikan status pending agreement
-          $this->sc_org_model->edit_sc_status($sc_id,'pend2');
-          
-        } else { 
-          // Bawahan ke Atasan
-          
-          // TODO memberikan status pending approval
-          $this->sc_org_model->edit_sc_status($sc_id,'pend1');
+          } else if (in_array($sc->org_id, $chief_of)) { 
+            // Atasan ke Bawahan
+            
+            // TODO memberikan status pending agreement
+            $this->sc_org_model->edit_sc_status($sc_id,'pend2');
+            
+          } else { 
+            // Bawahan ke Atasan
+            
+            // TODO memberikan status pending approval
+            $this->sc_org_model->edit_sc_status($sc_id,'pend1');
 
+          }
+          $respond = TRUE;
+        } else {
+          $respond = FALSE;
         }
         break;
       default:
+        $respond = FALSE;
 
         break;
     }
-    redirect('plan/org');
+    // redirect('plan/org');
   }
 
   public function approve_sc()
   {
     $sc_id = $this->input->post('sc_id');
-    $sc    = $this->sc_org_model->get_sc_row($sc_id);
+    $sc    = $this->sc_org_model->get_sc_byid_row($sc_id);
     switch ($sc->status) {
       case 'pend1':
       case 'pend2':
@@ -274,7 +303,7 @@ class Org extends CI_Controller {
   public function reject_sc()
   {
     $sc_id = $this->input->post('sc_id');
-    $sc    = $this->sc_org_model->get_sc_row($sc_id);
+    $sc    = $this->sc_org_model->get_sc_byid_row($sc_id);
     switch ($sc->status) {
       case 'pend1':
         $this->sc_org_model->edit_sc_status($sc_id,'rj1');
@@ -288,7 +317,7 @@ class Org extends CI_Controller {
   public function rev_sc()
   {
     $sc_id = $this->input->post('sc_id');
-    $sc    = $this->sc_org_model->get_sc_row($sc_id);
+    $sc    = $this->sc_org_model->get_sc_byid_row($sc_id);
 
     $this->sc_org_model->edit_sc_status($sc_id,'rev');
   }
@@ -331,11 +360,11 @@ class Org extends CI_Controller {
         $data['status'] = '<span class="label label-danger">Reject</span>';
         break;
       case 'pend1':
-        $data['status'] = '<span class="label label-warning">Pending Approval</span>';
+        $data['status'] = '<span class="label label-warning">Pending Agreement</span>';
       
         break;
       case 'pend2':
-        $data['status'] = '<span class="label label-warning">Pending Agreement</span>';
+        $data['status'] = '<span class="label label-warning">Pending Aproval</span>';
       
         break;
       case 'ok';
@@ -347,7 +376,7 @@ class Org extends CI_Controller {
 
   public function view_sc($sc_id=0)
   {
-    $sc = $this->sc_org_model->get_sc_row($sc_id);
+    $sc = $this->sc_org_model->get_sc_byid_row($sc_id);
     $period = $this->sc_m_model->get_period_row($sc->period);
     $org_temp = $this->om_model->get_org_chief_ls($this->session->userdata('username'),$period->begin,$period->end);
     $chief_of = array();
@@ -378,7 +407,7 @@ class Org extends CI_Controller {
         redirect('plan/org/edit_sc/'.$sc_id,'refresh');
         break;
       case 'pend1':
-        $data['status'] = '<span class="label label-warning">Pending Approval</span>';
+        $data['status'] = '<span class="label label-warning">Pending Agreement</span>';
         if (in_array($sc->org_id, $chief_of)) {
           $view = 'plan/org/sc_pending';
         } else {
@@ -387,7 +416,7 @@ class Org extends CI_Controller {
         break;
 
       case 'pend2':
-        $data['status'] = '<span class="label label-warning">Pending Agreement</span>';
+        $data['status'] = '<span class="label label-warning">Pending Aprroval</span>';
         $chief = $this->om_model->get_chief_row($sc->org_id,$period->begin,$period->end);
         $spv   = $this->om_model->get_sup_post_row($chief->post_id,$period->begin,$period->end);
         $hold_ls = $this->om_model->get_hold_list($this->session->userdata('username'),$period->begin,$period->end);
@@ -445,6 +474,7 @@ class Org extends CI_Controller {
       case 'draft':
       case 'rj1':
       case 'rj2':
+      case 'rev':
         $view = 'plan/org/so_list_edit';
         break;
       // case 'pend1':
@@ -538,6 +568,12 @@ class Org extends CI_Controller {
     $sc_id  = $this->input->post('sc_id');
     $kpi_ls = $this->sc_org_model->get_kpi_bysc_ls($sc_id);
     $sc = $this->sc_org_model->get_sc_byid_row($sc_id);
+    $period = $this->sc_m_model->get_period_row($sc->period);
+    $org_temp = $this->om_model->get_org_chief_ls($this->session->userdata('username'),$period->begin,$period->end);
+    $chief_of = array();
+    foreach ($org_temp as $org) {
+      $chief_of[] = $org->org_id;
+    }
     switch ($sc->status) {
       case 'draft':
       case 'rj1':
@@ -548,7 +584,12 @@ class Org extends CI_Controller {
         break;
       
       default:
-        $view = 'plan/org/kpi_list';
+        if (in_array($sc->org_id, $chief_of)) {
+          $view = 'plan/org/kpi_list_cascade';
+        } else {
+          $view = 'plan/org/kpi_list';
+          
+        }
         break;
     }
     foreach ($kpi_ls as $kpi) {
@@ -719,7 +760,7 @@ class Org extends CI_Controller {
         // jika ada dan sekarang ada, maka ubah
         $this->sc_org_model->edit_target($target_id,$new_val);
 
-      
+        
       }
     }
     

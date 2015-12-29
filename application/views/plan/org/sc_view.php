@@ -104,6 +104,7 @@
 
 <?php $this->load->view('_template/main_bot'); ?>
 <?php $this->load->view('plan/org/kpi_modal'); ?>
+<?php $this->load->view('plan/org/kpi_cascade'); ?>
 
 <script type="text/javascript">
   so_list();

@@ -132,6 +132,122 @@
 				$('#hdn_period').val($(this).data('period'));
 				$('#hdn_org').val($(this).data('org'));
 			});
+
+
+      $('.sc-send').click(function(event) {
+        /* Act on the event */
+        var sc_id = $(this).data('sc');
+        var base_url = '<?php echo base_url() ?>index.php/';
+      });
+
+      $('.sc-rev').click(function(event) {
+        /* Act on the event */
+        var sc_id = $(this).data('sc');
+        var base_url = '<?php echo base_url() ?>index.php/';
+        swal({   
+            title: "Confirm",   
+            text: "Are you sure to Revise this Score Card?",    
+            type: "warning",   
+            showCancelButton: true,   
+            // confirmButtonColor: "#DD6B55",   
+            confirmButtonText: "<?php echo lang('basic_yes'); ?>",   
+            cancelButtonText: "<?php echo lang('basic_no'); ?>",   
+            closeOnConfirm: false,   
+            closeOnCancel: false 
+          }, function(isConfirm){   
+            if (isConfirm) {
+              $.ajax({
+                url: base_url+'plan/org/rev_sc',
+                type: 'POST',
+                data: {sc_id: sc_id},
+              })
+              .done(function() {
+                swal({
+                  title: "Revition!",
+                  text: "Score Card has been Revised",
+                  type: "success"
+                }, function (){
+                  location.reload();
+                });
+              });
+                          
+            } else {     
+                swal("Cancelled", "", "error");   
+            }
+        });
+      });
+
+      $('.btn-approve').click(function(event) {
+          var sc_id = $(this).data('sc');
+          var base_url = '<?php echo base_url() ?>index.php/';
+          swal({   
+            title: "Confirm",   
+            text: "Are you sure to Approve this Score Card?",    
+            type: "warning",   
+            showCancelButton: true,   
+            // confirmButtonColor: "#DD6B55",   
+            confirmButtonText: "<?php echo lang('basic_yes'); ?>",   
+            cancelButtonText: "<?php echo lang('basic_no'); ?>",   
+            closeOnConfirm: false,   
+            closeOnCancel: false 
+          }, function(isConfirm){   
+            if (isConfirm) {
+              $.ajax({
+                url: base_url+'plan/org/approve_sc',
+                type: 'POST',
+                data: {sc_id: sc_id},
+              })
+              .done(function() {
+                swal({
+                  title: "Approved!",
+                  text: "Score Card has been Approved",
+                  type: "success"
+                }, function (){
+                  location.reload();
+                });
+              });
+                          
+            } else {     
+                swal("Cancelled", "", "error");   
+            }
+        });
+      });
+
+      $('.btn-reject').click(function(event) {
+          var sc_id = $(this).data('sc');
+          var base_url = '<?php echo base_url() ?>index.php/';
+          swal({   
+            title: "Confirm",   
+            text: "Are you sure to Reject this Score Card?",    
+            type: "warning",   
+            showCancelButton: true,   
+            confirmButtonColor: "#DD6B55",   
+            confirmButtonText: "<?php echo lang('basic_yes'); ?>",   
+            cancelButtonText: "<?php echo lang('basic_no'); ?>",   
+            closeOnConfirm: false,   
+            closeOnCancel: false 
+          }, function(isConfirm){   
+            if (isConfirm) {
+              $.ajax({
+                url: base_url+'plan/org/reject_sc',
+                type: 'POST',
+                data: {sc_id: sc_id},
+              })
+              .done(function() {
+                swal({
+                  title: "Rejected!",
+                  text: "Score Card has been Rejected",
+                  type: "success"
+                }, function (){
+                  location.reload();
+                });
+              });
+                          
+            } else {     
+                swal("Cancelled", "", "error");   
+            }
+        });
+      });
 		})
     .always(function(){
       $('.btn-org-in').click(function() {
@@ -217,4 +333,7 @@
 			$('#slc_source').empty();
 		};
 	});
+</script>
+<script type="text/javascript">
+  
 </script>
