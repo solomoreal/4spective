@@ -4,7 +4,6 @@
 	* dalam bahasa Inggris
 	*
 */	
-	$lang['basic_action']		= 'Action';
 	$lang['basic_action']   = 'Action';
 	$lang['basic_and']			= ' and ';
 	$lang['basic_approved']	= 'Approved';
@@ -45,6 +44,8 @@
 	$lang['basic_type']     = 'Type';
 	$lang['basic_username'] = 'Username';
 	$lang['basic_value']    = 'Value';
+	$lang['basic_to']       = 'To';
+	$lang['basic_from']     = 'From';
 
 	$lang['basic_yes'] = 'Yes';
 	$lang['basic_no'] = 'No';

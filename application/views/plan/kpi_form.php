@@ -100,6 +100,7 @@
         </div>
         <h4>Target</h4>
         <div class="row">
+
           <div class="form-group col-xs-6 col-sm-3">
             <label ><?php echo lang('sc_target_type');?> </label>
             <select class="form-control" name="slc_target_type" id="slc_target_type">
@@ -108,6 +109,7 @@
               <option value="P">Progresive</option>
             </select>
           </div>
+          
           <div class="form-group col-xs-6 col-sm-3">
             <label ><?php echo lang('sc_target_slc');?> </label>
             <select class="form-control" name="slc_target_slc" id="slc_target_slc">
@@ -130,9 +132,11 @@
             <label ><?php echo lang('sc_target_step');?> </label>
             <input type="number" class="form-control" value="0" name="nm_target_step" id="nm_target_step" step="0.01">
           </div>
+
         </div>
 
         <div class="row">
+
           <div class="form-group col-xs-6 col-sm-3">
             <label >Jan </label>
             <div class="row">
@@ -168,6 +172,7 @@
         </div>
 
         <div class="row">
+
           <div class="form-group col-xs-6 col-sm-3">
             <label >May </label>
             <div class="row">
@@ -203,6 +208,7 @@
         </div>
 
         <div class="row">
+
           <div class="form-group col-xs-6 col-sm-3">
             <label >Sep </label>
             <div class="row">
@@ -236,6 +242,7 @@
           </div>
 
         </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo lang('act_close'); ?></button>

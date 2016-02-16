@@ -115,6 +115,19 @@ class Org extends CI_Controller {
     }
   }
 
+  public function sc_opt()
+  {
+    $kpi_id = $this->input->post('kpi_id');
+    $type   = $this->input->post('type');
+    $kpi    = $this->sc_org_model->get_kpi_row($kpi_id);
+    if ($type == 'ORG') {
+      
+    } else if ($type == 'EMP') {
+      
+    } 
+  }
+
+
   public function show_breadcrumb()
   {
     $code   = $this->input->post('period');
@@ -155,6 +168,19 @@ class Org extends CI_Controller {
     }
     $result .= '</ol>';
     echo $result;
+  }
+
+  public function show_cascade_field()
+  {
+    $kpi_num = $this->input->post('kpi_num');
+    $data['persp_ls'] = $this->sc_m_model->get_perspective_list();
+    if ($kpi_num) {
+      for ($i=1; $i <= $kpi_num ; $i++) {
+        $data['num'] = $i; 
+        echo $this->load->view('plan/org/kpi_cascade_field',$data,TRUE);
+      }
+      
+    }
   }
 
   public function source_past()
@@ -228,7 +254,6 @@ class Org extends CI_Controller {
       $sc_id = $this->sc_org_model->add_sc($org_id,$code);
       redirect('plan/org/edit_sc/'.$sc_id);
     }
-
   }
 
   public function send_sc()
@@ -397,7 +422,8 @@ class Org extends CI_Controller {
     $period                = $this->sc_m_model->get_period_row($sc->period);
     $data['period']        = $sc->period;
     
-    $data['org_name'] = $this->om_model->get_org_row($sc->sc_id,$period->begin,$period->end)->org_name;
+    $data['org_name'] = $this->om_model->get_org_row($sc->org_id,$period->begin,$period->end)->org_name;
+
     switch ($sc->status) {
       case 'draft':
       case 'rev':
@@ -463,8 +489,8 @@ class Org extends CI_Controller {
     }
 
     echo $respond;
-
   }
+  
   public function so_list()
   {
     $sc_id = $this->input->post('sc_id');
@@ -498,7 +524,6 @@ class Org extends CI_Controller {
 
       echo $this->load->view($view, $data, TRUE);
     }
-
   }
 
   public function add_so()
@@ -604,7 +629,6 @@ class Org extends CI_Controller {
       echo $this->load->view($view, $data, TRUE);
 
     }
-
   }
 
   public function kpi_detail()
@@ -635,6 +659,12 @@ class Org extends CI_Controller {
 
     $respond['target'] = $target;
     echo json_encode($respond);
+  }
+
+  public function cascade_kpi($source_kpi_id=0)
+  {
+    $source_kpi = $this->sc_org_model->get_kpi_row($source_kpi_id);
+    
   }
 
   public function add_kpi()
@@ -718,7 +748,6 @@ class Org extends CI_Controller {
     $respond['target']  = $target;
     
     echo json_encode($respond);
-
   }
 
   public function edit_kpi_process()
@@ -762,8 +791,7 @@ class Org extends CI_Controller {
 
         
       }
-    }
-    
+    }  
   }
 
   public function remove_kpi()

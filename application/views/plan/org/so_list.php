@@ -9,6 +9,7 @@
       <?php
         // echo anchor($add_kpi, '<i class="fa fa-plus"></i>', 'class="btn btn-default add-kpi"');
         // echo '<button data-so="'.$so_id.'" class="btn btn-default detail-so" ><i class="fa fa-list"></i></button>';
+        // echo '<button data-so="'.$so_id.'" class="btn btn-default cascade-so" data-toggle="modal" data-target="#so-cascade" ><i class="fa fa-share-alt"></i></button>';
         
         
       ?>
