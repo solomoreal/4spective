@@ -13,14 +13,26 @@ class Home extends CI_Controller {
 	public function index()
 	{
 		if ($this->user_model->check_privilege($this->session->userdata('login_user'),'ADMIN') == TRUE) {
-			$data['sidemenu'] = 'admin_menu';	
-			
+			$data['sidemenu'] = 'admin_menu';
+
 		} else {
-			$data['sidemenu'] = 'admin_menu';	
-			
+			$data['sidemenu'] = 'admin_menu';
+
 		}
 		$this->load->view('home_view',$data);
 	}
+
+  public function switch_lang($url='')
+  {
+		$idiom = $this->session->userdata('site_lang');
+		if ($idiom == 'en') {
+			$this->session->set_userdata('site_lang','id');
+		} else {
+			$this->session->set_userdata('site_lang','en');
+
+		}
+		redirect(str_replace('%7C','/',$url));
+  }
 
 }
 

@@ -19,14 +19,15 @@ class User_model extends CI_Model {
 
       $sess = array(
         'login_user' => $user->user_id,
-        'username'   => $user->username
+        'username'   => $user->username,
+        'site_lang'  => 'id'
       );
 
       if ($emp) {
         $sess['emp_name'] = $emp->long_name;
       } else {
         $sess['emp_name'] = $user->username;
-        
+
       }
 
       if($this->count_privilege($user->user_id) == 1 && $this->check_privilege($user->user_id,'SA') == TRUE) {
@@ -189,7 +190,7 @@ class User_model extends CI_Model {
         $this->db->where('user_id', $user_id);
 
         break;
-      
+
       default:
         $this->db->select('user_id');
         $this->db->where('username', $user);
@@ -207,18 +208,18 @@ class User_model extends CI_Model {
 
       case 'username':
         $this->db->where('username', $user);
-        
+
         break;
-      
+
       default:
         // $this->db->where('user_id', $user);
         $this->db->where('username', $user);
-      
+
         break;
     }
 
     $this->db->delete('sys_user');
-    
+
   }
 
   public function count_privilege($user_id=0,$begin='',$end='')
@@ -233,8 +234,8 @@ class User_model extends CI_Model {
     $this->db->select('count(*) as val');
     $this->db->from('sys_user_privilege up');
     $this->db->where('user_id', $user_id);
-    $this->db->where("((up.begin >= '$begin' AND up.end <='$end') OR 
-      (up.end >= '$begin' AND up.end <= '$end') OR 
+    $this->db->where("((up.begin >= '$begin' AND up.end <='$end') OR
+      (up.end >= '$begin' AND up.end <= '$end') OR
       (up.begin >= '$begin' AND up.begin <='$end' ) OR
       (up.begin <= '$begin' AND up.end >= '$end'))");
     return $this->db->get()->row()->val;
@@ -253,8 +254,8 @@ class User_model extends CI_Model {
     $this->db->from('sys_user_privilege up');
     $this->db->where('user_id', $user_id);
     $this->db->where('role_code', $role_code);
-    $this->db->where("((up.begin >= '$begin' AND up.end <='$end') OR 
-      (up.end >= '$begin' AND up.end <= '$end') OR 
+    $this->db->where("((up.begin >= '$begin' AND up.end <='$end') OR
+      (up.end >= '$begin' AND up.end <= '$end') OR
       (up.begin >= '$begin' AND up.begin <='$end' ) OR
       (up.begin <= '$begin' AND up.end >= '$end'))");
 
@@ -279,8 +280,8 @@ class User_model extends CI_Model {
 
     $this->db->from('sys_user_privilege up');
     $this->db->where('user_id', $user_id);
-    $this->db->where("((up.begin >= '$begin' AND up.end <='$end') OR 
-      (up.end >= '$begin' AND up.end <= '$end') OR 
+    $this->db->where("((up.begin >= '$begin' AND up.end <='$end') OR
+      (up.end >= '$begin' AND up.end <= '$end') OR
       (up.begin >= '$begin' AND up.begin <='$end' ) OR
       (up.begin <= '$begin' AND up.end >= '$end'))");
     return $this->db->get()->result();
@@ -295,8 +296,8 @@ class User_model extends CI_Model {
     } else {
       $this->db->where('up.role_code', $role_code);
     }
-    $this->db->where("((up.begin >= '$begin' AND up.end <='$end') OR 
-      (up.end >= '$begin' AND up.end <= '$end') OR 
+    $this->db->where("((up.begin >= '$begin' AND up.end <='$end') OR
+      (up.end >= '$begin' AND up.end <= '$end') OR
       (up.begin >= '$begin' AND up.begin <='$end' ) OR
       (up.begin <= '$begin' AND up.end >= '$end'))");
     return $this->db->get()->result();
@@ -370,25 +371,25 @@ class User_model extends CI_Model {
       $this->db->where('r2.rel_type', '012');
       $this->db->where('o.obj_type', 'S');
       $this->db->where('r.obj_to', $emp_id);
-      $this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-            (o.end >= '$begin' AND o.end <= '$end') OR 
+      $this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR
+            (o.end >= '$begin' AND o.end <= '$end') OR
             (o.begin >= '$begin' AND o.begin <='$end' ) OR
             (o.begin <= '$begin' AND o.end >= '$end'))");
-      $this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-            (r.end >= '$begin' AND r.end <= '$end') OR 
+      $this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR
+            (r.end >= '$begin' AND r.end <= '$end') OR
             (r.begin >= '$begin' AND r.begin <='$end' ) OR
             (r.begin <= '$begin' AND r.end >= '$end'))");
-      $this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-            (a.end >= '$begin' AND a.end <= '$end') OR 
+      $this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR
+            (a.end >= '$begin' AND a.end <= '$end') OR
             (a.begin >= '$begin' AND a.begin <='$end' ) OR
             (a.begin <= '$begin' AND a.end >= '$end'))");
-      $this->db->where("((r2.begin >= '$begin' AND r2.end <='$end') OR 
-            (r.end >= '$begin' AND r.end <= '$end') OR 
+      $this->db->where("((r2.begin >= '$begin' AND r2.end <='$end') OR
+            (r.end >= '$begin' AND r.end <= '$end') OR
             (r.begin >= '$begin' AND r.begin <='$end' ) OR
             (r.begin <= '$begin' AND r.end >= '$end'))");
-     
+
       return $this->db->count_all_results();
-      
+
     } else {
       return false;
     }
@@ -399,7 +400,7 @@ class User_model extends CI_Model {
   {
     if($begin==''){
       $begin = date('Y-m-d');
-    }    
+    }
 
     if ($end == '') {
       $end = $begin;
@@ -425,24 +426,24 @@ class User_model extends CI_Model {
       $this->db->where('r2.rel_type', '002');
       $this->db->where('o.obj_type', 'S');
       $this->db->where('r.obj_to', $emp_id);
-      $this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR 
-            (o.end >= '$begin' AND o.end <= '$end') OR 
+      $this->db->where("((o.begin >= '$begin' AND o.end <='$end') OR
+            (o.end >= '$begin' AND o.end <= '$end') OR
             (o.begin >= '$begin' AND o.begin <='$end' ) OR
             (o.begin <= '$begin' AND o.end >= '$end'))");
-      $this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR 
-            (r.end >= '$begin' AND r.end <= '$end') OR 
+      $this->db->where("((r.begin >= '$begin' AND r.end <='$end') OR
+            (r.end >= '$begin' AND r.end <= '$end') OR
             (r.begin >= '$begin' AND r.begin <='$end' ) OR
             (r.begin <= '$begin' AND r.end >= '$end'))");
-      $this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR 
-            (a.end >= '$begin' AND a.end <= '$end') OR 
+      $this->db->where("((a.begin >= '$begin' AND a.end <='$end') OR
+            (a.end >= '$begin' AND a.end <= '$end') OR
             (a.begin >= '$begin' AND a.begin <='$end' ) OR
             (a.begin <= '$begin' AND a.end >= '$end'))");
-      $this->db->where("((r2.begin >= '$begin' AND r2.end <='$end') OR 
-            (r.end >= '$begin' AND r.end <= '$end') OR 
+      $this->db->where("((r2.begin >= '$begin' AND r2.end <='$end') OR
+            (r.end >= '$begin' AND r.end <= '$end') OR
             (r.begin >= '$begin' AND r.begin <='$end' ) OR
             (r.begin <= '$begin' AND r.end >= '$end'))");
       return $this->db->count_all_results();
-      
+
     } else {
       return false;
     }
